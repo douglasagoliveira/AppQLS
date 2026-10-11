@@ -1,0 +1,76 @@
+{
+  "global": {
+    "color": {
+      "qls": {
+        "black": { "value": "#0a0a0a", "type": "color" },
+        "ink": { "value": "#1a1814", "type": "color" },
+        "dark": { "value": "#3a3632", "type": "color" },
+        "grey": { "value": "#6f6a64", "type": "color" },
+        "mute": { "value": "#9a9590", "type": "color" },
+        "line": { "value": "#3a3632", "type": "color" },
+        "light": { "value": "#e4e0da", "type": "color" },
+        "off": { "value": "#181715", "type": "color" },
+        "white": { "value": "#f8f6f2", "type": "color" }
+      },
+      "gold": {
+        "DEFAULT": { "value": "#c9a84c", "type": "color" },
+        "dark": { "value": "#a8843a", "type": "color" },
+        "light": { "value": "#e8b86a", "type": "color" },
+        "glow": { "value": "rgba(201, 168, 76, 0.25)", "type": "color" }
+      },
+      "semantic": {
+        "ok": { "value": "#3f7a4f", "type": "color" },
+        "warn": { "value": "#b7791f", "type": "color" },
+        "err": { "value": "#b3382c", "type": "color" },
+        "info": { "value": "#2f5d8a", "type": "color" }
+      }
+    },
+    "fontFamilies": {
+      "urbanist": { "value": "Urbanist", "type": "fontFamilies" }
+    },
+    "fontSizes": {
+      "display": { "value": "36", "type": "fontSizes" },
+      "h1": { "value": "28", "type": "fontSizes" },
+      "h2": { "value": "22", "type": "fontSizes" },
+      "h3": { "value": "18", "type": "fontSizes" },
+      "body": { "value": "15", "type": "fontSizes" },
+      "small": { "value": "13", "type": "fontSizes" },
+      "badge": { "value": "11", "type": "fontSizes" }
+    },
+    "fontWeights": {
+      "urbanist-300": { "value": "Light", "type": "fontWeights" },
+      "urbanist-400": { "value": "Regular", "type": "fontWeights" },
+      "urbanist-500": { "value": "Medium", "type": "fontWeights" },
+      "urbanist-600": { "value": "SemiBold", "type": "fontWeights" },
+      "urbanist-700": { "value": "Bold", "type": "fontWeights" }
+    },
+    "spacing": {
+      "s1": { "value": "4", "type": "spacing" },
+      "s2": { "value": "8", "type": "spacing" },
+      "s3": { "value": "12", "type": "spacing" },
+      "s4": { "value": "16", "type": "spacing" },
+      "s5": { "value": "24", "type": "spacing" },
+      "s6": { "value": "32", "type": "spacing" },
+      "s7": { "value": "48", "type": "spacing" },
+      "s8": { "value": "72", "type": "spacing" }
+    },
+    "borderRadius": {
+      "s": { "value": "8", "type": "borderRadius" },
+      "m": { "value": "16", "type": "borderRadius" },
+      "pill": { "value": "9999", "type": "borderRadius" }
+    },
+    "boxShadow": {
+      "cardGlow": {
+        "value": {
+          "x": "0",
+          "y": "8",
+          "blur": "32",
+          "spread": "0",
+          "color": "rgba(201, 168, 76, 0.15)",
+          "type": "dropShadow"
+        },
+        "type": "boxShadow"
+      }
+    }
+  }
+}

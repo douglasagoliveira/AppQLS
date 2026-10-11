@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+.expo/
+dist/
+web-build/
+.vercel/
+
+# Logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Expo
+expo-env.d.ts
+
+# OS
+.DS_Store
+Thumbs.db

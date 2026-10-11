@@ -1,0 +1,21 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/roadmap-interativo-cliente.html"
+    },
+    {
+      "source": "/painel",
+      "destination": "/qls-app-architecture-viewer.html"
+    },
+    {
+      "source": "/viewer",
+      "destination": "/qls-app-architecture-viewer.html"
+    },
+    {
+      "source": "/cliente",
+      "destination": "/roadmap-interativo-cliente.html"
+    }
+  ]
+}
