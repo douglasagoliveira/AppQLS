@@ -579,13 +579,157 @@
             font-weight: 600;
         }
 
+        /* =====================================================================
+           RESPONSIVIDADE ROBUSTA MOBILE & TABLET (100% Mobile-First Calibrado)
+           ===================================================================== */
         @media (max-width: 768px) {
-            .topbar { padding: 0 16px; height: 64px; }
-            .brand-badge { display: none; }
-            .main-container { padding: 24px 16px 120px; }
-            .step-title { font-size: 26px; }
-            .bottom-nav { padding: 0 16px; height: 76px; }
-            .options-grid { grid-template-columns: 1fr; }
+            .topbar {
+                padding: 0 16px;
+                height: 56px;
+            }
+            .brand-badge {
+                display: none;
+            }
+            .project-tag {
+                font-size: 12.5px;
+                max-width: calc(100vw - 32px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .main-container {
+                padding: 18px 14px calc(92px + env(safe-area-inset-bottom, 14px));
+                max-width: 100%;
+            }
+            .step-header {
+                margin-bottom: 18px;
+            }
+            .step-eyebrow {
+                font-size: 11px;
+                margin-bottom: 6px;
+            }
+            .step-title {
+                font-size: 22px;
+                line-height: 1.25;
+                margin-bottom: 8px;
+            }
+            .step-description {
+                font-size: 13.5px;
+                line-height: 1.5;
+            }
+            .question-card {
+                padding: 20px 14px;
+                border-radius: var(--radius-s);
+                margin-bottom: 16px;
+            }
+            .question-number-badge {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+                margin-bottom: 12px;
+            }
+            .question-title {
+                font-size: 16px;
+                line-height: 1.35;
+                margin-bottom: 6px;
+            }
+            .question-subtitle {
+                font-size: 13px;
+                margin-bottom: 16px;
+            }
+            .form-input, .form-textarea {
+                font-size: 16px; /* Evita zoom involuntário no iOS Safari */
+                padding: 12px 14px;
+                border-radius: 8px;
+            }
+            .form-textarea {
+                min-height: 90px;
+            }
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .option-choice-card {
+                padding: 13px 14px;
+                gap: 12px;
+            }
+            .option-title {
+                font-size: 14px;
+                line-height: 1.35;
+            }
+            .option-desc {
+                font-size: 12px;
+                line-height: 1.4;
+            }
+
+            /* Bottom Nav 100% Responsivo - sem cortes nem quebras */
+            .bottom-nav {
+                height: auto;
+                min-height: 64px;
+                padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 12px));
+                gap: 8px;
+                box-sizing: border-box;
+            }
+            .nav-info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+                min-width: 0;
+                flex: 1 1 auto;
+                overflow: hidden;
+            }
+            .step-counter-text {
+                font-size: 12px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 140px;
+            }
+            .autosave-status {
+                font-size: 11px;
+                gap: 5px;
+            }
+            .nav-buttons {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                flex-shrink: 0;
+            }
+            .btn-prev {
+                padding: 10px 14px;
+                font-size: 13px;
+                min-width: 44px;
+            }
+            .btn-next {
+                padding: 11px 18px;
+                font-size: 13px;
+                letter-spacing: 0.02em;
+                white-space: nowrap;
+            }
+            .btn-hero-start {
+                width: 100%;
+                padding: 14px 20px;
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .step-counter-text {
+                font-size: 11px;
+                max-width: 105px;
+            }
+            .autosave-status span {
+                display: none; /* Em telas muito estreitas, mantém apenas o ponto verde */
+            }
+            .btn-prev {
+                padding: 9px 10px;
+                font-size: 12px;
+            }
+            .btn-next {
+                padding: 10px 14px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -618,7 +762,7 @@
                 <div class="step-eyebrow">Etapa de Boas-Vindas &bull; Identificação</div>
                 <h1 class="step-title">Alinhamento Estratégico de Projeto</h1>
                 <p class="step-description">
-                    Este briefing interativo registrará a sua perspectiva técnica e estratégica para a concepção da solução digital. Suas respostas serão consolidadas na Central Executiva QLS para análise comparativa de todos os stakeholders.
+                    Este briefing interativo registrará a sua perspectiva técnica e estratégica para a concepção da solução digital.
                 </p>
             </div>
 
@@ -642,8 +786,8 @@
                     </div>
                 </div>
 
-                <div style="display: flex; justify-content: flex-end;">
-                    <button type="button" class="btn-next" onclick="forceNextStep()" style="padding: 14px 32px; font-size: 15px;">
+                <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+                    <button type="button" class="btn-next btn-hero-start" onclick="forceNextStep()">
                         Iniciar Briefing →
                     </button>
                 </div>
@@ -900,18 +1044,19 @@
             if (btnPrev) btnPrev.disabled = (currentStepIndex === 0);
 
             if (stepLabel && btnNext) {
+                const isMobile = window.innerWidth <= 640;
                 if (currentStepIndex === 0) {
                     stepLabel.innerHTML = 'Etapa 1 de 3 &bull; Identificação';
-                    btnNext.innerHTML = 'Iniciar Briefing →';
+                    btnNext.innerHTML = isMobile ? 'Iniciar →' : 'Iniciar Briefing →';
                 } else if (currentStepIndex === 2) {
-                    stepLabel.innerHTML = 'Etapa 3 de 3 &bull; Usuários & Funcionalidades';
-                    btnNext.innerHTML = 'Concluir & Enviar Briefing ✓';
+                    stepLabel.innerHTML = isMobile ? 'Etapa 3 de 3 &bull; Recursos' : 'Etapa 3 de 3 &bull; Funcionalidades';
+                    btnNext.innerHTML = isMobile ? 'Concluir ✓' : 'Concluir Briefing ✓';
                 } else if (currentStepIndex === 3) {
                     stepLabel.innerHTML = 'Concluído';
                     const bottomNav = document.querySelector('.bottom-nav');
                     if (bottomNav) bottomNav.style.display = 'none';
                 } else {
-                    stepLabel.innerHTML = `Etapa ${currentStepIndex + 1} de 3 &bull; Bloco Temático`;
+                    stepLabel.innerHTML = 'Etapa 2 de 3 &bull; Estratégia';
                     btnNext.innerHTML = 'Avançar →';
                 }
             }
