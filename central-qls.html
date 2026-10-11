@@ -695,9 +695,13 @@
         const SUPABASE_URL = 'https://rcmdstsewqhsjmlcydev.supabase.co';
         const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjbWRzdHNld3Foc2ptbGN5ZGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MTcyODIsImV4cCI6MjEwNzI5MzI4Mn0.KV1VTkrqpl_RTeNpSC9blhD7rW3ubI-z_P2osX4r4FY';
 
-        let supabase = null;
-        if (window.supabase) {
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+        var supabaseClient = null;
+        try {
+            if (window.supabase && typeof window.supabase.createClient === 'function') {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+            }
+        } catch(e) {
+            console.warn('Central QLS Supabase init warning:', e);
         }
 
         // Dados de Demonstração / Histórico de Stakeholders para o Piloto
@@ -1071,19 +1075,61 @@
         // SINCRONIZAÇÃO COM SUPABASE REALTIME
         // ======================================================================
         async function fetchLiveSubmissionsFromSupabase() {
-            if (!supabase) return;
+            if (!supabaseClient) return;
             try {
-                const { data: submissions, error } = await supabase
-                    .from('briefing_submissions')
+                // 1. Buscar briefings reais registrados no Supabase
+                const { data: records, error } = await supabaseClient
+                    .from('client_briefings')
                     .select('*')
-                    .eq('project_id', 'proj-qls-app')
-                    .order('started_at', { ascending: false });
+                    .order('updated_at', { ascending: false });
 
-                if (submissions && submissions.length > 0) {
-                    console.log('Submissions encontradas no Supabase:', submissions);
+                if (records && records.length > 0) {
+                    let hasNew = false;
+                    records.forEach(rec => {
+                        // Ignorar o briefing padrão se vazio
+                        if (rec.id === 'qls_main_briefing' && !rec.app_data?.respondent) return;
+
+                        const respondent = rec.app_data?.respondent || {};
+                        const name = respondent.name || rec.last_updated_by || 'Novo Participante';
+                        const role = respondent.role || 'Stakeholder';
+                        const email = respondent.email || '';
+                        const answers = rec.feedbacks || rec.app_data?.answers || {};
+
+                        // Verificar se já existe na lista
+                        const existingIdx = mockStakeholders.findIndex(s => s.id === rec.id);
+                        const updatedItem = {
+                            id: rec.id,
+                            name: name,
+                            role: role,
+                            email: email,
+                            phone: '',
+                            completedAt: new Date(rec.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                            answers: answers
+                        };
+
+                        if (existingIdx >= 0) {
+                            mockStakeholders[existingIdx] = updatedItem;
+                        } else {
+                            mockStakeholders.unshift(updatedItem);
+                            hasNew = true;
+                        }
+                    });
+
+                    // Re-renderizar matriz com os novos dados
+                    renderStakeholdersGrid();
+                    renderComparisonMatrix();
                 }
+
+                // 2. Ouvir atualizações em tempo real (Supabase Realtime)
+                supabaseClient.channel('public:client_briefings')
+                    .on('postgres_changes', { event: '*', schema: 'public', table: 'client_briefings' }, () => {
+                        console.log('⚡ Atualização em tempo real recebida do Supabase!');
+                        fetchLiveSubmissionsFromSupabase();
+                    })
+                    .subscribe();
+
             } catch(e) {
-                console.warn('Nota Supabase fetch:', e);
+                console.warn('Nota Supabase fetch central:', e);
             }
         }
 

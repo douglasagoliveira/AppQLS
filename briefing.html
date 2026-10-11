@@ -598,7 +598,7 @@
             <div class="project-tag" id="topbarProjectTitle">QLS Lighting Australia — App Mobile Oficial</div>
         </div>
         <div class="topbar-actions">
-            <a href="/central-qls" class="admin-link">Central QLS →</a>
+            <!-- Central QLS privada / oculta para clientes -->
         </div>
     </header>
 
@@ -990,7 +990,7 @@
                 <div class="success-icon-badge">✓</div>
                 <h1 class="success-title">Briefing Registrado com Sucesso!</h1>
                 <p class="success-text">
-                    Obrigado pela sua contribuição! Suas respostas foram salvas no banco da <strong>Central QLS</strong> e o resumo consolidado foi registrado.
+                    Obrigado pela sua contribuição! Suas respostas foram enviadas e registradas com sucesso para a equipe técnica e de desenvolvimento da QLS.
                 </p>
 
                 <div class="summary-card">
@@ -1000,7 +1000,7 @@
                         <span class="summary-val" id="sumName">-</span>
                     </div>
                     <div class="summary-row">
-                        <span class="summary-label">Cargo / Papel:</span>
+                        <span class="summary-label">Cargo:</span>
                         <span class="summary-val" id="sumRole">-</span>
                     </div>
                     <div class="summary-row">
@@ -1014,11 +1014,8 @@
                 </div>
 
                 <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-                    <a href="/central-qls" class="btn-next" style="text-decoration: none;">
-                        Abrir Matriz Comparativa na Central QLS →
-                    </a>
-                    <button type="button" class="btn-prev" onclick="window.print();">
-                        Imprimir / Salvar PDF
+                    <button type="button" class="btn-next" onclick="window.print();" style="padding: 14px 28px;">
+                        Imprimir / Salvar Cópia em PDF 📄
                     </button>
                 </div>
             </div>
@@ -1053,10 +1050,10 @@
         const SUPABASE_URL = 'https://rcmdstsewqhsjmlcydev.supabase.co';
         const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjbWRzdHNld3Foc2ptbGN5ZGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MTcyODIsImV4cCI6MjEwNzI5MzI4Mn0.KV1VTkrqpl_RTeNpSC9blhD7rW3ubI-z_P2osX4r4FY';
 
-        let supabase = null;
+        var supabaseClient = null;
         try {
-            if (window.supabase) {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+            if (window.supabase && typeof window.supabase.createClient === 'function') {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
             }
         } catch(e) {
             console.warn('Supabase init warning:', e);
@@ -1163,12 +1160,45 @@
         }
 
         async function saveSubmissionBackground() {
-            if (!supabase) return;
+            if (!supabaseClient) return;
             try {
                 if (!submissionId) {
                     submissionId = `sub_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
                 }
-                await supabase.from('briefing_submissions').upsert({
+
+                // 1. Gravar em client_briefings (tabela ativa e verificada no Supabase)
+                supabaseClient.from('client_briefings').upsert({
+                    id: submissionId,
+                    client_name: `${respondentData.name} (${respondentData.role})`,
+                    feedbacks: answersMap,
+                    app_data: {
+                        respondent: respondentData,
+                        answers: answersMap,
+                        project_id: 'proj-qls-app',
+                        status: 'draft'
+                    },
+                    last_updated_by: respondentData.name,
+                    updated_at: new Date().toISOString()
+                }).then(({ error }) => {
+                    if (!error) console.log('✅ Briefing salvo em client_briefings!');
+                    else console.warn('Aviso client_briefings insert:', error.message);
+                }).catch(() => {});
+
+                // 2. Gravar na tabela 'projects' (tabela nativa já ativa no Supabase)
+                supabaseClient.from('projects').upsert({
+                    id: submissionId,
+                    project_name: `[Briefing] QLS App - ${respondentData.name} (${respondentData.role})`,
+                    client_name: respondentData.name,
+                    project_address: `Email: ${respondentData.email || 'N/A'} | Cargo: ${respondentData.role}`,
+                    status: 'draft',
+                    updated_at: new Date().toISOString()
+                }).then(({ error }) => {
+                    if (!error) console.log('✅ Briefing salvo na tabela projects do Supabase!');
+                    else console.warn('Aviso projects insert:', error.message);
+                }).catch(() => {});
+
+                // 3. Gravar na tabela especializada 'briefing_submissions' (quando migração estiver ativa)
+                supabaseClient.from('briefing_submissions').upsert({
                     id: submissionId,
                     project_id: 'proj-qls-app',
                     respondent_name: respondentData.name,
@@ -1176,7 +1206,10 @@
                     respondent_role: respondentData.role,
                     status: 'draft',
                     started_at: new Date().toISOString()
-                });
+                }).then(({ error }) => {
+                    if (!error) console.log('✅ Briefing salvo em briefing_submissions do Supabase!');
+                }).catch(() => {});
+
             } catch(e) {
                 console.warn('Nota background submission:', e);
             }
@@ -1230,8 +1263,21 @@
                 if (txt) txt.innerText = 'Salvo';
             }, 400);
 
-            if (supabase && submissionId) {
-                supabase.from('briefing_answers').upsert({
+            if (supabaseClient && submissionId) {
+                // Atualizar em client_briefings
+                supabaseClient.from('client_briefings').update({
+                    feedbacks: answersMap,
+                    app_data: {
+                        respondent: respondentData,
+                        answers: answersMap,
+                        project_id: 'proj-qls-app',
+                        status: 'draft'
+                    },
+                    updated_at: new Date().toISOString()
+                }).eq('id', submissionId).then(() => {}).catch(() => {});
+
+                // Gravar na tabela relacional de respostas
+                supabaseClient.from('briefing_answers').upsert({
                     id: `${submissionId}_${questionId}`,
                     submission_id: submissionId,
                     question_id: questionId,
@@ -1256,12 +1302,29 @@
             if (sumEmail) sumEmail.innerText = respondentData.email || 'Não informado';
 
             // Atualizar status no Supabase
-            if (supabase && submissionId) {
+            if (supabaseClient && submissionId) {
                 try {
-                    await supabase.from('briefing_submissions').update({
+                    supabaseClient.from('client_briefings').update({
+                        percent_validated: 100,
+                        feedbacks: answersMap,
+                        app_data: {
+                            respondent: respondentData,
+                            answers: answersMap,
+                            project_id: 'proj-qls-app',
+                            status: 'completed'
+                        },
+                        updated_at: new Date().toISOString()
+                    }).eq('id', submissionId).then(() => {}).catch(() => {});
+
+                    supabaseClient.from('projects').update({
+                        status: 'completed',
+                        updated_at: new Date().toISOString()
+                    }).eq('id', submissionId).then(() => {}).catch(() => {});
+
+                    supabaseClient.from('briefing_submissions').update({
                         status: 'completed',
                         completed_at: new Date().toISOString()
-                    }).eq('id', submissionId);
+                    }).eq('id', submissionId).then(() => {}).catch(() => {});
                 } catch(e) {}
             }
 
