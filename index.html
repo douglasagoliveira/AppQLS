@@ -824,95 +824,19 @@
         </div>
 
         <!-- ===================================================================
-             PASSO 3: ARQUITETURA & HARDWARE
+             PASSO 3: PRAZOS & INVESTIMENTO
              =================================================================== -->
         <div class="step-view" id="step-3">
             <div class="step-header">
-                <div class="step-eyebrow">Bloco 03 &bull; Integrações Técnicas</div>
-                <h1 class="step-title">Arquitetura, Hardware &amp; Sistemas</h1>
-                <p class="step-description">Especificação de conectividade com automação predial, hardware e sistemas legados de retaguarda.</p>
+                <div class="step-eyebrow">Bloco 03 &bull; Prazos &amp; Investimento</div>
+                <h1 class="step-title">Expectativa de Entrega &amp; Investimento</h1>
+                <p class="step-description">Alinhamento das expectativas orçamentárias e cronograma de lançamento do produto no mercado.</p>
             </div>
 
             <div class="question-card">
                 <div class="question-number-badge">09</div>
-                <h2 class="question-title">Haverá comunicação com hardware ou protocolos de iluminação?</h2>
-                <p class="question-subtitle">Selecione as tecnologias de automação que o produto precisará integrar.</p>
-                <div class="options-grid">
-                    <div class="option-choice-card multi" onclick="toggleMultiChoice('q-mob-8', 'dali', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Protocolo DALI / DALI-2</div>
-                            <div class="option-desc">Padrão internacional predial para drivers e dimerização.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card multi" onclick="toggleMultiChoice('q-mob-8', 'ble', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Bluetooth Low Energy (BLE) / Casambi / Mesh</div>
-                            <div class="option-desc">Controle sem fio ponto a ponto em curta distância.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card multi" onclick="toggleMultiChoice('q-mob-8', 'zigbee', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Zigbee 3.0 / Matter</div>
-                            <div class="option-desc">Padrão de automação residencial inteligente.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card multi" onclick="toggleMultiChoice('q-mob-8', 'none', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Apenas Software (Sem integração com hardware)</div>
-                            <div class="option-desc">Focado em especificação, catálogo e vendas.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-number-badge">10</div>
-                <h2 class="question-title">Qual sistema de gestão (ERP) precisará ser conectado?</h2>
-                <p class="question-subtitle">Defina como estoque, preços e pedidos serão sincronizados.</p>
-                <div class="options-grid">
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-9', 'supabase', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Supabase / PostgreSQL (Banco próprio moderno)</div>
-                            <div class="option-desc">Banco de dados em nuvem veloz e dedicado.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-9', 'custom_erp', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">ERP Corporativo Existente (SAP, Totvs, Bling)</div>
-                            <div class="option-desc">Conexão direta com o software de retaguarda da empresa.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-9', 'standalone', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Sem ERP no momento (Painel próprio QLS)</div>
-                            <div class="option-desc">Gestão independente dentro da própria plataforma.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===================================================================
-             PASSO 4: PRAZOS & ORÇAMENTO
-             =================================================================== -->
-        <div class="step-view" id="step-4">
-            <div class="step-header">
-                <div class="step-eyebrow">Bloco 04 &bull; Prazos &amp; Orçamento</div>
-                <h1 class="step-title">Horizonte de Entrega &amp; Investimento</h1>
-                <p class="step-description">Alinhamento das expectativas de investimento financeiro, cronograma de lançamento e referências estéticas.</p>
-            </div>
-
-            <div class="question-card">
-                <div class="question-number-badge">11</div>
                 <h2 class="question-title">Qual é a faixa de investimento orçada para esta fase?</h2>
-                <p class="question-subtitle">O dimensionamento de recursos define a profundidade tecnológica do MVP.</p>
+                <p class="question-subtitle">O dimensionamento de recursos define a profundidade das entregas do MVP.</p>
                 <div class="options-grid">
                     <div class="option-choice-card" onclick="selectSingleChoice('q-mob-11', 'range_30_50k', this)">
                         <div class="choice-indicator"></div>
@@ -932,7 +856,7 @@
                         <div class="choice-indicator"></div>
                         <div class="option-text-wrapper">
                             <div class="option-title">R$ 100.000 a R$ 200.000</div>
-                            <div class="option-desc">Plataforma robusta com integrações de hardware/IoT e offline avançado.</div>
+                            <div class="option-desc">Plataforma robusta com integrações comerciais e modo offline avançado.</div>
                         </div>
                     </div>
                     <div class="option-choice-card" onclick="selectSingleChoice('q-mob-11', 'range_above_200k', this)">
@@ -946,7 +870,7 @@
             </div>
 
             <div class="question-card">
-                <div class="question-number-badge">12</div>
+                <div class="question-number-badge">10</div>
                 <h2 class="question-title">Qual o prazo estimado ideal para o lançamento do MVP?</h2>
                 <p class="question-subtitle">Expectativa de entrega para início de testes com usuários reais.</p>
                 <div class="options-grid">
@@ -954,14 +878,14 @@
                         <div class="choice-indicator"></div>
                         <div class="option-text-wrapper">
                             <div class="option-title">Até 30 dias (Sprint ágil)</div>
-                            <div class="option-desc">Foco máximo no menor tempo de colocação em produção.</div>
+                            <div class="option-desc">Foco máximo no menor tempo de colocação no mercado.</div>
                         </div>
                     </div>
                     <div class="option-choice-card" onclick="selectSingleChoice('q-mob-12', '60_90_days', this)">
                         <div class="choice-indicator"></div>
                         <div class="option-text-wrapper">
                             <div class="option-title">60 a 90 dias (Padrão completo)</div>
-                            <div class="option-desc">Ciclo ideal com testes estruturados e polimento visual.</div>
+                            <div class="option-desc">Ciclo ideal com testes estruturados e validação com clientes.</div>
                         </div>
                     </div>
                     <div class="option-choice-card" onclick="selectSingleChoice('q-mob-12', '4_6_months', this)">
@@ -973,19 +897,12 @@
                     </div>
                 </div>
             </div>
-
-            <div class="question-card">
-                <div class="question-number-badge">13</div>
-                <h2 class="question-title">Referências de design ou marcas que você admira:</h2>
-                <p class="question-subtitle">Cite produtos digitais ou referências visuais que traduzem o padrão desejado.</p>
-                <textarea class="form-textarea" id="q-mob-13" placeholder="Ex: Apple, Bang & Olufsen, Linear.app, Tesla, Dyson. Linhas minimalistas, preto e dourado sofisticado." oninput="handleAnswerChange('q-mob-13', this.value)"></textarea>
-            </div>
         </div>
 
         <!-- ===================================================================
              PASSO FINAL: CONFIRMAÇÃO & SUCESSO
              =================================================================== -->
-        <div class="step-view" id="step-5">
+        <div class="step-view" id="step-4">
             <div class="success-box">
                 <div class="success-icon-badge">✓</div>
                 <h1 class="success-title">Briefing Registrado com Sucesso!</h1>
@@ -1026,7 +943,7 @@
     <!-- Floating Bottom Nav -->
     <footer class="bottom-nav">
         <div class="nav-info">
-            <span class="step-counter-text" id="stepIndicatorLabel">Etapa 1 de 5 &bull; Identificação</span>
+            <span class="step-counter-text" id="stepIndicatorLabel">Etapa 1 de 4 &bull; Identificação</span>
             <div class="autosave-status">
                 <div class="status-dot" id="saveIndicatorDot"></div>
                 <span id="saveIndicatorText">Sincronizado</span>
@@ -1038,7 +955,7 @@
                 ← Voltar
             </button>
             <button type="button" class="btn-next" id="btnNext" onclick="forceStepChange(1)">
-                Avançar →
+                Iniciar Briefing →
             </button>
         </div>
     </footer>
@@ -1060,7 +977,7 @@
         }
 
         let currentStepIndex = 0;
-        const TOTAL_STEPS = 5; // 0, 1, 2, 3, 4
+        const TOTAL_STEPS = 4; // 0: Identificação, 1: Estratégia, 2: Usuários/Operação, 3: Prazos/Orçamento, 4: Sucesso
         let respondentData = { name: '', email: '', role: '' };
         let answersMap = {};
         let submissionId = null;
@@ -1074,7 +991,7 @@
             currentStepIndex = index;
 
             // Ocultar todos os passos e exibir apenas o atual com style.display inline
-            for (let i = 0; i <= 5; i++) {
+            for (let i = 0; i <= 4; i++) {
                 const stepEl = document.getElementById(`step-${i}`);
                 if (stepEl) {
                     if (i === currentStepIndex) {
@@ -1088,7 +1005,7 @@
             }
 
             // Atualizar barra de progresso
-            const progress = (currentStepIndex / 4) * 100;
+            const progress = (currentStepIndex / 3) * 100;
             const pFill = document.getElementById('progressFill');
             if (pFill) pFill.style.width = `${Math.min(progress, 100)}%`;
 
@@ -1101,17 +1018,17 @@
 
             if (stepLabel && btnNext) {
                 if (currentStepIndex === 0) {
-                    stepLabel.innerHTML = 'Etapa 1 de 5 &bull; Identificação';
+                    stepLabel.innerHTML = 'Etapa 1 de 4 &bull; Identificação';
                     btnNext.innerHTML = 'Iniciar Briefing →';
-                } else if (currentStepIndex === 4) {
-                    stepLabel.innerHTML = 'Etapa 5 de 5 &bull; Prazos & Orçamento';
+                } else if (currentStepIndex === 3) {
+                    stepLabel.innerHTML = 'Etapa 4 de 4 &bull; Prazos & Investimento';
                     btnNext.innerHTML = 'Concluir & Enviar Briefing ✓';
-                } else if (currentStepIndex === 5) {
+                } else if (currentStepIndex === 4) {
                     stepLabel.innerHTML = 'Concluído';
                     const bottomNav = document.querySelector('.bottom-nav');
                     if (bottomNav) bottomNav.style.display = 'none';
                 } else {
-                    stepLabel.innerHTML = `Etapa ${currentStepIndex + 1} de 5 &bull; Bloco Temático`;
+                    stepLabel.innerHTML = `Etapa ${currentStepIndex + 1} de 4 &bull; Bloco Temático`;
                     btnNext.innerHTML = 'Avançar →';
                 }
             }
@@ -1132,7 +1049,7 @@
                 return;
             }
 
-            if (currentStepIndex === 4 && delta > 0) {
+            if (currentStepIndex === 3 && delta > 0) {
                 finishBriefing();
                 return;
             }
@@ -1291,7 +1208,7 @@
         // FINALIZAÇÃO DO BRIEFING
         // ======================================================================
         async function finishBriefing() {
-            showStep(5);
+            showStep(4);
 
             const sumName = document.getElementById('sumName');
             const sumRole = document.getElementById('sumRole');
