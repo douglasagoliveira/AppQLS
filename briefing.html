@@ -624,37 +624,31 @@
             <div class="question-card">
                 <div class="question-number-badge">01</div>
                 <h2 class="question-title">Identificação do Participante</h2>
-                <p class="question-subtitle">Informe seus dados para que suas contribuições sejam devidamente assinadas e notificadas.</p>
+                <p class="question-subtitle">Informe seus dados para que suas contribuições sejam devidamente identificadas.</p>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-bottom: 20px;">
                     <div>
                         <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">Seu Nome Completo *</label>
                         <input type="text" id="respName" class="form-input" placeholder="Ex: Douglas Oliveira" required>
                     </div>
                     <div>
-                        <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">Seu Cargo / Função no Projeto *</label>
-                        <select id="respRole" class="form-select" required>
-                            <option value="">Selecione sua função...</option>
-                            <option value="Decisor Principal / Sócio">Decisor Principal / Sócio Executivo</option>
-                            <option value="Diretor de Marketing & Vendas">Diretor de Marketing & Vendas</option>
-                            <option value="CTO / Tech Lead / Engenharia">CTO / Tech Lead / Engenharia</option>
-                            <option value="Gestor de Produto / Operações">Gestor de Produto / Operações</option>
-                            <option value="Arquiteto / Lighting Designer">Arquiteto / Lighting Designer</option>
-                            <option value="Financeiro / Compras">Financeiro / Compras</option>
-                            <option value="Consultor Externo / Parceiro">Consultor Externo / Parceiro</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
-                    <div>
                         <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">E-mail Corporativo *</label>
                         <input type="email" id="respEmail" class="form-input" placeholder="seu.email@empresa.com" required>
                     </div>
-                    <div>
-                        <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">WhatsApp / Telefone Direto</label>
-                        <input type="tel" id="respPhone" class="form-input" placeholder="(00) 00000-0000">
+                    <div style="grid-column: 1 / -1;">
+                        <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">Seu Cargo / Função no Projeto *</label>
+                        <input type="text" id="respRole" class="form-input" placeholder="Ex: Diretor Executivo, Sócio, Arquiteto, Tech Lead..." required>
                     </div>
+                </div>
+
+                <div id="step0ErrorMsg" style="display: none; background: rgba(179, 56, 44, 0.15); border: 1px solid #b3382c; color: #f88; padding: 10px 16px; border-radius: var(--radius-s); font-size: 13px; margin-bottom: 18px;">
+                    Por favor, preencha seu Nome, E-mail e Cargo para prosseguir.
+                </div>
+
+                <div style="display: flex; justify-content: flex-end;">
+                    <button type="button" class="btn-next" onclick="navigateStep(1)" style="padding: 12px 28px;">
+                        Iniciar Briefing →
+                    </button>
                 </div>
             </div>
         </div>
@@ -1086,19 +1080,57 @@
         function navigateStep(direction) {
             // Validação da etapa 0 (Identificação)
             if (currentStepIndex === 0 && direction === 1) {
-                const name = document.getElementById('respName').value.trim();
-                const role = document.getElementById('respRole').value;
-                const email = document.getElementById('respEmail').value.trim();
-                const phone = document.getElementById('respPhone').value.trim();
+                const nameInput = document.getElementById('respName');
+                const emailInput = document.getElementById('respEmail');
+                const roleInput = document.getElementById('respRole');
+                const errorBox = document.getElementById('step0ErrorMsg');
 
-                if (!name || !role || !email) {
-                    alert('Por favor, preencha seu Nome, Cargo e E-mail antes de iniciar o briefing.');
+                const name = nameInput ? nameInput.value.trim() : '';
+                const email = emailInput ? emailInput.value.trim() : '';
+                const role = roleInput ? roleInput.value.trim() : '';
+
+                let hasError = false;
+
+                if (!name) {
+                    if (nameInput) nameInput.style.borderColor = '#b3382c';
+                    hasError = true;
+                } else if (nameInput) {
+                    nameInput.style.borderColor = '';
+                }
+
+                if (!email) {
+                    if (emailInput) emailInput.style.borderColor = '#b3382c';
+                    hasError = true;
+                } else if (emailInput) {
+                    emailInput.style.borderColor = '';
+                }
+
+                if (!role) {
+                    if (roleInput) roleInput.style.borderColor = '#b3382c';
+                    hasError = true;
+                } else if (roleInput) {
+                    roleInput.style.borderColor = '';
+                }
+
+                if (hasError) {
+                    if (errorBox) errorBox.style.display = 'block';
+                    if (!name && nameInput) nameInput.focus();
+                    else if (!email && emailInput) emailInput.focus();
+                    else if (!role && roleInput) roleInput.focus();
                     return;
                 }
 
-                respondentData = { name, role, email, phone };
+                if (errorBox) errorBox.style.display = 'none';
+
+                respondentData = { name, email, role };
                 saveRespondentToStorage();
-                createSubmissionInSupabase();
+
+                // Disparo em background sem travar o avanço da interface
+                try {
+                    createSubmissionInSupabase();
+                } catch (e) {
+                    console.warn('Erro ao disparar submission em background:', e);
+                }
             }
 
             // Se estiver na última etapa e avançar -> Concluir!
@@ -1271,15 +1303,32 @@
             renderSections(DEFAULT_TEMPLATE);
             updateStepUI();
 
+            // Adicionar suporte à tecla Enter e limpeza de erro ao digitar
+            ['respName', 'respEmail', 'respRole'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            navigateStep(1);
+                        }
+                    });
+                    el.addEventListener('input', () => {
+                        el.style.borderColor = '';
+                        const err = document.getElementById('step0ErrorMsg');
+                        if (err) err.style.display = 'none';
+                    });
+                }
+            });
+
             // Restaurar dados do respondente se já preencheu antes
             const savedUser = localStorage.getItem('qls_briefing_user');
             if (savedUser) {
                 try {
                     const u = JSON.parse(savedUser);
-                    if (u.name) document.getElementById('respName').value = u.name;
-                    if (u.role) document.getElementById('respRole').value = u.role;
-                    if (u.email) document.getElementById('respEmail').value = u.email;
-                    if (u.phone) document.getElementById('respPhone').value = u.phone;
+                    if (u.name && document.getElementById('respName')) document.getElementById('respName').value = u.name;
+                    if (u.role && document.getElementById('respRole')) document.getElementById('respRole').value = u.role;
+                    if (u.email && document.getElementById('respEmail')) document.getElementById('respEmail').value = u.email;
                 } catch(e) {}
             }
         });
