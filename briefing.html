@@ -108,6 +108,20 @@
             font-weight: 700;
         }
 
+        .qls-logo-img {
+            height: 28px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+            transition: opacity 0.2s var(--ease);
+        }
+
+        .topbar-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--line);
+        }
+
         .project-tag {
             color: var(--white);
             font-size: 14px;
@@ -738,7 +752,8 @@
     <!-- Topbar com Identidade QLS -->
     <header class="topbar">
         <div class="brand-container">
-            <span class="brand-badge">QLS Executive</span>
+            <img src="assets/brand/QLS-Logo-Horizontal-White.png" alt="QLS Lighting Australia" class="qls-logo-img">
+            <div class="topbar-divider"></div>
             <div class="project-tag" id="topbarProjectTitle">QLS Lighting Australia — App Mobile Oficial</div>
         </div>
         <div class="topbar-actions">

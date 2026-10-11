@@ -88,6 +88,19 @@
             gap: 16px;
         }
 
+        .qls-logo-img {
+            height: 28px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+        }
+
+        .header-divider {
+            width: 1px;
+            height: 22px;
+            background: var(--line);
+        }
+
         .badge-qls {
             font-family: var(--font-mono);
             font-size: 11px;
@@ -540,8 +553,12 @@
     <!-- Header Principal -->
     <header class="central-header">
         <div class="header-brand">
-            <span class="badge-qls">Central QLS</span>
-            <div class="header-title">Gestão Estratégica de Briefings</div>
+            <img src="assets/brand/QLS-Logo-Horizontal-White.png" alt="QLS Lighting Australia" class="qls-logo-img">
+            <div class="header-divider"></div>
+            <div>
+                <span class="badge-qls">Central QLS</span>
+                <div class="header-title" style="font-size: 15px; margin-top: 2px;">Gestão Estratégica de Briefings</div>
+            </div>
         </div>
 
         <nav class="header-nav">
