@@ -656,73 +656,44 @@
         <div class="step-view" id="step-1">
             <div class="step-header">
                 <div class="step-eyebrow">Bloco 01 &bull; Estratégia</div>
-                <h1 class="step-title">Visão &amp; Objetivos Centrais</h1>
+                <h1 class="step-title">Visão &amp; Objetivos de Negócio</h1>
                 <p class="step-description">Definição do propósito central do produto digital e sua proposta de valor no mercado de iluminação arquitetural.</p>
             </div>
 
             <div class="question-card">
-                <div class="question-number-badge">02</div>
+                <div class="question-number-badge">01</div>
                 <h2 class="question-title">Qual o objetivo principal deste produto digital?</h2>
                 <p class="question-subtitle">Descreva a grande transformação que este aplicativo deve trazer para a empresa e seus clientes.</p>
-                <textarea class="form-textarea" id="q-mob-1" placeholder="Ex: Permitir que arquitetos e instaladores especifiquem luminárias QLS na obra com cálculo de lumens e envio direto de pedido." oninput="handleAnswerChange('q-mob-1', this.value)"></textarea>
+                <textarea class="form-textarea" id="q-mob-1" placeholder="Ex: Permitir que arquitetos e instaladores especifiquem luminárias QLS na obra com agilidade e envio direto de pedido." oninput="handleAnswerChange('q-mob-1', this.value)"></textarea>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number-badge">02</div>
+                <h2 class="question-title">Qual o maior gargalo ou dor crítica no fluxo atual?</h2>
+                <p class="question-subtitle">O que hoje mais toma tempo, gera erros ou faz a empresa perder oportunidades?</p>
+                <textarea class="form-textarea" id="q-mob-2" placeholder="Ex: Envio lento de orçamentos manuais, catálogos desatualizados e dificuldade na especificação rápida." oninput="handleAnswerChange('q-mob-2', this.value)"></textarea>
             </div>
 
             <div class="question-card">
                 <div class="question-number-badge">03</div>
-                <h2 class="question-title">Qual o maior gargalo ou dor crítica no fluxo atual?</h2>
-                <p class="question-subtitle">O que hoje mais toma tempo, gera erros ou faz a empresa perder oportunidades?</p>
-                <textarea class="form-textarea" id="q-mob-2" placeholder="Ex: Envio lento de orçamentos manuais, catálogos em PDF desatualizados e falta de cálculo fotométrico em tempo real." oninput="handleAnswerChange('q-mob-2', this.value)"></textarea>
-            </div>
-
-            <div class="question-card">
-                <div class="question-number-badge">04</div>
-                <h2 class="question-title">Em qual plataforma o produto deve rodar prioritariamente?</h2>
-                <p class="question-subtitle">Selecione o ambiente principal de operação para o lançamento do MVP.</p>
-                <div class="options-grid">
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-3', 'native_both', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">iOS (Apple App Store) &amp; Android (Google Play)</div>
-                            <div class="option-desc">Apps nativos instalados direto nos celulares dos usuários.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-3', 'ios_only', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Apenas iOS (iPhone &amp; iPad)</div>
-                            <div class="option-desc">Foco exclusivo no ecossistema Apple de arquitetos e projetistas.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-3', 'web_pwa', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Web App PWA (Navegador Desktop &amp; Mobile)</div>
-                            <div class="option-desc">Acessível instantaneamente por qualquer navegador sem download.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-number-badge">05</div>
                 <h2 class="question-title">Qual é o principal diferencial competitivo frente aos concorrentes?</h2>
                 <p class="question-subtitle">Por que clientes e especificadores vão preferir esta ferramenta?</p>
-                <input type="text" class="form-input" id="q-mob-4" placeholder="Ex: Velocidade de especificação, precisão fotométrica AS/NZS e suporte técnico direto da fábrica." oninput="handleAnswerChange('q-mob-4', this.value)">
+                <input type="text" class="form-input" id="q-mob-4" placeholder="Ex: Velocidade de especificação, precisão técnica e suporte direto da fábrica." oninput="handleAnswerChange('q-mob-4', this.value)">
             </div>
         </div>
 
         <!-- ===================================================================
-             PASSO 2: USUÁRIOS & PROPOSTA DE VALOR
+             PASSO 2: USUÁRIOS & FUNCIONALIDADES
              =================================================================== -->
         <div class="step-view" id="step-2">
             <div class="step-header">
-                <div class="step-eyebrow">Bloco 02 &bull; Usuários &amp; Proposta de Valor</div>
-                <h1 class="step-title">Público-Alvo &amp; Módulos Essenciais</h1>
-                <p class="step-description">Mapeamento dos perfis que utilizarão o app e identificação das funcionalidades inegociáveis para o MVP.</p>
+                <div class="step-eyebrow">Bloco 02 &bull; Usuários &amp; Funcionalidades</div>
+                <h1 class="step-title">Público-Alvo &amp; Recursos do Aplicativo</h1>
+                <p class="step-description">Mapeamento dos perfis que utilizarão a solução e identificação das ferramentas essenciais.</p>
             </div>
 
             <div class="question-card">
-                <div class="question-number-badge">06</div>
+                <div class="question-number-badge">04</div>
                 <h2 class="question-title">Quem são os usuários de maior prioridade?</h2>
                 <p class="question-subtitle">Selecione todos os perfis estratégicos que devem ser atendidos.</p>
                 <div class="options-grid">
@@ -737,7 +708,7 @@
                         <div class="choice-indicator"></div>
                         <div class="option-text-wrapper">
                             <div class="option-title">Engenheiros Elétricos e Instaladores</div>
-                            <div class="option-desc">Cálculos técnicos, diagramas de ligação e instalação.</div>
+                            <div class="option-desc">Cálculos técnicos, diagramas e instalação em obra.</div>
                         </div>
                     </div>
                     <div class="option-choice-card multi" onclick="toggleMultiChoice('q-mob-5', 'builders', this)">
@@ -751,16 +722,21 @@
                         <div class="choice-indicator"></div>
                         <div class="option-text-wrapper">
                             <div class="option-title">Equipe Interna de Vendas e Representantes QLS</div>
-                            <div class="option-desc">Demonstração e fechamento rápido em campo.</div>
+                            <div class="option-desc">Demonstração e fechamento comercial rápido.</div>
                         </div>
                     </div>
+                </div>
+
+                <div style="margin-top: 16px;">
+                    <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">Outro perfil (opcional):</label>
+                    <input type="text" class="form-input" id="q-mob-5-other" placeholder="Ex: Designers de interiores, distribuidores, clientes finais..." oninput="handleAnswerChange('q-mob-5-other', this.value)">
                 </div>
             </div>
 
             <div class="question-card">
-                <div class="question-number-badge">07</div>
-                <h2 class="question-title">Quais módulos funcionais são fundamentais no MVP?</h2>
-                <p class="question-subtitle">Marque as ferramentas indispensáveis na primeira versão.</p>
+                <div class="question-number-badge">05</div>
+                <h2 class="question-title">Quais módulos funcionais são fundamentais no aplicativo?</h2>
+                <p class="question-subtitle">Marque as ferramentas indispensáveis no aplicativo.</p>
                 <div class="options-grid">
                     <div class="option-choice-card multi" onclick="toggleMultiChoice('q-mob-6', 'catalog', this)">
                         <div class="choice-indicator"></div>
@@ -791,118 +767,25 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="question-card">
-                <div class="question-number-badge">08</div>
-                <h2 class="question-title">Qual a importância do funcionamento 100% Offline?</h2>
-                <p class="question-subtitle">Avalie a necessidade do aplicativo abrir catálogos e orçamentos sem sinal de internet na obra.</p>
-                <div class="options-grid">
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-7', 'critical_offline', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Essencial (Obras/subsolos sem sinal)</div>
-                            <div class="option-desc">Deve armazenar catálogo e rascunhos localmente.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-7', 'desirable_offline', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Desejável (Cache das últimas consultas)</div>
-                            <div class="option-desc">Funcionalidades básicas sem internet.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-7', 'online_only', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Baixa (Assume-se conexão 4G/5G/Wi-Fi)</div>
-                            <div class="option-desc">Requer conexão contínua com os servidores.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===================================================================
-             PASSO 3: PRAZOS & INVESTIMENTO
-             =================================================================== -->
-        <div class="step-view" id="step-3">
-            <div class="step-header">
-                <div class="step-eyebrow">Bloco 03 &bull; Prazos &amp; Investimento</div>
-                <h1 class="step-title">Expectativa de Entrega &amp; Investimento</h1>
-                <p class="step-description">Alinhamento das expectativas orçamentárias e cronograma de lançamento do produto no mercado.</p>
-            </div>
-
-            <div class="question-card">
-                <div class="question-number-badge">09</div>
-                <h2 class="question-title">Qual é a faixa de investimento orçada para esta fase?</h2>
-                <p class="question-subtitle">O dimensionamento de recursos define a profundidade das entregas do MVP.</p>
-                <div class="options-grid">
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-11', 'range_30_50k', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">R$ 30.000 a R$ 50.000</div>
-                            <div class="option-desc">MVP focado nas funcionalidades essenciais de catálogo e orçamento.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-11', 'range_50_100k', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">R$ 50.000 a R$ 100.000</div>
-                            <div class="option-desc">Solução completa multiplataforma com sincronização em nuvem.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-11', 'range_100_200k', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">R$ 100.000 a R$ 200.000</div>
-                            <div class="option-desc">Plataforma robusta com integrações comerciais e modo offline avançado.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-11', 'range_above_200k', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Acima de R$ 200.000</div>
-                            <div class="option-desc">Ecossistema corporativo completo para expansão internacional.</div>
-                        </div>
-                    </div>
+                <div style="margin-top: 16px;">
+                    <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">Outra funcionalidade desejada (opcional):</label>
+                    <input type="text" class="form-input" id="q-mob-6-other" placeholder="Ex: Comparador lado a lado de produtos, leitor de código de barras..." oninput="handleAnswerChange('q-mob-6-other', this.value)">
                 </div>
             </div>
 
             <div class="question-card">
-                <div class="question-number-badge">10</div>
-                <h2 class="question-title">Qual o prazo estimado ideal para o lançamento do MVP?</h2>
-                <p class="question-subtitle">Expectativa de entrega para início de testes com usuários reais.</p>
-                <div class="options-grid">
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-12', '30_days', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">Até 30 dias (Sprint ágil)</div>
-                            <div class="option-desc">Foco máximo no menor tempo de colocação no mercado.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-12', '60_90_days', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">60 a 90 dias (Padrão completo)</div>
-                            <div class="option-desc">Ciclo ideal com testes estruturados e validação com clientes.</div>
-                        </div>
-                    </div>
-                    <div class="option-choice-card" onclick="selectSingleChoice('q-mob-12', '4_6_months', this)">
-                        <div class="choice-indicator"></div>
-                        <div class="option-text-wrapper">
-                            <div class="option-title">4 a 6 meses (Escopo abrangente)</div>
-                            <div class="option-desc">Para projetos com múltiplos módulos interdependentes.</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="question-number-badge">06</div>
+                <h2 class="question-title">Informações Adicionais (Opcional)</h2>
+                <p class="question-subtitle">Gostaria de compartilhar mais alguma observação, necessidade específica ou detalhe sobre o negócio?</p>
+                <textarea class="form-textarea" id="q-additional-info" placeholder="Escreva aqui qualquer observação adicional que julgar importante para a equipe QLS (opcional)..." oninput="handleAnswerChange('q-additional-info', this.value)"></textarea>
             </div>
         </div>
 
         <!-- ===================================================================
              PASSO FINAL: CONFIRMAÇÃO & SUCESSO
              =================================================================== -->
-        <div class="step-view" id="step-4">
+        <div class="step-view" id="step-3">
             <div class="success-box">
                 <div class="success-icon-badge">✓</div>
                 <h1 class="success-title">Briefing Registrado com Sucesso!</h1>
@@ -943,7 +826,7 @@
     <!-- Floating Bottom Nav -->
     <footer class="bottom-nav">
         <div class="nav-info">
-            <span class="step-counter-text" id="stepIndicatorLabel">Etapa 1 de 4 &bull; Identificação</span>
+            <span class="step-counter-text" id="stepIndicatorLabel">Etapa 1 de 3 &bull; Identificação</span>
             <div class="autosave-status">
                 <div class="status-dot" id="saveIndicatorDot"></div>
                 <span id="saveIndicatorText">Sincronizado</span>
@@ -977,7 +860,7 @@
         }
 
         let currentStepIndex = 0;
-        const TOTAL_STEPS = 4; // 0: Identificação, 1: Estratégia, 2: Usuários/Operação, 3: Prazos/Orçamento, 4: Sucesso
+        const TOTAL_STEPS = 3; // 0: Identificação, 1: Estratégia, 2: Usuários/Funcionalidades, 3: Sucesso
         let respondentData = { name: '', email: '', role: '' };
         let answersMap = {};
         let submissionId = null;
@@ -991,7 +874,7 @@
             currentStepIndex = index;
 
             // Ocultar todos os passos e exibir apenas o atual com style.display inline
-            for (let i = 0; i <= 4; i++) {
+            for (let i = 0; i <= 3; i++) {
                 const stepEl = document.getElementById(`step-${i}`);
                 if (stepEl) {
                     if (i === currentStepIndex) {
@@ -1004,8 +887,8 @@
                 }
             }
 
-            // Atualizar barra de progresso
-            const progress = (currentStepIndex / 3) * 100;
+            // Atualizar barra de progresso (passos 0, 1, 2)
+            const progress = (currentStepIndex / 2) * 100;
             const pFill = document.getElementById('progressFill');
             if (pFill) pFill.style.width = `${Math.min(progress, 100)}%`;
 
@@ -1018,17 +901,17 @@
 
             if (stepLabel && btnNext) {
                 if (currentStepIndex === 0) {
-                    stepLabel.innerHTML = 'Etapa 1 de 4 &bull; Identificação';
+                    stepLabel.innerHTML = 'Etapa 1 de 3 &bull; Identificação';
                     btnNext.innerHTML = 'Iniciar Briefing →';
-                } else if (currentStepIndex === 3) {
-                    stepLabel.innerHTML = 'Etapa 4 de 4 &bull; Prazos & Investimento';
+                } else if (currentStepIndex === 2) {
+                    stepLabel.innerHTML = 'Etapa 3 de 3 &bull; Usuários & Funcionalidades';
                     btnNext.innerHTML = 'Concluir & Enviar Briefing ✓';
-                } else if (currentStepIndex === 4) {
+                } else if (currentStepIndex === 3) {
                     stepLabel.innerHTML = 'Concluído';
                     const bottomNav = document.querySelector('.bottom-nav');
                     if (bottomNav) bottomNav.style.display = 'none';
                 } else {
-                    stepLabel.innerHTML = `Etapa ${currentStepIndex + 1} de 4 &bull; Bloco Temático`;
+                    stepLabel.innerHTML = `Etapa ${currentStepIndex + 1} de 3 &bull; Bloco Temático`;
                     btnNext.innerHTML = 'Avançar →';
                 }
             }
@@ -1049,7 +932,7 @@
                 return;
             }
 
-            if (currentStepIndex === 3 && delta > 0) {
+            if (currentStepIndex === 2 && delta > 0) {
                 finishBriefing();
                 return;
             }
@@ -1208,7 +1091,7 @@
         // FINALIZAÇÃO DO BRIEFING
         // ======================================================================
         async function finishBriefing() {
-            showStep(4);
+            showStep(3);
 
             const sumName = document.getElementById('sumName');
             const sumRole = document.getElementById('sumRole');
