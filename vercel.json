@@ -3,6 +3,22 @@
   "rewrites": [
     {
       "source": "/",
+      "destination": "/briefing-interativo.html"
+    },
+    {
+      "source": "/briefing",
+      "destination": "/briefing-interativo.html"
+    },
+    {
+      "source": "/central-qls",
+      "destination": "/central-qls.html"
+    },
+    {
+      "source": "/central",
+      "destination": "/central-qls.html"
+    },
+    {
+      "source": "/roadmap",
       "destination": "/roadmap-interativo-cliente.html"
     },
     {

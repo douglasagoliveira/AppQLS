@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Briefing Executivo QLS — Experiência Interativa de Projeto</title>
+    
+    <!-- Google Fonts: Urbanist & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Supabase JS Client via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            /* Paleta Oficial QLS Lighting */
+            --black: #0a0a0a;
+            --ink: #141311;
+            --dark: #1a1814;
+            --dark-elevated: #24211c;
+            --grey: #6f6a64;
+            --mute: #9a9590;
+            --line: #3a3632;
+            --line-light: #524d47;
+            --light: #e4e0da;
+            --white: #f8f6f2;
+            
+            /* Dourado Exclusivo QLS */
+            --gold: #c9a84c;
+            --gold-d: #a8843a;
+            --gold-l: #e8b86a;
+            --gold-glow: rgba(201, 168, 76, 0.22);
+            --gold-subtle: rgba(201, 168, 76, 0.08);
+
+            /* Superfícies */
+            --bg: #0a0a0a;
+            --card: #141311;
+            --card-hover: #1f1d19;
+            --bd: #2e2b26;
+            --bd-focus: #c9a84c;
+            --fg: #e4e0da;
+            --hd: #f8f6f2;
+            
+            /* Tipografia & Bordas */
+            --font-main: 'Urbanist', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Space Grotesk', monospace;
+            --radius-s: 8px;
+            --radius-m: 14px;
+            --radius-l: 22px;
+            --radius-pill: 999px;
+            --ease: cubic-bezier(.22, .61, .36, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(201, 168, 76, 0.08) 0%, transparent 55%),
+                linear-gradient(180deg, #0a0a0a 0%, #11100e 100%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Top Bar de Luxo */
+        .topbar {
+            height: 72px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-badge {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            background: var(--gold-subtle);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+        }
+
+        .project-tag {
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .admin-link {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--mute);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--bd);
+            transition: all 0.2s var(--ease);
+        }
+
+        .admin-link:hover {
+            color: var(--gold-l);
+            border-color: var(--gold);
+            background: var(--gold-subtle);
+        }
+
+        /* Barra de Progresso Superior */
+        .progress-line-track {
+            height: 3px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold-d), var(--gold-l));
+            box-shadow: 0 0 10px var(--gold-glow);
+            transition: width 0.4s var(--ease);
+        }
+
+        /* Área Central do Formulário */
+        .main-container {
+            flex: 1;
+            max-width: 860px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 48px 24px 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Card de Step / Bloco */
+        .step-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+        }
+
+        .step-view.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-header {
+            margin-bottom: 36px;
+        }
+
+        .step-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--gold);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .step-description {
+            font-size: 16px;
+            color: var(--mute);
+            line-height: 1.6;
+            max-width: 680px;
+        }
+
+        /* Card de Pergunta Individual dentro do Bloco */
+        .question-card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: var(--radius-m);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+        }
+
+        .question-card:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 6px 28px rgba(201, 168, 76, 0.12);
+        }
+
+        .question-number-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: var(--radius-s);
+            background: var(--gold-subtle);
+            border: 1px solid rgba(201, 168, 76, 0.35);
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            margin-bottom: 12px;
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .question-subtitle {
+            font-size: 14px;
+            color: var(--mute);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* Inputs & Textareas de Alto Padrão */
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            background: #0f0e0c;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-s);
+            color: var(--white);
+            font-family: var(--font-main);
+            font-size: 15px;
+            padding: 14px 18px;
+            outline: none;
+            transition: all 0.2s var(--ease);
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-subtle);
+            background: #151411;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* Opções Visuais em Grade (Escolha Única & Múltipla) */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .option-choice-card {
+            background: #0e0d0b;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-s);
+            padding: 16px 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: all 0.2s var(--ease);
+            user-select: none;
+            position: relative;
+        }
+
+        .option-choice-card:hover {
+            border-color: var(--line-light);
+            background: #171512;
+            transform: translateY(-1px);
+        }
+
+        .option-choice-card.selected {
+            background: rgba(201, 168, 76, 0.1);
+            border-color: var(--gold);
+            box-shadow: 0 2px 12px rgba(201, 168, 76, 0.15);
+        }
+
+        .choice-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: all 0.2s var(--ease);
+        }
+
+        .option-choice-card.multi .choice-indicator {
+            border-radius: 4px;
+        }
+
+        .option-choice-card.selected .choice-indicator {
+            border-color: var(--gold);
+            background: var(--gold);
+        }
+
+        .choice-indicator::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--black);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .option-choice-card.multi.selected .choice-indicator::after {
+            border-radius: 2px;
+            width: 6px;
+            height: 10px;
+            border: solid var(--black);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            background: transparent;
+            margin-top: -2px;
+        }
+
+        .option-choice-card.selected .choice-indicator::after {
+            opacity: 1;
+        }
+
+        .option-text-wrapper {
+            flex: 1;
+        }
+
+        .option-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--white);
+            line-height: 1.4;
+        }
+
+        .option-desc {
+            font-size: 13px;
+            color: var(--mute);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        /* Floating Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 84px;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(18px);
+            border-top: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 50;
+        }
+
+        .nav-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .step-counter-text {
+            font-size: 14px;
+            color: var(--white);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .autosave-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--mute);
+            font-family: var(--font-mono);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3f7a4f;
+            box-shadow: 0 0 8px rgba(63, 122, 79, 0.6);
+        }
+
+        .status-dot.saving {
+            background: var(--gold);
+            box-shadow: 0 0 8px var(--gold-glow);
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-prev {
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--light);
+            padding: 12px 22px;
+            border-radius: var(--radius-s);
+            font-family: var(--font-main);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s var(--ease);
+        }
+
+        .btn-prev:hover:not(:disabled) {
+            border-color: var(--white);
+            color: var(--white);
+        }
+
+        .btn-prev:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-d) 100%);
+            border: none;
+            color: var(--black);
+            padding: 12px 28px;
+            border-radius: var(--radius-s);
+            font-family: var(--font-main);
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(201, 168, 76, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s var(--ease);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(201, 168, 76, 0.45);
+            background: linear-gradient(135deg, var(--gold-l) 0%, var(--gold) 100%);
+        }
+
+        .btn-next:active {
+            transform: translateY(0);
+        }
+
+        /* Tela de Sucesso Final */
+        .success-box {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon-badge {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gold-subtle);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 24px;
+            box-shadow: 0 0 32px var(--gold-glow);
+        }
+
+        .success-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 12px;
+            letter-spacing: -0.03em;
+        }
+
+        .success-text {
+            font-size: 16px;
+            color: var(--mute);
+            max-width: 580px;
+            margin: 0 auto 36px;
+            line-height: 1.6;
+        }
+
+        .summary-card {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: var(--radius-m);
+            padding: 24px;
+            max-width: 620px;
+            margin: 0 auto 32px;
+            text-align: left;
+        }
+
+        .summary-header {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            font-family: var(--font-mono);
+            font-weight: 700;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 8px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #1a1814;
+            font-size: 14px;
+        }
+
+        .summary-label {
+            color: var(--mute);
+        }
+
+        .summary-val {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .topbar { padding: 0 16px; height: 64px; }
+            .brand-badge { display: none; }
+            .main-container { padding: 24px 16px 120px; }
+            .step-title { font-size: 26px; }
+            .bottom-nav { padding: 0 16px; height: 76px; }
+            .options-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Topbar com Identidade QLS -->
+    <header class="topbar">
+        <div class="brand-container">
+            <span class="brand-badge">QLS Executive</span>
+            <div class="project-tag" id="topbarProjectTitle">QLS Lighting Australia — App Mobile Oficial</div>
+        </div>
+        <div class="topbar-actions">
+            <a href="/central-qls" class="admin-link">Central QLS →</a>
+        </div>
+    </header>
+
+    <!-- Indicador de Progresso Fluido -->
+    <div class="progress-line-track">
+        <div class="progress-line-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Container Principal do Formulário -->
+    <main class="main-container">
+
+        <!-- ===================================================================
+             PASSO 0: IDENTIFICAÇÃO DO PARTICIPANTE (MULTI-RESPONDENTE)
+             =================================================================== -->
+        <div class="step-view active" id="step-0">
+            <div class="step-header">
+                <div class="step-eyebrow">Etapa de Boas-Vindas &bull; Identificação</div>
+                <h1 class="step-title">Alinhamento Estratégico de Projeto</h1>
+                <p class="step-description">
+                    Este briefing interativo registrará a sua perspectiva técnica e estratégica para a concepção da solução digital. Suas respostas serão consolidadas na Central Executiva QLS para análise comparativa de todos os stakeholders.
+                </p>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number-badge">01</div>
+                <h2 class="question-title">Identificação do Participante</h2>
+                <p class="question-subtitle">Informe seus dados para que suas contribuições sejam devidamente assinadas e notificadas.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                    <div>
+                        <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">Seu Nome Completo *</label>
+                        <input type="text" id="respName" class="form-input" placeholder="Ex: Douglas Oliveira" required>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">Seu Cargo / Função no Projeto *</label>
+                        <select id="respRole" class="form-select" required>
+                            <option value="">Selecione sua função...</option>
+                            <option value="Decisor Principal / Sócio">Decisor Principal / Sócio Executivo</option>
+                            <option value="Diretor de Marketing & Vendas">Diretor de Marketing & Vendas</option>
+                            <option value="CTO / Tech Lead / Engenharia">CTO / Tech Lead / Engenharia</option>
+                            <option value="Gestor de Produto / Operações">Gestor de Produto / Operações</option>
+                            <option value="Arquiteto / Lighting Designer">Arquiteto / Lighting Designer</option>
+                            <option value="Financeiro / Compras">Financeiro / Compras</option>
+                            <option value="Consultor Externo / Parceiro">Consultor Externo / Parceiro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+                    <div>
+                        <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">E-mail Corporativo *</label>
+                        <input type="email" id="respEmail" class="form-input" placeholder="seu.email@empresa.com" required>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 13px; color: var(--mute); margin-bottom: 6px; font-weight: 600;">WhatsApp / Telefone Direto</label>
+                        <input type="tel" id="respPhone" class="form-input" placeholder="(00) 00000-0000">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================================================================
+             CONTAINER DINÂMICO DOS BLOCOS TEMÁTICOS (INJETADOS VIA JS/SUPABASE)
+             =================================================================== -->
+        <div id="dynamicSectionsContainer"></div>
+
+        <!-- ===================================================================
+             PASSO FINAL: CONFIRMAÇÃO & SUCESSO
+             =================================================================== -->
+        <div class="step-view" id="step-success">
+            <div class="success-box">
+                <div class="success-icon-badge">✓</div>
+                <h1 class="success-title">Briefing Registrado com Sucesso!</h1>
+                <p class="success-text">
+                    Obrigado pela sua contribuição! Suas respostas foram salvas no banco da <strong>Central QLS</strong> e uma notificação com o resumo foi encaminhada para a diretoria.
+                </p>
+
+                <div class="summary-card">
+                    <div class="summary-header">Resumo do Participante</div>
+                    <div class="summary-row">
+                        <span class="summary-label">Participante:</span>
+                        <span class="summary-val" id="sumName">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Cargo / Papel:</span>
+                        <span class="summary-val" id="sumRole">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">E-mail:</span>
+                        <span class="summary-val" id="sumEmail">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Status no Supabase:</span>
+                        <span class="summary-val" style="color: #3f7a4f;">● Concluído & Sincronizado</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Notificação por E-mail:</span>
+                        <span class="summary-val" id="sumEmailStatus" style="color: var(--gold-l);">Enviado via Resend API</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <a href="/central-qls" class="btn-next" style="text-decoration: none;">
+                        Abrir Matriz Comparativa na Central QLS →
+                    </a>
+                    <button type="button" class="btn-prev" onclick="window.print();">
+                        Imprimir / Salvar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Floating Bottom Nav -->
+    <footer class="bottom-nav">
+        <div class="nav-info">
+            <span class="step-counter-text" id="stepIndicatorLabel">Passo 1 de 5 &bull; Identificação</span>
+            <div class="autosave-status">
+                <div class="status-dot" id="saveIndicatorDot"></div>
+                <span id="saveIndicatorText">Sincronizado</span>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button type="button" class="btn-prev" id="btnPrev" disabled onclick="navigateStep(-1)">
+                ← Voltar
+            </button>
+            <button type="button" class="btn-next" id="btnNext" onclick="navigateStep(1)">
+                Avançar →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // ======================================================================
+        // CONFIGURAÇÃO SUPABASE & ESTADO DA APLICAÇÃO
+        // ======================================================================
+        const SUPABASE_URL = 'https://rcmdstsewqhsjmlcydev.supabase.co';
+        const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJjbWRzdHNld3Foc2ptbGN5ZGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MTcyODIsImV4cCI6MjEwNzI5MzI4Mn0.KV1VTkrqpl_RTeNpSC9blhD7rW3ubI-z_P2osX4r4FY';
+
+        let supabase = null;
+        if (window.supabase) {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+        }
+
+        // Estado Dinâmico
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentProjectSlug = urlParams.get('projeto') || 'qls-lighting-app';
+
+        let currentStepIndex = 0;
+        let totalSteps = 5; // Step 0 (Identificação) + 4 Blocos Temáticos
+        let respondentData = {
+            name: '',
+            role: '',
+            email: '',
+            phone: ''
+        };
+        let answersMap = {}; // questionId -> answerValue
+        let submissionId = null;
+
+        // Fallback robusto de seções e perguntas (caso o Supabase ainda não tenha executado a migration)
+        const DEFAULT_TEMPLATE = {
+            projectTitle: "QLS Lighting Australia — App Mobile Oficial",
+            clientCompany: "QLS Lighting Australia Pty Ltd",
+            sections: [
+                {
+                    id: "sec-mob-1",
+                    order: 1,
+                    eyebrow: "Bloco 01 &bull; Estratégia",
+                    title: "Visão & Objetivos Centrais",
+                    description: "Definição do propósito central do produto digital e sua proposta de valor no mercado de iluminação arquitetural.",
+                    questions: [
+                        {
+                            id: "q-mob-1",
+                            number: "02",
+                            title: "Qual o objetivo principal deste produto digital?",
+                            subtitle: "Descreva a grande transformação que este aplicativo deve trazer para a empresa e seus clientes.",
+                            type: "textarea",
+                            placeholder: "Ex: Permitir que arquitetos e instaladores especifiquem luminárias QLS na obra com cálculo de lumens e envio direto de pedido."
+                        },
+                        {
+                            id: "q-mob-2",
+                            number: "03",
+                            title: "Qual o maior gargalo ou dor crítica no fluxo atual?",
+                            subtitle: "O que hoje mais toma tempo, gera erros ou faz a empresa perder oportunidades?",
+                            type: "textarea",
+                            placeholder: "Ex: Envio lento de orçamentos manuais, catálogos em PDF desatualizados e falta de cálculo fotométrico em tempo real."
+                        },
+                        {
+                            id: "q-mob-3",
+                            number: "04",
+                            title: "Em qual plataforma o produto deve rodar prioritariamente?",
+                            subtitle: "Selecione o ambiente principal de operação para o lançamento do MVP.",
+                            type: "choice",
+                            options: [
+                                { label: "iOS (Apple App Store) & Android (Google Play)", value: "native_both", desc: "Apps nativos instalados direto nos celulares dos usuários." },
+                                { label: "Apenas iOS (iPhone & iPad)", value: "ios_only", desc: "Foco exclusivo no ecossistema Apple de arquitetos e projetistas." },
+                                { label: "Web App PWA (Navegador Desktop & Mobile)", value: "web_pwa", desc: "Acessível instantaneamente por qualquer navegador sem download." }
+                            ]
+                        },
+                        {
+                            id: "q-mob-4",
+                            number: "05",
+                            title: "Qual é o principal diferencial competitivo frente aos concorrentes?",
+                            subtitle: "Por que clientes e especificadores vão preferir esta ferramenta?",
+                            type: "text",
+                            placeholder: "Ex: Velocidade de especificação, precisão fotométrica AS/NZS e suporte técnico direto da fábrica."
+                        }
+                    ]
+                },
+                {
+                    id: "sec-mob-2",
+                    order: 2,
+                    eyebrow: "Bloco 02 &bull; Usuários & Proposta de Valor",
+                    title: "Público-Alvo & Módulos Essenciais",
+                    description: "Mapeamento dos perfis que utilizarão o app e identificação das funcionalidades inegociáveis para o MVP.",
+                    questions: [
+                        {
+                            id: "q-mob-5",
+                            number: "06",
+                            title: "Quem são os usuários de maior prioridade?",
+                            subtitle: "Selecione todos os perfis estratégicos que devem ser atendidos.",
+                            type: "multi_choice",
+                            options: [
+                                { label: "Arquitetos e Lighting Designers", value: "architects", desc: "Especificação e visualização estética de luminárias." },
+                                { label: "Engenheiros Elétricos e Instaladores", value: "engineers", desc: "Cálculos técnicos, diagramas de ligação e instalação." },
+                                { label: "Construtoras e Gestores de Empreendimentos", value: "builders", desc: "Controle de cotações, lotes e entregas." },
+                                { label: "Equipe Interna de Vendas e Representantes QLS", value: "sales_team", desc: "Demonstração e fechamento rápido em campo." }
+                            ]
+                        },
+                        {
+                            id: "q-mob-6",
+                            number: "07",
+                            title: "Quais módulos funcionais são fundamentais no MVP?",
+                            subtitle: "Marque as ferramentas indispensáveis na primeira versão.",
+                            type: "multi_choice",
+                            options: [
+                                { label: "Catálogo Técnico com filtros por ambiente e corte de teto", value: "catalog", desc: "Fichas técnicas, curvas IES e fotometria." },
+                                { label: "Calculadora Luminotécnica com conformidade AS/NZS 1680", value: "calculator", desc: "Cálculo instantâneo de lux e quantidade de luminárias." },
+                                { label: "Montador de Projetos por Ambientes (Quarto, Sala, Cozinha)", value: "project_builder", desc: "Agrupamento de itens por espaço da obra." },
+                                { label: "Gerador de Ficha de Especificação e Orçamento em PDF", value: "pdf_export", desc: "Documento oficial pronto para envio ao cliente final." },
+                                { label: "Controle Inteligente de Luminárias (DALI / Bluetooth)", value: "smart_control", desc: "Controle de dimerização e cenas na obra." }
+                            ]
+                        },
+                        {
+                            id: "q-mob-7",
+                            number: "08",
+                            title: "Qual a importância do funcionamento 100% Offline?",
+                            subtitle: "Avalie a necessidade do aplicativo abrir catálogos e orçamentos sem sinal de internet na obra.",
+                            type: "choice",
+                            options: [
+                                { label: "Essencial (O usuário frequentemente está em subsolos ou obras sem sinal)", value: "critical_offline", desc: "Deve armazenar catálogo e rascunhos localmente." },
+                                { label: "Desejável (Pode ter cache das últimas consultas)", value: "desirable_offline", desc: "Funcionalidades básicas sem internet." },
+                                { label: "Baixa (Assume-se que o usuário terá sinal 4G/5G/Wi-Fi)", value: "online_only", desc: "Requer conexão contínua com os servidores." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "sec-mob-3",
+                    order: 3,
+                    eyebrow: "Bloco 03 &bull; Integrações Técnicas",
+                    title: "Arquitetura, Hardware & Sistemas",
+                    description: "Especificação de conectividade com automação predial, hardware e sistemas legados de retaguarda.",
+                    questions: [
+                        {
+                            id: "q-mob-8",
+                            number: "09",
+                            title: "Haverá comunicação com hardware ou protocolos de iluminação?",
+                            subtitle: "Selecione as tecnologias de automação que o produto precisará integrar.",
+                            type: "multi_choice",
+                            options: [
+                                { label: "Protocolo DALI / DALI-2 (Padrão internacional predial)", value: "dali", desc: "Drivers endereçáveis e dimerização." },
+                                { label: "Bluetooth Low Energy (BLE) / Casambi / Mesh", value: "ble", desc: "Controle sem fio ponto a ponto em curta distância." },
+                                { label: "Zigbee 3.0 / Matter", value: "zigbee", desc: "Padrão de automação residencial inteligente." },
+                                { label: "Apenas Software (Sem integração direta com hardware)", value: "none", desc: "Focado em especificação, catálogo e vendas." }
+                            ]
+                        },
+                        {
+                            id: "q-mob-9",
+                            number: "10",
+                            title: "Qual sistema de gestão (ERP) precisará ser conectado?",
+                            subtitle: "Defina como estoque, preços e pedidos serão sincronizados.",
+                            type: "choice",
+                            options: [
+                                { label: "Supabase / PostgreSQL (Banco próprio moderno e APIs em tempo real)", value: "supabase", desc: "Banco de dados em nuvem veloz e dedicado." },
+                                { label: "ERP Corporativo Existente (SAP, Totvs, Bling via API)", value: "custom_erp", desc: "Conexão direta com o software de retaguarda da empresa." },
+                                { label: "Sem ERP no momento (Gerenciado via painel próprio QLS)", value: "standalone", desc: "Gestão independente dentro da própria plataforma." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "sec-mob-4",
+                    order: 4,
+                    eyebrow: "Bloco 04 &bull; Prazos & Orçamento",
+                    title: "Horizonte de Entrega & Investimento",
+                    description: "Alinhamento das expectativas de investimento financeiro, cronograma de lançamento e referências estéticas.",
+                    questions: [
+                        {
+                            id: "q-mob-11",
+                            number: "11",
+                            title: "Qual é a faixa de investimento orçada para esta fase?",
+                            subtitle: "O dimensionamento de recursos define a profundidade tecnológica do MVP.",
+                            type: "choice",
+                            options: [
+                                { label: "R$ 30.000 a R$ 50.000", value: "range_30_50k", desc: "MVP focado nas funcionalidades essenciais de catálogo e orçamento." },
+                                { label: "R$ 50.000 a R$ 100.000", value: "range_50_100k", desc: "Solução completa multiplataforma com sincronização em nuvem." },
+                                { label: "R$ 100.000 a R$ 200.000", value: "range_100_200k", desc: "Plataforma robusta com integrações de hardware/IoT e offline avançado." },
+                                { label: "Acima de R$ 200.000", value: "range_above_200k", desc: "Ecossistema corporativo completo para expansão internacional." }
+                            ]
+                        },
+                        {
+                            id: "q-mob-12",
+                            number: "12",
+                            title: "Qual o prazo estimado ideal para o lançamento do MVP?",
+                            subtitle: "Expectativa de entrega para início de testes com usuários reais.",
+                            type: "choice",
+                            options: [
+                                { label: "Até 30 dias (Sprint ágil de validação rápida)", value: "30_days", desc: "Foco máximo no menor tempo de colocação em produção." },
+                                { label: "60 a 90 dias (Desenvolvimento padrão completo)", value: "60_90_days", desc: "Ciclo ideal com testes estruturados e polimento visual." },
+                                { label: "4 a 6 meses (Escopo abrangente de grande porte)", value: "4_6_months", desc: "Para projetos com múltiplos módulos interdependentes." }
+                            ]
+                        },
+                        {
+                            id: "q-mob-13",
+                            number: "13",
+                            title: "Referências de design ou marcas que você admira:",
+                            subtitle: "Cite produtos digitais ou referências visuais que traduzem o padrão de acabamento desejado.",
+                            type: "textarea",
+                            placeholder: "Ex: Apple, Bang & Olufsen, Linear.app, Tesla, Dyson. Linhas minimalistas, preto e dourado sofisticado."
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // ======================================================================
+        // RENDERIZAÇÃO DINÂMICA DAS SEÇÕES
+        // ======================================================================
+        function renderSections(template) {
+            const container = document.getElementById('dynamicSectionsContainer');
+            container.innerHTML = '';
+
+            template.sections.forEach((sec, idx) => {
+                const stepIdx = idx + 1;
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'step-view';
+                sectionEl.id = `step-${stepIdx}`;
+
+                let questionsHtml = '';
+                sec.questions.forEach(q => {
+                    let fieldHtml = '';
+
+                    if (q.type === 'textarea') {
+                        fieldHtml = `<textarea class="form-textarea" id="${q.id}" placeholder="${q.placeholder || ''}" oninput="handleAnswerChange('${q.id}', this.value)"></textarea>`;
+                    } else if (q.type === 'text') {
+                        fieldHtml = `<input type="text" class="form-input" id="${q.id}" placeholder="${q.placeholder || ''}" oninput="handleAnswerChange('${q.id}', this.value)">`;
+                    } else if (q.type === 'choice') {
+                        fieldHtml = `
+                            <div class="options-grid">
+                                ${(q.options || []).map(opt => `
+                                    <div class="option-choice-card" onclick="selectSingleChoice('${q.id}', '${opt.value}', this)">
+                                        <div class="choice-indicator"></div>
+                                        <div class="option-text-wrapper">
+                                            <div class="option-title">${opt.label}</div>
+                                            ${opt.desc ? `<div class="option-desc">${opt.desc}</div>` : ''}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    } else if (q.type === 'multi_choice') {
+                        fieldHtml = `
+                            <div class="options-grid">
+                                ${(q.options || []).map(opt => `
+                                    <div class="option-choice-card multi" onclick="toggleMultiChoice('${q.id}', '${opt.value}', this)">
+                                        <div class="choice-indicator"></div>
+                                        <div class="option-text-wrapper">
+                                            <div class="option-title">${opt.label}</div>
+                                            ${opt.desc ? `<div class="option-desc">${opt.desc}</div>` : ''}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    }
+
+                    questionsHtml += `
+                        <div class="question-card">
+                            <div class="question-number-badge">${q.number || '00'}</div>
+                            <h2 class="question-title">${q.title}</h2>
+                            ${q.subtitle ? `<p class="question-subtitle">${q.subtitle}</p>` : ''}
+                            ${fieldHtml}
+                        </div>
+                    `;
+                });
+
+                sectionEl.innerHTML = `
+                    <div class="step-header">
+                        <div class="step-eyebrow">${sec.eyebrow}</div>
+                        <h1 class="step-title">${sec.title}</h1>
+                        <p class="step-description">${sec.description}</p>
+                    </div>
+                    ${questionsHtml}
+                `;
+
+                container.appendChild(sectionEl);
+            });
+
+            totalSteps = template.sections.length + 1; // + Step 0
+        }
+
+        // ======================================================================
+        // SELEÇÃO DE OPÇÕES (INTERATIVIDADE)
+        // ======================================================================
+        function selectSingleChoice(questionId, value, cardEl) {
+            const parent = cardEl.parentElement;
+            parent.querySelectorAll('.option-choice-card').forEach(c => c.classList.remove('selected'));
+            cardEl.classList.add('selected');
+            answersMap[questionId] = value;
+            triggerAutoSave();
+        }
+
+        function toggleMultiChoice(questionId, value, cardEl) {
+            if (!answersMap[questionId] || !Array.isArray(answersMap[questionId])) {
+                answersMap[questionId] = [];
+            }
+            const list = answersMap[questionId];
+            const idx = list.indexOf(value);
+
+            if (idx > -1) {
+                list.splice(idx, 1);
+                cardEl.classList.remove('selected');
+            } else {
+                list.push(value);
+                cardEl.classList.add('selected');
+            }
+            triggerAutoSave();
+        }
+
+        function handleAnswerChange(questionId, value) {
+            answersMap[questionId] = value;
+            triggerAutoSaveDebounced();
+        }
+
+        // ======================================================================
+        // NAVEGAÇÃO ENTRE PASSOS (TYPEFORM FEEL)
+        // ======================================================================
+        function updateStepUI() {
+            // Esconder todas as telas e ativar a atual
+            document.querySelectorAll('.step-view').forEach(s => s.classList.remove('active'));
+
+            const activeStepEl = document.getElementById(`step-${currentStepIndex}`);
+            if (activeStepEl) {
+                activeStepEl.classList.add('active');
+            }
+
+            // Atualizar barra de progresso
+            const progress = (currentStepIndex / (totalSteps - 1)) * 100;
+            document.getElementById('progressFill').style.width = `${Math.min(progress, 100)}%`;
+
+            // Atualizar textos da barra inferior
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+            const stepLabel = document.getElementById('stepIndicatorLabel');
+
+            btnPrev.disabled = (currentStepIndex === 0);
+
+            if (currentStepIndex === 0) {
+                stepLabel.innerHTML = `Etapa 1 de ${totalSteps} &bull; Identificação`;
+                btnNext.innerHTML = 'Iniciar Briefing →';
+            } else if (currentStepIndex === totalSteps - 1) {
+                stepLabel.innerHTML = `Etapa ${currentStepIndex + 1} de ${totalSteps} &bull; Finalização`;
+                btnNext.innerHTML = 'Concluir & Enviar Briefing ✓';
+            } else {
+                stepLabel.innerHTML = `Etapa ${currentStepIndex + 1} de ${totalSteps} &bull; Bloco Temático`;
+                btnNext.innerHTML = 'Avançar →';
+            }
+
+            // Rolar suavemente para o topo do formulário
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateStep(direction) {
+            // Validação da etapa 0 (Identificação)
+            if (currentStepIndex === 0 && direction === 1) {
+                const name = document.getElementById('respName').value.trim();
+                const role = document.getElementById('respRole').value;
+                const email = document.getElementById('respEmail').value.trim();
+                const phone = document.getElementById('respPhone').value.trim();
+
+                if (!name || !role || !email) {
+                    alert('Por favor, preencha seu Nome, Cargo e E-mail antes de iniciar o briefing.');
+                    return;
+                }
+
+                respondentData = { name, role, email, phone };
+                saveRespondentToStorage();
+                createSubmissionInSupabase();
+            }
+
+            // Se estiver na última etapa e avançar -> Concluir!
+            if (currentStepIndex === totalSteps - 1 && direction === 1) {
+                finishAndSubmitBriefing();
+                return;
+            }
+
+            const nextIndex = currentStepIndex + direction;
+            if (nextIndex >= 0 && nextIndex < totalSteps) {
+                currentStepIndex = nextIndex;
+                updateStepUI();
+            }
+        }
+
+        // ======================================================================
+        // PERSISTÊNCIA LOCAL & SUPABASE
+        // ======================================================================
+        function saveRespondentToStorage() {
+            localStorage.setItem('qls_briefing_user', JSON.stringify(respondentData));
+            localStorage.setItem(`qls_answers_${currentProjectSlug}`, JSON.stringify(answersMap));
+        }
+
+        let debounceTimer = null;
+        function triggerAutoSaveDebounced() {
+            const dot = document.getElementById('saveIndicatorDot');
+            const txt = document.getElementById('saveIndicatorText');
+            dot.className = 'status-dot saving';
+            txt.innerText = 'Salvando...';
+
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                triggerAutoSave();
+            }, 600);
+        }
+
+        async function triggerAutoSave() {
+            saveRespondentToStorage();
+            const dot = document.getElementById('saveIndicatorDot');
+            const txt = document.getElementById('saveIndicatorText');
+
+            if (supabase && submissionId) {
+                try {
+                    // Gravar respostas atualizadas no Supabase
+                    for (const [qId, val] of Object.entries(answersMap)) {
+                        await supabase
+                            .from('briefing_answers')
+                            .upsert({
+                                id: `${submissionId}_${qId}`,
+                                submission_id: submissionId,
+                                question_id: qId,
+                                answer_value: val,
+                                updated_at: new Date().toISOString()
+                            });
+                    }
+                } catch (e) {
+                    console.warn('Erro autosave Supabase:', e);
+                }
+            }
+
+            dot.className = 'status-dot';
+            txt.innerText = 'Salvo';
+        }
+
+        async function createSubmissionInSupabase() {
+            if (!supabase) return;
+            try {
+                submissionId = `sub_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+                
+                // Gravar registro na tabela briefing_submissions
+                const { data, error } = await supabase
+                    .from('briefing_submissions')
+                    .insert([{
+                        id: submissionId,
+                        project_id: 'proj-qls-app',
+                        respondent_name: respondentData.name,
+                        respondent_email: respondentData.email,
+                        respondent_phone: respondentData.phone,
+                        respondent_role: respondentData.role,
+                        status: 'draft',
+                        started_at: new Date().toISOString()
+                    }]);
+
+                if (error) {
+                    console.warn('Nota Supabase submission insert:', error.message);
+                }
+            } catch (err) {
+                console.warn('Supabase offline / fallback ativo:', err);
+            }
+        }
+
+        async function finishAndSubmitBriefing() {
+            const btnNext = document.getElementById('btnNext');
+            btnNext.disabled = true;
+            btnNext.innerText = 'Finalizando...';
+
+            // 1. Atualizar status no Supabase para completed
+            if (supabase && submissionId) {
+                try {
+                    await supabase
+                        .from('briefing_submissions')
+                        .update({
+                            status: 'completed',
+                            completed_at: new Date().toISOString()
+                        })
+                        .eq('id', submissionId);
+                } catch (err) {
+                    console.warn('Erro ao atualizar status final no Supabase:', err);
+                }
+            }
+
+            // 2. Montar resumo organizado para e-mail
+            const answersSummary = DEFAULT_TEMPLATE.sections.map(sec => ({
+                sectionTitle: sec.title,
+                items: sec.questions.map(q => {
+                    const rawVal = answersMap[q.id];
+                    let textVal = 'Não respondido';
+
+                    if (Array.isArray(rawVal)) {
+                        textVal = rawVal.join(', ');
+                    } else if (typeof rawVal === 'string' && rawVal.trim()) {
+                        textVal = rawVal;
+                    }
+
+                    return {
+                        questionTitle: q.title,
+                        answerText: textVal
+                    };
+                })
+            }));
+
+            // 3. Disparar notificação por e-mail via API Resend
+            try {
+                const emailResponse = await fetch('/api/send-briefing-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        projectName: DEFAULT_TEMPLATE.projectTitle,
+                        clientCompany: DEFAULT_TEMPLATE.clientCompany,
+                        respondentName: respondentData.name,
+                        respondentEmail: respondentData.email,
+                        respondentPhone: respondentData.phone,
+                        respondentRole: respondentData.role,
+                        answersSummary: answersSummary
+                    })
+                });
+
+                const emailResult = await emailResponse.json();
+                console.log('Resultado e-mail Resend:', emailResult);
+            } catch (emailErr) {
+                console.warn('Erro ao disparar e-mail:', emailErr);
+            }
+
+            // 4. Exibir Tela de Sucesso
+            document.querySelectorAll('.step-view').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-success').classList.add('active');
+            document.querySelector('.bottom-nav').style.display = 'none';
+
+            document.getElementById('sumName').innerText = respondentData.name;
+            document.getElementById('sumRole').innerText = respondentData.role;
+            document.getElementById('sumEmail').innerText = respondentData.email;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ======================================================================
+        // INICIALIZAÇÃO
+        // ======================================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSections(DEFAULT_TEMPLATE);
+            updateStepUI();
+
+            // Restaurar dados do respondente se já preencheu antes
+            const savedUser = localStorage.getItem('qls_briefing_user');
+            if (savedUser) {
+                try {
+                    const u = JSON.parse(savedUser);
+                    if (u.name) document.getElementById('respName').value = u.name;
+                    if (u.role) document.getElementById('respRole').value = u.role;
+                    if (u.email) document.getElementById('respEmail').value = u.email;
+                    if (u.phone) document.getElementById('respPhone').value = u.phone;
+                } catch(e) {}
+            }
+        });
+    </script>
+</body>
+</html>
