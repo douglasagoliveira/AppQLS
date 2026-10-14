@@ -5,6 +5,10 @@ dist/
 web-build/
 .vercel/
 
+# Secrets
+.env
+.env.local
+
 # Logs
 npm-debug.*
 yarn-debug.*
