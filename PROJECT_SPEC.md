@@ -9,11 +9,11 @@
 ---
 
 ## 1. Visão Geral e Proposta de Valor
-Aplicativo mobile oficial de uma fábrica de iluminação australiana que atua como um **consultor luminotécnico inteligente** e catálogo digital de alta conversão.
+Aplicativo mobile oficial da **QLS (Quantum Lighting Solutions)** — distribuidora e **revendedora oficial** de iluminação arquitetural na Austrália — que atua como um **consultor luminotécnico inteligente** e catálogo digital de alta conversão. A **QLS não é fabricante**: os produtos comercializados são fabricados pela **[LEDYi Lighting](https://www.ledyilighting.com/pt/)** (catálogo de referência de produtos).
 
-O aplicativo elimina gargalos no processo de especificação técnica e orçamentos: o usuário (especificador B2B ou cliente final com projeto) cadastra seus projetos, insere as medidas dos ambientes e requisitos desejados, e o motor de IA calcula a iluminância conforme as normas australianas (**AS/NZS 1680**), dimensiona a quantidade de peças e recomenda o produto ideal do catálogo da fábrica, junto com 2 opções alternativas (Premium e Econômica).
+O aplicativo elimina gargalos no processo de especificação técnica e orçamentos: o usuário (especificador B2B ou cliente final com projeto) cadastra seus projetos, insere as medidas dos ambientes e requisitos desejados, e o motor de IA calcula a iluminância conforme as normas australianas (**AS/NZS 1680**), dimensiona a quantidade de peças e recomenda o produto ideal do catálogo LEDYi revendido pela QLS, junto com 2 opções alternativas (Premium e Econômica). O resultado é uma **estimativa preliminar** (Método dos Lúmens), sujeita à validação técnica da QLS.
 
-Ao finalizar, o sistema consolida o projeto completo em um **Memorial Descritivo e Proposta Formal em PDF** e registra o pedido de cotação (**RFQ**) direto na Área do Cliente e no sistema comercial da fábrica.
+Ao finalizar, o sistema consolida o projeto completo em um **Memorial Descritivo e Estimativa Preliminar (RFQ Brief) em PDF** e registra o pedido de cotação (**RFQ**) direto na Área do Cliente e no sistema comercial da QLS. A **Proposta Comercial Formal** (preços, estoque, prazos) é emitida pela equipe comercial da QLS após validação técnica — o app nunca apresenta a estimativa como proposta fechada.
 
 ---
 
@@ -162,7 +162,7 @@ erDiagram
 
 ## 6. Registro Completo de Decisões de Arquitetura (ADRs)
 
-* **ADR-001 (Catálogo da Fábrica):** Catálogo indexado e gerenciado via Supabase PostgreSQL, importado a partir das planilhas CSV/Excel da fábrica, com upload de datasheets em PDF para o Supabase Storage.
+* **ADR-001 (Catálogo LEDYi revendido pela QLS):** Catálogo indexado e gerenciado via Supabase PostgreSQL, importado a partir do portfólio da LEDYi Lighting efetivamente comercializado pela QLS (SKUs validados com a QLS), com upload de datasheets em PDF para o Supabase Storage.
 * **ADR-002 (Cálculo Luminotécnico Determinístico):** Quantidades e lúmens calculados deterministicamente pelo algoritmo luminotécnico calibrado pelas normas AS/NZS 1680, com assistência de IA para refinamento contextual.
 * **ADR-003 (Entrada Estruturada de Medidas):** Entrada direta de medidas reais de projeto ($C \times L \times H$) por ambiente, evitando inconsistências de OCR.
 * **ADR-004 (Modelo Comercial Australiano - RFQ):** Plataforma focada em geração de proposta e orçamento formal sem transação de checkout de varejo.
@@ -171,4 +171,7 @@ erDiagram
 * **ADR-007 (Plataforma Mobile iOS / Android):** Construído em **React Native com Expo Router** para experiência fluida nativa em iOS e Android.
 * **ADR-008 (Progressive Profiling / Guest-First):** Criação e cálculo livres sem bloqueio de login; autenticação solicitada apenas ao gerar PDF, salvar projeto ou enviar RFQ.
 * **ADR-009 (Backend & Storage Supabase):** PostgreSQL com Row Level Security (RLS), Supabase Auth para controle de acesso e Supabase Storage para armazenamento seguro de PDFs e imagens.
-* **ADR-010 (Branding Oficial da Fábrica):** Identidade visual, tipografia e paleta de cores proprietárias da fabricante australiana.
+* **ADR-010 (Branding Oficial QLS):** Identidade visual, tipografia e paleta de cores proprietárias da QLS (distribuidora australiana).
+* **ADR-011 (Modelo de Revenda LEDYi):** A QLS revende produtos fabricados pela LEDYi Lighting. Textos, PDFs e UI devem referir-se à "QLS" / "equipe comercial QLS", nunca a "fábrica".
+* **ADR-012 (RFQ ≠ Proposta Formal):** O app gera RFQ + memorial preliminar; a proposta comercial formal é emitida pela QLS após validação (preço, estoque, prazo, compatibilidade).
+* **ADR-013 (Kit Compatível):** Fitas LED só entram no RFQ acompanhadas de perfil, driver dimensionado e controle (ou marcados explicitamente como "a definir").

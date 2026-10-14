@@ -153,7 +153,7 @@ flowchart TD
 * **Lista de Cômodos (Acordeão):**
   * Cada linha exibe o cômodo, foto da luminária selecionada, quantidade e botão de editar ou excluir.
 * **Ações de Rodapé:**
-  * Botão Primário Dourado: `Solicitar Cotação Oficial (RFQ)` $\rightarrow$ Envia para o comercial da fábrica e salva no Supabase.
+  * Botão Primário Dourado: `Solicitar Cotação Oficial (RFQ)` $\rightarrow$ Envia para o comercial da QLS e salva no Supabase.
   * Botão Secundário Outline: `Gerar Memorial Técnico (PDF)` $\rightarrow$ Renderiza na hora o PDF formal pronto para impressão ou envio ao cliente.
 
 ---
@@ -174,11 +174,11 @@ flowchart TD
 * **Header de Perfil:** Nome do usuário, Empresa / Estúdio de Arquitetura, Tipo de Conta (Especificador B2B / Cliente Final).
 * **Linha do Tempo de Orçamentos (RFQ Tracking):**
   * Card para cada cotação enviada com visualizador de etapas:
-    1. *Cotação Recebida pela Fábrica*
+    1. *Cotação Recebida pela QLS*
     2. *Análise de Estoque & Engenharia*
     3. *Proposta Comercial Pronta com Preços Especiais*
     4. *Pedido Confirmado / Despachado*
-* **Atendimento Exclusivo:** Botão direto com link para suporte técnico e comercial via WhatsApp e Telefone da fábrica.
+* **Atendimento Exclusivo:** Botão direto com link para suporte técnico e comercial via WhatsApp e Telefone da QLS.
 
 ---
 

@@ -490,7 +490,7 @@ Abaixo estão os wireframes em alta fidelidade estrutural de cada tela do aplica
 |  Selecione a Temperatura para Testar o Visual:    |
 |  [ 2700K Warm ]  [• 3000K Conforto ]  [ 4000K Neutro ]|
 |                                                   |
-|  ESPECIFICAÇÕES TÉCNICAS (QLS Factory Specs)      |
+|  ESPECIFICAÇÕES TÉCNICAS (LEDYi via QLS)           |
 |  • Fluxo Luminoso: 1050 Lúmens                    |
 |  • Potência: 12 Watts (87.5 lm/W)                 |
 |  • Índice de Reprodução de Cor (CRI/IRC): > 92    |
@@ -530,7 +530,7 @@ Abaixo estão os wireframes em alta fidelidade estrutural de cada tela do aplica
 | | Data: 08/10/2026  •  28 Peças                 | |
 | |                                               | |
 | | LINHA DO TEMPO:                               | |
-| | (•) 1. RFQ Enviado à Fábrica         (Concluído)|
+| | (•) 1. RFQ Enviado à QLS             (Concluído)|
 | | (•) 2. Em Análise de Engenharia      (Em Andamento)
 | | ( ) 3. Proposta com Preços Especiais (Pendente) |
 | | ( ) 4. Pedido em Separação/Envio     (Pendente) |
