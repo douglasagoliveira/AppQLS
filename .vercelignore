@@ -1,0 +1,35 @@
+# Exclui do deploy tudo o que não é parte do site público de briefing:
+# código-fonte do app mobile (Expo/React Native), migrações Supabase,
+# documentação interna e artequivos de ferramentas de design.
+src/
+supabase/
+scripts/
+taste-skill-main/
+node_modules/
+.expo/
+.vercel/
+*.md
+*.ts
+*.tsx
+*.map
+*.py
+*.excalidraw
+*.svg
+*.lock
+package.json
+package-lock.json
+pnpm-lock.yaml
+app.json
+babel.config.js
+metro.config.js
+jest.config.js
+tailwind.config.js
+tsconfig.json
+global.css
+nativewind-env.d.ts
+figma-tokens.json
+qls-app-architecture-figjam.json
+qls-app-architecture-miro.json
+.env
+.env.example
+.gitignore
