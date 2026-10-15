@@ -23,6 +23,7 @@ import {
 } from 'lucide-react-native';
 import { GlowCard, LuxuryButton, StandardsBadge, T } from '../../components/ui';
 import { RfqSheet } from '../../components/RfqSheet';
+import { AiProjectUploadCard } from '../../components/AiProjectUploadCard';
 import { haptic } from '../../lib/haptics';
 import { buildBom, computeTotals, itemTotalCost } from '../../lib/projectMath';
 import { generateProjectPdf } from '../../services/pdfService';
@@ -256,6 +257,9 @@ export default function ProjectDetailScreen() {
             />
           )}
         </View>
+
+        {/* AI Plan Upload Card (Primary Project Ingestion) */}
+        <AiProjectUploadCard projectId={project.id} />
 
         {/* Spaces Schedule */}
         <View className="mb-6">

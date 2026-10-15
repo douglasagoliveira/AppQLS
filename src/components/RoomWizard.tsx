@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Pressable,
   ScrollView,
@@ -10,6 +11,7 @@ import { useRouter } from 'expo-router';
 import {
   ArrowLeft,
   ArrowRight,
+  Camera,
   Check,
   Compass,
   Layers,
@@ -28,6 +30,11 @@ import {
   GUIDED_INTENTS,
   resolveGuidedPreferences,
 } from '../lib/recommendationEngine';
+import {
+  pickProjectDocument,
+  pickProjectImage,
+  scanSingleRoomWithAi,
+} from '../services/aiVisionService';
 import { RoomPreferences, RoomType } from '../types';
 
 interface RoomOption {
@@ -84,6 +91,56 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
   const [width, setWidth] = useState('3.2');
   const [height, setHeight] = useState('2.7');
   const [dimErrors, setDimErrors] = useState<string[]>([]);
+  const [isScanningAi, setIsScanningAi] = useState(false);
+
+  const handleScanRoomWithAi = async () => {
+    try {
+      haptic.light();
+      Alert.alert(
+        'Escanear Cômodo com IA',
+        'Como você deseja enviar a planta ou foto deste cômodo?',
+        [
+          {
+            text: 'Foto / Print da Galeria',
+            onPress: async () => {
+              const file = await pickProjectImage();
+              if (!file) return;
+              setIsScanningAi(true);
+              const scanned = await scanSingleRoomWithAi(file);
+              setLength(scanned.length.toFixed(1));
+              setWidth(scanned.width.toFixed(1));
+              setHeight(scanned.height.toFixed(1));
+              if (scanned.roomName) setCustomName(scanned.roomName);
+              if (scanned.roomType) setRoomType(scanned.roomType);
+              setIsScanningAi(false);
+              haptic.success();
+            },
+          },
+          {
+            text: 'Arquivo PDF',
+            onPress: async () => {
+              const file = await pickProjectDocument();
+              if (!file) return;
+              setIsScanningAi(true);
+              const scanned = await scanSingleRoomWithAi(file);
+              setLength(scanned.length.toFixed(1));
+              setWidth(scanned.width.toFixed(1));
+              setHeight(scanned.height.toFixed(1));
+              if (scanned.roomName) setCustomName(scanned.roomName);
+              if (scanned.roomType) setRoomType(scanned.roomType);
+              setIsScanningAi(false);
+              haptic.success();
+            },
+          },
+          { text: 'Cancelar', style: 'cancel' },
+        ]
+      );
+    } catch (err: any) {
+      setIsScanningAi(false);
+      haptic.warning();
+      Alert.alert('Erro ao escanear', err?.message || 'Não foi possível escanear o cômodo.');
+    }
+  };
 
   // Step 3: Lighting Mode & Preferences
   const [mode, setMode] = useState<'guided' | 'professional'>('guided');
@@ -328,6 +385,32 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                 <Maximize2 size={22} color="#d9b277" />
               </View>
             </View>
+
+            {/* AI Room Scan Button */}
+            <Pressable
+              onPress={handleScanRoomWithAi}
+              disabled={isScanningAi}
+              className="mb-5 p-3.5 rounded-[16px] bg-[#d9b277]/10 border border-[#d9b277]/40 flex-row items-center justify-between active:bg-[#d9b277]/20"
+            >
+              <View className="flex-row items-center gap-3 flex-1 pr-2">
+                <View className="w-8 h-8 rounded-full bg-[#d9b277]/20 items-center justify-center">
+                  <Sparkles size={16} color="#d9b277" />
+                </View>
+                <View className="flex-1">
+                  <T variant="caption" className="text-[#d9b277] font-bold text-xs">
+                    {isScanningAi ? 'Lendo cômodo com IA...' : 'Escanear Cômodo com IA (Foto/PDF)'}
+                  </T>
+                  <T variant="caption" className="text-zinc-400 text-[10px]">
+                    Preenche automaticamente comprimento, largura e pé-direito.
+                  </T>
+                </View>
+              </View>
+              {isScanningAi ? (
+                <ActivityIndicator size="small" color="#d9b277" />
+              ) : (
+                <Camera size={18} color="#d9b277" />
+              )}
+            </Pressable>
 
             {dimErrors.length > 0 && (
               <View className="bg-red-950/40 border border-red-500/40 rounded-[14px] p-3 mb-4">

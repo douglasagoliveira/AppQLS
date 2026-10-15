@@ -221,3 +221,41 @@ export interface UserProfile {
   phone?: string;
   userType: 'architect' | 'electrician' | 'designer' | 'builder' | 'homeowner' | 'other';
 }
+
+export type AiPlanMode = 'existing_plan' | 'architectural_from_scratch';
+
+export interface AiDetectedProduct {
+  sku: string;
+  name: string;
+  quantity: number;
+  unit: 'pc' | 'm';
+  reason?: string;
+  category?: ProductCategory;
+}
+
+export interface AiDetectedRoom {
+  id: string;
+  roomName: string;
+  roomType: RoomType;
+  length: number;
+  width: number;
+  height: number;
+  ceilingType?: string;
+  targetLux: number;
+  existingNotes?: string;
+  includeLinearStrip?: boolean;
+  linearMeters?: number;
+  suggestedProducts: AiDetectedProduct[];
+  selectedProductTier: ProductTier;
+  calculationResult?: RoomCalculationResult;
+  selectedItem?: SelectedRoomItem | null;
+}
+
+export interface AiAnalysisResult {
+  mode: AiPlanMode;
+  fileName: string;
+  summary: string;
+  rooms: AiDetectedRoom[];
+  warnings?: string[];
+}
+
