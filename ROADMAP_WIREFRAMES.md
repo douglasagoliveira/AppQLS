@@ -54,6 +54,11 @@ gantt
   * Cálculo de lúmens necessários ($\Phi_{total} = \frac{E_{alvo} \times A}{\mu \times d}$).
   * Algoritmo de dimensionamento da quantidade de peças ($N$).
   * Lógica de recomendação: **Melhor Escolha**, **Opção Premium** e **Opção Econômica**.
+* [ ] **Motor Multimodal de Visão com IA (Gemini 2.0 / 1.5 Flash):**
+  * Leitura e extração de pranchas completas e cômodos individuais em PDF, PNG, JPG ou print.
+  * Modo Projeto Luminotécnico (quantitativo e matching de catálogo QLS/LEDYi).
+  * Modo Planta Arquitetônica (extração de cotas e cálculo fotométrico do zero).
+  * Modal interativo de revisão e ajuste antes da consolidação no projeto.
 
 #### **Fase 3: Construção das Telas e Fluxos de Navegação**
 * [ ] Estrutura de Navegação com Expo Router ou React Navigation.
@@ -257,7 +262,11 @@ Abaixo estão os wireframes em alta fidelidade estrutural de cada tela do aplica
 | [====== Etapa 1 ======] [====== Etapa 2 ======]   |
 |---------------------------------------------------|
 |                                                   |
-| Dimensões do Cômodo: Cozinha                      |
+| Dimensões do Cômodo: Cozinha
++-----------------------------------------------+
+|    [ 📸 Escanear Cômodo com IA (Foto/PDF) ]    |
++-----------------------------------------------+
+Ou informe manualmente:                      |
 |                                                   |
 | Comprimento (C)                     [ 4.50 m ]    |
 | [----o---------------------------------------]    |
@@ -374,6 +383,19 @@ Abaixo estão os wireframes em alta fidelidade estrutural de cada tela do aplica
 | | • Cômodos: 3             • Total Peças: 22    | |
 | | • Carga Instalada: 264 W • Eficiência: 4.2W/m²| |
 | | • Conformidade Normas AS/NZS 1680: 100% ✅    | |
+| +-----------------------------------------------+ |
+|                                                   |
+| +-----------------------------------------------+ |
+| | 🤖 IMPORTAR PROJETO COM IA (PDF / IMAGEM)     | |
+| | Arraste ou selecione o PDF, PNG ou print      | |
+| |                                               | |
+| | Tipo de Arquivo:                              | |
+| | (•) Projeto Luminotécnico Existente           | |
+| | ( ) Planta Arquitetônica (Calcular do Zero)   | |
+| |                                               | |
+| | [x] Incluir fitas de LED de efeito (sancas)   | |
+| |                                               | |
+| |      [ 📂 Fazer Upload e Analisar com IA ]    | |
 | +-----------------------------------------------+ |
 |                                                   |
 | CÔMODOS ESPECIFICADOS                    [+ Cômodo]

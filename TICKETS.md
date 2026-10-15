@@ -24,3 +24,9 @@
 | **`TICKET-11`** | Gerador de Proposta Técnica Formal em PDF com Memorial | ✅ **Concluído** (`src/services/pdfService.ts`) |
 | **`TICKET-12`** | Submissão de RFQ & Sincronização Supabase | ⏳ **Próximo** |
 | **`TICKET-13`** | Testes E2E, Validação com Casos Reais & Build Final | ⏳ **A seguir** |
+| **`TICKET-14`** | Setup de Bibliotecas Nativas (`expo-document-picker`, `expo-image-picker`) | ⏳ **Próximo** |
+| **`TICKET-15`** | Serviço de IA Multimodal (`src/services/aiVisionService.ts` via Gemini Flash + Demo Fallback) | ⏳ **Próximo** |
+| **`TICKET-16`** | Card de Upload do Projeto com IA & Seletor de Tipo (`src/app/project/[id].tsx`) | ⏳ **Próximo** |
+| **`TICKET-17`** | Modal de Revisão & Ajuste Interativo dos Cômodos Detectados | ⏳ **Próximo** |
+| **`TICKET-18`** | Botão 'Escanear Cômodo com IA' no Room Wizard (`src/components/RoomWizard.tsx`) | ⏳ **Próximo** |
+| **`TICKET-19`** | Suíte de Testes Unitários da Integração e Cálculos de IA | ⏳ **Próximo** |

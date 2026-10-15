@@ -119,6 +119,7 @@ flowchart TD
      * Área Externa / Varanda (Norma AS/NZS: 100–150 Lux, $IP65$)
 
 2. **Etapa 2: Dimensões Táteis & Metas em Tempo Real**
+   * **Atalho com IA — 'Escanear Cômodo com IA':** Botão em pílula com ícone de câmera/arquivo para subir foto, print ou PDF daquele ambiente individual; a IA lê a imagem e preenche automaticamente tipo de ambiente, $C \times L \times H$ e pé-direito.
    * Controles táteis e inputs com feedback numérico:
      * Comprimento ($m$) e Largura ($m$) $\rightarrow$ Área calculada dinamicamente ($m^2$).
      * Altura do Pé-direito ($m$) $\rightarrow$ Ajuste de iluminância e fator de utilização.
@@ -150,7 +151,19 @@ flowchart TD
   * Total de Luminárias (ex: `34 Peças`).
   * Potência Instalada Total (ex: `380 W`).
   * Consumo Médio por $m^2$ (ex: `4.8 W/m²` — *Alta Eficiência Energética*).
-* **Lista de Cômodos (Acordeão):**
+* **Card Hero de Upload com IA (Posicionado antes de Espaços Arquiteturais):**
+  * Container Glow Card com borda dourada suave e ícone de upload/IA.
+  * Formatos aceitos: PDF de prancha arquitetônica/luminotécnica, imagens PNG, JPG ou fotos/prints.
+  * Seletor de Tipo de Arquivo:
+    * `Projeto Luminotécnico Existente`: Extração e quantificação de luminárias já projetadas.
+    * `Planta Arquitetônica (Cálculo do Zero)`: Leitura de dimensões com cálculo fotométrico AS/NZS 1680.
+  * Switch de Opção: `Incluir iluminação linear/efeito (fitas de LED para sancas/cortineiros)` (visível quando cálculo do zero).
+  * Feedback visual de upload e indicador de progresso com mensagens de status de leitura.
+* **Modal de Revisão e Ajuste Pós-IA:**
+  * Exibição dos ambientes detectados com metragens editáveis.
+  * Quantitativo preliminar calculado por ambiente (downlights, metros de LED, kits de drivers).
+  * Checkboxes de seleção por ambiente para confirmar importação.
+* **Lista de Cômodos (Espaços Arquiteturais):**
   * Cada linha exibe o cômodo, foto da luminária selecionada, quantidade e botão de editar ou excluir.
 * **Ações de Rodapé:**
   * Botão Primário Dourado: `Solicitar Cotação Oficial (RFQ)` $\rightarrow$ Envia para o comercial da QLS e salva no Supabase.

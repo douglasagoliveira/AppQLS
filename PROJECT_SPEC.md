@@ -31,17 +31,39 @@ Ao finalizar, o sistema consolida o projeto completo em um **Memorial Descritivo
 
 ## 3. Jornada do Usuário & Fluxos de Tela (Core UX)
 
+O aplicativo oferece dois caminhos complementares para iniciar o dimensionamento luminotécnico:
+1. **Caminho Primário (Upload com IA):** O usuário envia o projeto completo da residência (PDF, PNG, JPG ou print de prancha/cômodo). A IA interpreta o arquivo, dimensiona/quantifica a iluminação e abre o modal de revisão para confirmação.
+2. **Caminho Secundário / Incremental (Cômodo a Cômodo):** Caso não tenha o projeto integral, o usuário adiciona cômodo por cômodo, podendo digitar as medidas manualmente ou usar o botão "Escanear Cômodo com IA" para preenchimento ágil.
+
 ```mermaid
 flowchart TD
     A["Abertura do App (Acesso Imediato sem Login / Guest Mode)"] --> B["Criar Novo Projeto (ex: Residência Mosman)"]
-    B --> C["Adicionar Ambiente / Cômodo"]
-    C --> D["Informar Dimensões (C x L x H) e Tipo de Uso"]
-    D --> E["Motor Luminotécnico: Cálculo de Lux Alvo (AS/NZS 1680) e Lúmens Totais"]
-    E --> F["Matching de Catálogo: Apresentação de 3 Opções (Recomendada, Premium, Econômica)"]
-    F --> G["Usuário Seleciona a Opção e Acabamento Desejado"]
-    G --> H{"Deseja Adicionar Mais Cômodos?"}
-    H -- "Sim" --> C
-    H -- "Não / Finalizar" --> I["Painel Consolidado do Projeto (Total de Peças, Potência Total)"]
+    B --> C{"Possui arquivo do projeto?"}
+    
+    %% Fluxo Primário com IA
+    C -- "Sim (PDF / Imagem / Print)" --> D1["Upload do Arquivo com IA"]
+    D1 --> D2{"Tipo de Arquivo Selecionado"}
+    D2 -- "Projeto Luminotécnico Existente" --> D3["IA: Leitura de Prancha, Legendas, Quantificação de Spots e Fitas"]
+    D2 -- "Planta Arquitetônica (Cálculo do Zero)" --> D4["IA: Extração de Paredes, Metragens (C x L x H) + Cálculo AS/NZS 1680"]
+    D4 --> D5["Opção: Incluir Fitas de LED de Efeito (Sancas, Cortineiros)"]
+    D3 --> D6["Modal de Revisão Interativo: Conferir e Ajustar Ambientes Detectados"]
+    D5 --> D6
+    D6 --> I["Painel Consolidado do Projeto (Total de Peças, Carga W, BOM QLS)"]
+
+    %% Fluxo Secundário Cômodo a Cômodo
+    C -- "Não / Manual" --> E1["Adicionar Ambiente / Cômodo"]
+    E1 --> E2{"Entrada de Medidas"}
+    E2 -- "Digitação Manual" --> E3["Informar C x L x H e Tipo de Uso"]
+    E2 -- "Escanear Cômodo com IA" --> E4["Upload de Foto/Planta do Cômodo -> Preenchimento Automático"]
+    E4 --> E3
+    E3 --> E5["Motor Luminotécnico: Cálculo de Lux Alvo (AS/NZS 1680) e Lúmens Totais"]
+    E5 --> E6["Matching de Catálogo: Apresentação de 3 Opções (Recomendada, Premium, Econômica)"]
+    E6 --> E7["Usuário Seleciona a Opção e Acabamento Desejado"]
+    E7 --> E8{"Deseja Adicionar Mais Cômodos?"}
+    E8 -- "Sim" --> E1
+    E8 -- "Não / Finalizar" --> I
+
+    %% RFQ & Proposta
     I --> J["Ação: Gerar Proposta PDF / Enviar RFQ"]
     J --> K["Autenticação Progressiva (Login / Cadastro Rápido se for Guest)"]
     K --> L["Proposta em PDF Gerada Instantaneamente + RFQ Salvo na Área do Cliente"]
@@ -68,6 +90,12 @@ O sistema aplica os níveis de iluminância recomendados pelas normas australian
    *(onde $\mu \approx 0.60$ a $0.75$ é o fator de utilização e $d \approx 0.80$ é o fator de manutenção/depreciação).*
 4. **Cálculo da Quantidade de Luminárias ($N$):**
    $$N = \left\lceil \frac{\Phi_{total}}{\text{Fluxo por Peça do SKU}} \right\rceil$$
+
+### 4.3 Motor Multimodal de Visão com IA (Upload de Projetos e Pranchas)
+O aplicativo integra o modelo **Google Gemini 2.0 / 1.5 Flash** para leitura visual direta de plantas baixas, desenhos técnicos e memoriais nos formatos PDF, PNG, JPG ou fotos/prints.
+* **Modo A (Projeto Luminotécnico Existente):** Identifica símbolos luminotécnicos na prancha, tabela de legendas, circuitos e notas de projeto, quantificando peças pontuais (downlights, spots) e extensões lineares (fitas de LED, perfis), realizando o matching com SKUs correspondentes da QLS/LEDYi.
+* **Modo B (Planta Arquitetônica para Cálculo do Zero):** Identifica os contornos e cotas dos ambientes, extraindo tipo de cômodo e dimensões ($C \times L \times H$). Aplica o cálculo determinístico da Seção 4.2 segundo as normas AS/NZS 1680 e permite incluir opcionalmente fitas de LED de efeito para sancas, cortineiros e bancadas.
+* **Fluxo de Revisão Obrigatório:** Os dados extraídos não são persistidos às cegas; passam por um modal interativo de conferência onde o usuário valida metragens e produtos antes de confirmar no projeto.
 
 ---
 
@@ -175,3 +203,4 @@ erDiagram
 * **ADR-011 (Modelo de Revenda LEDYi):** A QLS revende produtos fabricados pela LEDYi Lighting. Textos, PDFs e UI devem referir-se à "QLS" / "equipe comercial QLS", nunca a "fábrica".
 * **ADR-012 (RFQ ≠ Proposta Formal):** O app gera RFQ + memorial preliminar; a proposta comercial formal é emitida pela QLS após validação (preço, estoque, prazo, compatibilidade).
 * **ADR-013 (Kit Compatível):** Fitas LED só entram no RFQ acompanhadas de perfil, driver dimensionado e controle (ou marcados explicitamente como "a definir").
+* **ADR-014 (Upload e Interpretação Multimodal com IA):** Suporte nativo à ingestão de arquivos (PDF, PNG, JPG, prints) para interpretação de pranchas completas ou plantas de cômodos via Gemini Flash. Distingue formalmente "Projeto Luminotécnico Existente" (extração de quantitativos) de "Planta Arquitetônica" (cálculo do zero via AS/NZS 1680), com etapa explícita de revisão pelo usuário antes de salvar.
