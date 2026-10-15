@@ -1,14 +1,14 @@
 import { KitCategory, LightSourceCategory, Product, ProductCategory } from '../types';
 
 /**
- * Catálogo de produtos comercializados pela QLS (revendedora oficial LEDYi Lighting).
+ * Catalogue of products sold by QLS (authorised LEDYi Lighting dealer).
  *
- * IMPORTANTE — dados de REFERÊNCIA:
- *  - Séries e especificações abaixo são valores típicos baseados no portfólio público
- *    da LEDYi (https://www.ledyilighting.com/pt/) e NÃO foram validados SKU a SKU.
- *  - `verified: false` até a QLS confirmar SKU, preço, disponibilidade e arquivos autorizados.
- *  - Em produção este array é apenas o fallback offline; a fonte da verdade é a tabela
- *    `products` do Supabase (ver getProductCatalog em supabaseService).
+ * IMPORTANT — REFERENCE data:
+ *  - The series and specifications below are typical values based on LEDYi's public
+ *    portfolio (https://www.ledyilighting.com/) and have NOT been validated SKU by SKU.
+ *  - `verified: false` until QLS confirms SKU, price, availability and authorised assets.
+ *  - In production this array is only the offline fallback; the source of truth is the
+ *    `products` table in Supabase (see getProductCatalog in supabaseService).
  */
 
 const LEDYI = 'LEDYi';
@@ -29,7 +29,7 @@ export const LIGHT_SOURCE_CATEGORIES: LightSourceCategory[] = [
 
 export const KIT_CATEGORIES: KitCategory[] = ['profile', 'driver', 'control'];
 
-/** Categorias lineares/contínuas (vendidas por metro, precisam de kit). */
+/** Linear/continuous categories (sold by the metre, need a kit). */
 export const CONTINUOUS_CATEGORIES: ProductCategory[] = ['strip', 'neon', 'wallwasher'];
 
 export function isLightSource(p: Product): boolean {
@@ -40,19 +40,19 @@ export function isContinuousSource(p: Product): boolean {
   return CONTINUOUS_CATEGORIES.includes(p.category);
 }
 
-/** 'IP65' → 65. Valores inválidos → 0. */
+/** 'IP65' → 65. Invalid values → 0. */
 export function ipLevel(rating: string | undefined): number {
   const m = /IP\s?(\d{2})/i.exec(rating || '');
   return m ? parseInt(m[1], 10) : 0;
 }
 
-/** Unidade exibida ao usuário. */
+/** Unit shown to the user. */
 export function unitLabel(p: Product): string {
   return p.unit === 'm' ? 'm' : 'pc';
 }
 
 export const PRODUCT_CATALOG: Product[] = [
-  // ───────────────────────── Fitas & luz linear (LEDYi) ─────────────────────────
+  // ───────────────────────── Strips & linear light (LEDYi) ─────────────────────────
   {
     id: 'led-cob-24v-10w',
     sku: 'LEDYI-REF-COB-24V-10W',
@@ -200,12 +200,12 @@ export const PRODUCT_CATALOG: Product[] = [
     basePrice: 28,
     imageUrl: `${LEDYI_BASE}/wp-content/uploads/2024/11/flex-led-wall-washer.jpg`,
     sourceUrl: `${LEDYI_BASE}/free-bend-flexible-silicone-led-wall-washer/`,
-    description: 'Narrow-beam bendable washer for façades, curves and wall grazing.',
+    description: 'Narrow-beam bendable washer for facades, curves and wall grazing.',
     tier: 'budget',
     verified: false,
   },
 
-  // ───────────────────────── Perfis de alumínio (kit) ─────────────────────────
+  // ───────────────────────── Aluminium profiles (kit) ─────────────────────────
   {
     id: 'kit-profile-recessed-2m',
     sku: 'LEDYI-REF-PROF-RECESSED-2M',
@@ -226,7 +226,7 @@ export const PRODUCT_CATALOG: Product[] = [
     finishes: ['Anodised Silver', 'Black'],
     basePrice: 28,
     imageUrl: GENERIC_IMG,
-    sourceUrl: `${LEDYI_BASE}/pt/`,
+    sourceUrl: `${LEDYI_BASE}/`,
     description: 'Plaster-in recessed aluminium channel with opal diffuser, for strips up to 10 mm wide.',
     verified: false,
   },
@@ -250,7 +250,7 @@ export const PRODUCT_CATALOG: Product[] = [
     finishes: ['Anodised Silver', 'Black', 'White'],
     basePrice: 18,
     imageUrl: GENERIC_IMG,
-    sourceUrl: `${LEDYI_BASE}/pt/`,
+    sourceUrl: `${LEDYI_BASE}/`,
     description: 'Surface or suspended aluminium channel for strips up to 12 mm wide.',
     verified: false,
   },
@@ -276,7 +276,7 @@ export const PRODUCT_CATALOG: Product[] = [
     finishes: ['Standard'],
     basePrice: 55,
     imageUrl: GENERIC_IMG,
-    sourceUrl: `${LEDYI_BASE}/pt/`,
+    sourceUrl: `${LEDYI_BASE}/`,
     description: 'Compact 24 V constant-voltage driver with leading/trailing-edge dimming.',
     verified: false,
   },
@@ -300,7 +300,7 @@ export const PRODUCT_CATALOG: Product[] = [
     finishes: ['Standard'],
     basePrice: 78,
     imageUrl: GENERIC_IMG,
-    sourceUrl: `${LEDYI_BASE}/pt/`,
+    sourceUrl: `${LEDYI_BASE}/`,
     description: '24 V / 100 W constant-voltage driver with Triac dimming.',
     verified: false,
   },
@@ -324,7 +324,7 @@ export const PRODUCT_CATALOG: Product[] = [
     finishes: ['Standard'],
     basePrice: 120,
     imageUrl: GENERIC_IMG,
-    sourceUrl: `${LEDYI_BASE}/pt/`,
+    sourceUrl: `${LEDYI_BASE}/`,
     description: 'DALI-2 dimmable 24 V driver for building-automation projects.',
     verified: false,
   },
@@ -348,7 +348,7 @@ export const PRODUCT_CATALOG: Product[] = [
     finishes: ['Standard'],
     basePrice: 160,
     imageUrl: GENERIC_IMG,
-    sourceUrl: `${LEDYI_BASE}/pt/`,
+    sourceUrl: `${LEDYI_BASE}/`,
     description: 'High-capacity DALI-2 dimmable 24 V driver for long strip runs.',
     verified: false,
   },
@@ -371,7 +371,7 @@ export const PRODUCT_CATALOG: Product[] = [
     finishes: ['Standard'],
     basePrice: 65,
     imageUrl: GENERIC_IMG,
-    sourceUrl: `${LEDYI_BASE}/pt/`,
+    sourceUrl: `${LEDYI_BASE}/`,
     description: 'Controls brightness and colour temperature of Tunable White strips.',
     verified: false,
   },
@@ -394,12 +394,12 @@ export const PRODUCT_CATALOG: Product[] = [
     finishes: ['Standard'],
     basePrice: 35,
     imageUrl: GENERIC_IMG,
-    sourceUrl: `${LEDYI_BASE}/pt/`,
+    sourceUrl: `${LEDYI_BASE}/`,
     description: 'Single-channel PWM dimmer for constant-voltage strips.',
     verified: false,
   },
 
-  // ───────────────────── Luminárias de ponto (dados de demonstração) ─────────────────────
+  // ───────────────────── Point luminaires (demo data) ─────────────────────
   {
     id: 'prod-dl-1',
     sku: 'QLS-DL90-12W-3K',
@@ -575,14 +575,14 @@ export const PRODUCT_CATALOG: Product[] = [
   },
 ];
 
-/** Compat: nome antigo usado em módulos legados. */
+/** Compat: old name used in legacy modules. */
 export const FACTORY_CATALOG = PRODUCT_CATALOG;
 
 export function getProductById(id: string, catalog: Product[] = PRODUCT_CATALOG): Product | undefined {
   return catalog.find((p) => p.id === id);
 }
 
-/** Filtros exibidos no Catálogo (aba 3). */
+/** Filters shown in the Catalogue (tab 3). */
 export const CATALOG_FILTERS: { id: string; label: string; categories: ProductCategory[] }[] = [
   { id: 'all', label: 'All', categories: [] },
   { id: 'strips', label: 'LED Strips', categories: ['strip'] },

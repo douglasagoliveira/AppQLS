@@ -11,10 +11,10 @@ export default function TabLayout() {
         sceneStyle: { backgroundColor: '#0e0e0e' },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Projetos' }} />
-      <Tabs.Screen name="consultant" options={{ title: 'Consultor IA' }} />
-      <Tabs.Screen name="catalog" options={{ title: 'Catálogo' }} />
-      <Tabs.Screen name="profile" options={{ title: 'Minha Conta' }} />
+      <Tabs.Screen name="index" options={{ title: 'Projects' }} />
+      <Tabs.Screen name="consultant" options={{ title: 'AI Consultant' }} />
+      <Tabs.Screen name="catalog" options={{ title: 'Catalogue' }} />
+      <Tabs.Screen name="profile" options={{ title: 'My Account' }} />
     </Tabs>
   );
 }

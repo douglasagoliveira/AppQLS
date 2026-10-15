@@ -16,7 +16,7 @@ export default function ConsultantTabScreen() {
         <View className="flex-row items-center gap-2">
           <Sparkles size={18} color="#d9b277" />
           <T variant="h3" className="text-white">
-            Consultor IA QLS
+            QLS AI Consultant
           </T>
         </View>
         <T variant="caption" className="text-zinc-500">

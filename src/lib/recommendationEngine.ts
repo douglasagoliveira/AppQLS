@@ -27,14 +27,14 @@ export function matchesCct(p: Product, cct: number): boolean {
   return Math.abs(p.cctKelvin - cct) <= CCT_TOLERANCE_K;
 }
 
-/** UGR só é afirmado quando o produto traz o dado (ou é painel antiofuscante). */
+/** UGR is only claimed when the product carries the data (or it is an anti-glare panel). */
 export function meetsLowGlare(p: Product): boolean {
   return p.ugr !== undefined && p.ugr <= 19;
 }
 
 const efficacy = (p: Product) => (p.powerWatts > 0 ? p.lumens / p.powerWatts : 0);
 
-/** Aplica um filtro; se zerar a lista, mantém a original e registra um alerta (relaxamento explícito). */
+/** Applies a filter; if it empties the list, keeps the original and records a warning (explicit relaxation). */
 function softFilter(
   list: Product[],
   predicate: (p: Product) => boolean,
@@ -55,7 +55,7 @@ function softFilter(
  * (LEDYi range) by the user's preferences and returns 3 differentiated options
  * (Recommended, Premium, Budget) — each with data-backed justifications.
  *
- * O resultado é uma ESTIMATIVA PRELIMINAR; refletâncias, curvas IES e layout não são modelados.
+ * The result is a PRELIMINARY ESTIMATE; reflectances, IES curves and layout are not modelled.
  */
 export function recommendRoomLighting(params: RecommendLightingParams): RoomCalculationResult {
   const { roomName, roomType, length, width, height = 2.7, catalog = PRODUCT_CATALOG } = params;
@@ -71,14 +71,14 @@ export function recommendRoomLighting(params: RecommendLightingParams): RoomCalc
     intent: params.preferences?.intent,
   };
 
-  // 1. Cálculo luminotécnico
+  // 1. Photometric calculation
   const calc = calculateRoomLighting({ roomType, length, width, height });
   const warnings: string[] = [];
 
-  // 2. Candidatos: apenas fontes de luz do catálogo
+  // 2. Candidates: light sources from the catalogue only
   let candidates = catalog.filter(isLightSource);
 
-  // 2a. Tipo de fonte (ponto × contínua)
+  // 2a. Source type (point × continuous)
   if (prefs.sourceKind === 'continuous') {
     candidates = softFilter(
       candidates,
@@ -87,11 +87,11 @@ export function recommendRoomLighting(params: RecommendLightingParams): RoomCalc
       warnings
     );
   } else {
-    // Iluminação geral: fitas/neon servem de apoio, não de fonte principal.
+    // General lighting: strips/neon serve as support, not as the main source.
     candidates = softFilter(candidates, (p) => !isContinuousSource(p), 'Only continuous sources available.', warnings);
   }
 
-  // 2b. Grau de proteção (norma do ambiente + exigência do usuário)
+  // 2b. Ingress protection (space standard + user requirement)
   const requiredIP = Math.max(ipLevel(standard.minIPRating), ipLevel(prefs.minIP));
   if (requiredIP > 20) {
     candidates = softFilter(
@@ -102,7 +102,7 @@ export function recommendRoomLighting(params: RecommendLightingParams): RoomCalc
     );
   }
 
-  // 2c. Temperatura de cor
+  // 2c. Colour temperature
   candidates = softFilter(
     candidates,
     (p) => matchesCct(p, prefs.cct),
@@ -110,7 +110,7 @@ export function recommendRoomLighting(params: RecommendLightingParams): RoomCalc
     warnings
   );
 
-  // 2d. Baixo ofuscamento (somente com dado de UGR)
+  // 2d. Low glare (only where UGR data exists)
   if (prefs.lowGlare) {
     candidates = softFilter(
       candidates,

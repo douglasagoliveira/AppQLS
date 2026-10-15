@@ -32,10 +32,10 @@ import { flushRfqOutbox, getOutboxCount } from '../../services/supabaseService';
 import { useProjectStore } from '../../store/useProjectStore';
 
 const RFQ_STAGES = [
-  { step: 1, title: 'Recebido pela QLS', desc: 'Dossiê preliminar recepcionado pela equipe técnica' },
-  { step: 2, title: 'Validação de Engenharia', desc: 'Verificação de fotometria, drivers e compatibilidade LEDYi' },
-  { step: 3, title: 'Proposta Comercial Formal', desc: 'Emissão oficial de preços finais, prazos e impostos' },
-  { step: 4, title: 'Pedido & Faturamento', desc: 'Aprovação do cliente e liberação para expedição' },
+  { step: 1, title: 'Received by QLS', desc: 'Preliminary dossier received by the technical team' },
+  { step: 2, title: 'Engineering Validation', desc: 'Verification of photometry, drivers and LEDYi compatibility' },
+  { step: 3, title: 'Formal Commercial Proposal', desc: 'Official issue of final prices, lead times and taxes' },
+  { step: 4, title: 'Order & Invoicing', desc: 'Client approval and release for dispatch' },
 ];
 
 export default function ProfileTabScreen() {
@@ -71,7 +71,7 @@ export default function ProfileTabScreen() {
 
   const handleSaveProfile = () => {
     if (!fullName.trim() || !email.trim()) {
-      Alert.alert('Campos Obrigatórios', 'Por favor preencha ao menos seu nome completo e e-mail.');
+      Alert.alert('Required Fields', 'Please fill in at least your full name and email.');
       return;
     }
 
@@ -99,14 +99,14 @@ export default function ProfileTabScreen() {
           markRfqSent(code);
         });
         haptic.success();
-        Alert.alert('Sincronização Concluída', `${sentCodes.length} RFQ(s) enviados com sucesso à QLS!`);
+        Alert.alert('Sync Complete', `${sentCodes.length} RFQ(s) sent to QLS successfully!`);
       } else {
-        Alert.alert('Fila de Envio', 'Nenhum RFQ pendente para enviar no momento.');
+        Alert.alert('Send Queue', 'No pending RFQs to send at the moment.');
       }
       const count = await getOutboxCount();
       setOutboxCount(count);
     } catch {
-      Alert.alert('Erro', 'Falha ao sincronizar fila de envio.');
+      Alert.alert('Error', 'Failed to sync the send queue.');
     } finally {
       setIsFlushing(false);
     }
@@ -115,11 +115,11 @@ export default function ProfileTabScreen() {
   const handleOpenSupport = (type: 'whatsapp' | 'email' | 'catalog') => {
     haptic.light();
     if (type === 'whatsapp') {
-      Linking.openURL('https://wa.me/61412345678?text=Ola%20QLS%20Lighting%20Gostaria%20de%20cotar%20produtos%20LEDYi');
+      Linking.openURL('https://wa.me/61412345678?text=Hello%20QLS%20Lighting%20I%27d%20like%20to%20quote%20LEDYi%20products');
     } else if (type === 'email') {
-      Linking.openURL('mailto:trade@qlslighting.com.au?subject=Consulta%20Tecnica%20QLS%20LEDYi');
+      Linking.openURL('mailto:trade@qlslighting.com.au?subject=QLS%20LEDYi%20Technical%20Enquiry');
     } else {
-      Linking.openURL('https://www.ledyilighting.com/pt/');
+      Linking.openURL('https://www.ledyilighting.com/');
     }
   };
 
@@ -128,7 +128,7 @@ export default function ProfileTabScreen() {
       {/* Top Header */}
       <View className="px-5 py-3 border-b border-white/[0.08] flex-row items-center justify-between bg-[#0e0e0e]">
         <T variant="h3" className="text-white">
-          Minha Conta & Projetos
+          My Account & Projects
         </T>
         <StandardsBadge label="QLS Trade" highlight />
       </View>
@@ -139,10 +139,10 @@ export default function ProfileTabScreen() {
           <View className="mb-5 p-4 rounded-[16px] bg-amber-950/40 border border-amber-500/30 flex-row items-center justify-between">
             <View className="flex-1 pr-3">
               <T variant="caption" className="text-amber-300 font-bold">
-                {outboxCount} RFQ(S) AGUARDANDO ENVIO
+                {outboxCount} RFQ(S) AWAITING SEND
               </T>
               <T variant="caption" className="text-amber-200 text-xs mt-0.5">
-                Salvo offline. Toque para reenviar à QLS agora.
+                Saved offline. Tap to resend to QLS now.
               </T>
             </View>
             <Pressable
@@ -152,7 +152,7 @@ export default function ProfileTabScreen() {
             >
               <RefreshCw size={14} color="#000" className={isFlushing ? 'animate-spin' : ''} />
               <T variant="caption" className="text-black font-bold">
-                Reenviar
+                Resend
               </T>
             </Pressable>
           </View>
@@ -164,23 +164,23 @@ export default function ProfileTabScreen() {
             <User size={28} color="#d9b277" />
           </View>
           <T variant="h2" className="text-white text-center text-lg">
-            {fullName || 'Profissional / Especificador'}
+            {fullName || 'Professional / Specifier'}
           </T>
           <T variant="caption" className="text-[#d9b277] mt-0.5">
-            {companyName || 'Conta Comercial QLS · Revenda Oficial LEDYi'}
+            {companyName || 'QLS Trade Account · LEDYi Authorised Dealer'}
           </T>
         </View>
 
         {/* RFQ History & Timeline */}
         <View className="mb-6">
           <T variant="eyebrow" className="text-[#d9b277] mb-2.5">
-            HISTÓRICO DE COTAÇÕES (RFQ)
+            QUOTE HISTORY (RFQ)
           </T>
 
           {rfqHistory.length === 0 ? (
             <GlowCard className="p-4 items-center">
               <T variant="caption" className="text-zinc-400 text-center">
-                Nenhum pedido de cotação enviado ainda. Crie um projeto e solicite orçamento direto para a QLS.
+                No quote requests submitted yet. Create a project and request a direct quote from QLS.
               </T>
             </GlowCard>
           ) : (
@@ -199,7 +199,7 @@ export default function ProfileTabScreen() {
                       </T>
                     </View>
                     <T variant="caption" className="text-zinc-500 text-[11px]">
-                      {new Date(rfq.submittedAt).toLocaleDateString('pt-BR')}
+                      {new Date(rfq.submittedAt).toLocaleDateString('en-AU')}
                     </T>
                   </View>
 
@@ -207,7 +207,7 @@ export default function ProfileTabScreen() {
                     {rfq.projectName}
                   </T>
                   <T variant="caption" className="text-zinc-400 text-xs mt-0.5">
-                    {rfq.itemsCount ?? 0} itens cotados · Est. preliminar: ${(rfq.estimatedTotal ?? 0).toFixed(2)} AUD
+                    {rfq.itemsCount ?? 0} items quoted · Est. preliminary: ${(rfq.estimatedTotal ?? 0).toFixed(2)} AUD
                   </T>
 
                   {/* 4-Stage Stepper Preview */}
@@ -250,7 +250,7 @@ export default function ProfileTabScreen() {
         {/* Project Management (List, Duplicate, Remove) */}
         <View className="mb-6">
           <T variant="eyebrow" className="text-[#d9b277] mb-2.5">
-            GERENCIAR PROJETOS ({projectsList.length})
+            MANAGE PROJECTS ({projectsList.length})
           </T>
 
           <View className="gap-2.5">
@@ -276,7 +276,7 @@ export default function ProfileTabScreen() {
                         {proj.projectName}
                       </T>
                       <T variant="caption" className="text-zinc-400 text-xs mt-0.5">
-                        {proj.rooms.length} espaços · ${proj.totalEstimatedCost.toFixed(0)} AUD
+                        {proj.rooms.length} spaces · ${proj.totalEstimatedCost.toFixed(0)} AUD
                       </T>
                     </Pressable>
 
@@ -287,11 +287,11 @@ export default function ProfileTabScreen() {
                           const dup = duplicateProject(proj.id);
                           if (dup) {
                             haptic.success();
-                            Alert.alert('Projeto Duplicado', `Criada a cópia "${dup.projectName}".`);
+                            Alert.alert('Project Duplicated', `Copy "${dup.projectName}" created.`);
                           }
                         }}
                         className="p-2 rounded-full bg-white/5 active:bg-white/10"
-                        accessibilityLabel="Duplicar projeto"
+                        accessibilityLabel="Duplicate project"
                       >
                         <Copy size={14} color="#d9b277" />
                       </Pressable>
@@ -300,10 +300,10 @@ export default function ProfileTabScreen() {
                         <Pressable
                           onPress={() => {
                             haptic.light();
-                            Alert.alert('Remover Projeto', `Excluir "${proj.projectName}"?`, [
-                              { text: 'Cancelar', style: 'cancel' },
+                            Alert.alert('Remove Project', `Delete "${proj.projectName}"?`, [
+                              { text: 'Cancel', style: 'cancel' },
                               {
-                                text: 'Excluir',
+                                text: 'Delete',
                                 style: 'destructive',
                                 onPress: () => {
                                   haptic.tick();
@@ -328,7 +328,7 @@ export default function ProfileTabScreen() {
         {/* Support & Direct Channels */}
         <View className="mb-6">
           <T variant="eyebrow" className="text-[#d9b277] mb-2.5">
-            CANAIS DIRETOS COM A QLS
+            DIRECT CHANNELS TO QLS
           </T>
           <View className="flex-row gap-2.5">
             <Pressable
@@ -340,7 +340,7 @@ export default function ProfileTabScreen() {
                 WhatsApp QLS
               </T>
               <T variant="caption" className="text-zinc-500 text-[10px]">
-                Engenharia de Aplicação
+                Applications Engineering
               </T>
             </Pressable>
 
@@ -350,7 +350,7 @@ export default function ProfileTabScreen() {
             >
               <Mail size={20} color="#d9b277" />
               <T variant="caption" className="text-white font-semibold mt-1.5">
-                E-mail Comercial
+                Sales Enquiries
               </T>
               <T variant="caption" className="text-zinc-500 text-[10px]">
                 trade@qlslighting.com.au
@@ -375,18 +375,18 @@ export default function ProfileTabScreen() {
         {/* Account Details Form */}
         <View className="mb-6">
           <T variant="eyebrow" className="text-[#d9b277] mb-2.5">
-            DADOS PARA COTAÇÃO
+            QUOTATION DETAILS
           </T>
 
           <View className="gap-3">
             <View>
               <T variant="caption" className="text-zinc-400 mb-1 font-medium">
-                NOME COMPLETO *
+                FULL NAME *
               </T>
               <TextInput
                 value={fullName}
                 onChangeText={setFullName}
-                placeholder="Seu nome completo"
+                placeholder="Your full name"
                 placeholderTextColor="#71717a"
                 className="bg-[#181818] border border-white/10 rounded-[14px] px-4 py-3 text-white text-sm"
               />
@@ -401,7 +401,7 @@ export default function ProfileTabScreen() {
                 onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
-                placeholder="seu.email@empresa.com"
+                placeholder="your.email@company.com"
                 placeholderTextColor="#71717a"
                 className="bg-[#181818] border border-white/10 rounded-[14px] px-4 py-3 text-white text-sm"
               />
@@ -409,12 +409,12 @@ export default function ProfileTabScreen() {
 
             <View>
               <T variant="caption" className="text-zinc-400 mb-1 font-medium">
-                EMPRESA / ESCRITÓRIO
+                COMPANY / FIRM
               </T>
               <TextInput
                 value={companyName}
                 onChangeText={setCompanyName}
-                placeholder="Studio de Arquitetura"
+                placeholder="Architecture Studio"
                 placeholderTextColor="#71717a"
                 className="bg-[#181818] border border-white/10 rounded-[14px] px-4 py-3 text-white text-sm"
               />
@@ -436,7 +436,7 @@ export default function ProfileTabScreen() {
 
             <View>
               <T variant="caption" className="text-zinc-400 mb-1.5 font-medium">
-                PERFIL PROFISSIONAL
+                PROFESSIONAL PROFILE
               </T>
               <View className="flex-row flex-wrap gap-2">
                 {BUYER_TYPES.map((b) => {
@@ -466,7 +466,7 @@ export default function ProfileTabScreen() {
 
             <View className="mt-2">
               <LuxuryButton
-                title={isSaved ? 'Dados Salvos!' : 'Salvar Alterações'}
+                title={isSaved ? 'Details Saved!' : 'Save Changes'}
                 icon={isSaved ? <Check size={18} color="#000" /> : undefined}
                 onPress={handleSaveProfile}
               />

@@ -10,8 +10,8 @@ interface StandardsBadgeProps {
 }
 
 /**
- * Chip técnico estilo `.specs li` do site (borda fina, pílula).
- * `highlight` marca conformidade AS/NZS / destaque dourado.
+ * Technical chip styled like the site's `.specs li` (thin border, pill shape).
+ * `highlight` marks AS/NZS compliance / gold accent.
  */
 export function StandardsBadge({ label, value, highlight = false }: StandardsBadgeProps) {
   return (

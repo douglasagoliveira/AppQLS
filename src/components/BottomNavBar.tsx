@@ -19,10 +19,10 @@ export function BottomNavBar({ state, descriptors, navigation }: BottomTabBarPro
   };
 
   const labels: Record<string, string> = {
-    index: 'Projetos',
-    consultant: 'Consultor IA',
-    catalog: 'Catálogo',
-    profile: 'Minha Conta',
+    index: 'Projects',
+    consultant: 'AI Consultant',
+    catalog: 'Catalogue',
+    profile: 'My Account',
   };
 
   return (

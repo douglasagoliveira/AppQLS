@@ -294,7 +294,7 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                         {isSelected && (
                           <View className="flex-row items-center gap-1 mt-1">
                             <T variant="caption" className="text-[#d9b277] text-[11px] font-semibold">
-                              Toque para avançar
+                              Tap to continue
                             </T>
                             <ArrowRight size={12} color="#d9b277" />
                           </View>
@@ -424,7 +424,7 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                   className={mode === 'guided' ? 'text-black font-bold' : 'text-zinc-400'}
                   style={mode === 'guided' ? { color: '#0e0e0e' } : undefined}
                 >
-                  Consultor Guiado
+                  Guided Consultant
                 </T>
               </Pressable>
 
@@ -443,7 +443,7 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                   className={mode === 'professional' ? 'text-black font-bold' : 'text-zinc-400'}
                   style={mode === 'professional' ? { color: '#0e0e0e' } : undefined}
                 >
-                  Modo Pro
+                  Pro Mode
                 </T>
               </Pressable>
             </View>
@@ -452,7 +452,7 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
             {mode === 'guided' && (
               <View>
                 <T variant="lead" className="text-zinc-400 mb-3 text-sm">
-                  Escolha o efeito luminoso e atmosfera desejados para este ambiente:
+                  Choose the desired lighting effect and atmosphere for this space:
                 </T>
 
                 <View className="gap-2.5 mb-5">
@@ -487,7 +487,7 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                   <View className="flex-row items-center gap-2 mb-2">
                     <Compass size={16} color="#d9b277" />
                     <T variant="eyebrow" className="text-[#d9b277]">
-                      CONFIGURAÇÃO TÉCNICA RESOLVIDA
+                      TECHNICAL CONFIGURATION RESOLVED
                     </T>
                   </View>
                   {guidedResolution.explanation.map((exp, i) => (
@@ -509,7 +509,7 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                   </T>
                   <View className="flex-row gap-2">
                     {[
-                      { label: 'Qualquer', val: undefined },
+                      { label: 'Any', val: undefined },
                       { label: '2700K (Warm)', val: 2700 },
                       { label: '3000K (Soft)', val: 3000 },
                       { label: '4000K (Cool)', val: 4000 },
@@ -551,10 +551,10 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                   <GlowCard active={proLowGlare} className="p-3.5 flex-row items-center justify-between">
                     <View className="flex-1 pr-3">
                       <T variant="bodyMd" className={proLowGlare ? 'text-white font-bold' : 'text-zinc-200'}>
-                        Anti-Ofuscamento (UGR ≤ 19)
+                        Anti-Glare (UGR ≤ 19)
                       </T>
                       <T variant="caption" className="text-zinc-400 mt-0.5">
-                        Filtra apenas luminárias com óptica recuada e baixo índice de ofuscamento.
+                        Only shows luminaires with recessed optics and low glare rating.
                       </T>
                     </View>
                     <View
@@ -570,13 +570,13 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                 {/* IP Rating */}
                 <View>
                   <T variant="caption" className="text-zinc-400 mb-2 font-medium">
-                    PROTEÇÃO CONTRA ÁGUA / UMIDADE
+                    WATER & MOISTURE PROTECTION
                   </T>
                   <View className="flex-row gap-2">
                     {[
-                      { label: 'Padrão (IP20)', val: undefined },
-                      { label: 'IP44 (Áreas Úmidas)', val: 'IP44' },
-                      { label: 'IP65+ (Externo)', val: 'IP65' },
+                      { label: 'Standard (IP20)', val: undefined },
+                      { label: 'IP44 (Wet Areas)', val: 'IP44' },
+                      { label: 'IP65+ (Outdoor)', val: 'IP65' },
                     ].map((ip) => {
                       const active = proIpRating === ip.val;
                       return (
@@ -608,13 +608,13 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                 {/* Source Kind */}
                 <View>
                   <T variant="caption" className="text-zinc-400 mb-2 font-medium">
-                    TIPO DE FONTE DE LUZ
+                    LIGHT SOURCE TYPE
                   </T>
                   <View className="flex-row gap-2">
                     {[
-                      { label: 'Qualquer', val: 'any' as const },
-                      { label: 'Luminárias Pontuais', val: 'point' as const },
-                      { label: 'Linear / Fitas LED', val: 'continuous' as const },
+                      { label: 'Any', val: 'any' as const },
+                      { label: 'Point Luminaires', val: 'point' as const },
+                      { label: 'Linear / LED Strips', val: 'continuous' as const },
                     ].map((k) => {
                       const active = proSourceKind === k.val;
                       return (
@@ -652,7 +652,7 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
       <View className="p-4 px-5 bg-[#141414] border-t border-white/[0.08]">
         {step === 1 && (
           <LuxuryButton
-            title="Avançar: Dimensões"
+            title="Next: Dimensions"
             icon={<ArrowRight size={18} color="#0e0e0e" />}
             onPress={handleGoToStep2}
           />
@@ -665,14 +665,14 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                 setStep(1);
               }}
               accessibilityRole="button"
-              accessibilityLabel="Voltar ao passo anterior"
+              accessibilityLabel="Go back to previous step"
               className="w-12 h-12 rounded-full bg-white/[0.06] items-center justify-center border border-white/10 active:bg-white/[0.12]"
             >
               <ArrowLeft size={18} color="#f4f2ee" />
             </Pressable>
             <View className="flex-1">
               <LuxuryButton
-                title="Avançar: Modo de Iluminação"
+                title="Next: Lighting Mode"
                 icon={<ArrowRight size={18} color="#0e0e0e" />}
                 onPress={handleGoToStep3}
               />
@@ -687,14 +687,14 @@ export function RoomWizard({ projectId, onFinished }: RoomWizardProps) {
                 setStep(2);
               }}
               accessibilityRole="button"
-              accessibilityLabel="Voltar ao passo anterior"
+              accessibilityLabel="Go back to previous step"
               className="w-12 h-12 rounded-full bg-white/[0.06] items-center justify-center border border-white/10 active:bg-white/[0.12]"
             >
               <ArrowLeft size={18} color="#f4f2ee" />
             </Pressable>
             <View className="flex-1">
               <LuxuryButton
-                title="Calcular Especificação com IA"
+                title="Calculate Specification with AI"
                 variant="glow"
                 icon={<Sparkles size={18} color="#0e0e0e" />}
                 onPress={handleCalculate}

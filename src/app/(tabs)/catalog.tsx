@@ -75,11 +75,11 @@ export default function CatalogTabScreen() {
         <View className="flex-row items-center gap-2">
           <BookOpen size={18} color="#d9b277" />
           <T variant="h3" className="text-white">
-            Catálogo QLS & LEDYi
+            QLS & LEDYi Catalogue
           </T>
         </View>
         <T variant="caption" className="text-zinc-500">
-          {filteredProducts.length} itens
+          {filteredProducts.length} items
         </T>
       </View>
 
@@ -90,7 +90,7 @@ export default function CatalogTabScreen() {
           <TextInput
             value={search}
             onChangeText={setSearch}
-            placeholder="Buscar por modelo, SKU ou categoria..."
+            placeholder="Search by model, SKU or category..."
             placeholderTextColor="#71717a"
             className="flex-1 text-white text-sm p-0"
           />
@@ -147,7 +147,7 @@ export default function CatalogTabScreen() {
         ListEmptyComponent={
           <View className="py-12 items-center">
             <T variant="caption" className="text-zinc-400 text-center">
-              Nenhum produto encontrado com os filtros aplicados.
+              No products found with the applied filters.
             </T>
           </View>
         }
@@ -176,7 +176,7 @@ export default function CatalogTabScreen() {
                       {!item.verified && (
                         <View className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10">
                           <T variant="caption" className="text-zinc-400 text-[9px]">
-                            Referência
+                            Reference
                           </T>
                         </View>
                       )}

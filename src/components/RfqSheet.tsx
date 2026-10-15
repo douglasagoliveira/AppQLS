@@ -104,7 +104,7 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
       setResultSuccess({ code: nextCode, status: deliveryStatus });
     } catch (err: any) {
       haptic.warning();
-      Alert.alert('Erro ao enviar cotação', err?.message || 'Tente novamente em instantes.');
+      Alert.alert('Error sending quote', err?.message || 'Please try again in a moment.');
     } finally {
       setSubmitting(false);
     }
@@ -123,7 +123,7 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
           <View className="flex-row items-center justify-between pb-4 border-b border-white/[0.08]">
             <View>
               <T variant="eyebrow" className="text-[#d9b277]">
-                SOLICITAÇÃO DE COTAÇÃO
+                QUOTE REQUEST
               </T>
               <T variant="h2" className="text-white mt-0.5">
                 {project.projectName}
@@ -145,23 +145,23 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
               </View>
 
               <T variant="h2" className="text-white text-center">
-                {resultSuccess.status === 'sent' ? 'RFQ Enviado com Sucesso!' : 'Salvo na Fila Local'}
+                {resultSuccess.status === 'sent' ? 'RFQ Sent Successfully!' : 'Saved to Local Queue'}
               </T>
 
               <View className="mt-3 px-4 py-2 rounded-full bg-white/[0.08] border border-[#d9b277]/30">
                 <T variant="caption" className="text-[#d9b277] font-bold tracking-wider">
-                  PROTOCOLO: {resultSuccess.code}
+                  REFERENCE: {resultSuccess.code}
                 </T>
               </View>
 
               <T variant="bodyMd" className="text-zinc-300 text-center mt-4 px-4">
                 {resultSuccess.status === 'sent'
-                  ? 'Nossa equipe técnica na QLS Lighting já recebeu seu briefing preliminar e emitirá a proposta comercial formal com prazos e valores finais.'
-                  : 'Sua solicitação foi salva no dispositivo e será sincronizada automaticamente com a QLS assim que a conexão for restabelecida.'}
+                  ? 'Our technical team at QLS Lighting has received your preliminary briefing and will issue a formal commercial proposal with lead times and final pricing.'
+                  : 'Your request has been saved on this device and will be automatically synchronised with QLS once the connection is restored.'}
               </T>
 
               <View className="w-full mt-8">
-                <LuxuryButton title="Concluir" onPress={handleCloseAndReset} />
+                <LuxuryButton title="Done" onPress={handleCloseAndReset} />
               </View>
             </View>
           ) : (
@@ -170,15 +170,15 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
               {kitGaps.length > 0 && (
                 <View className="mt-4 p-3.5 rounded-[14px] bg-amber-950/40 border border-amber-500/30">
                   <T variant="caption" className="text-amber-300 font-semibold mb-1">
-                    Atenção aos componentes do kit:
+                    Please review the kit components:
                   </T>
                   {kitGaps.map((g, i) => (
                     <T key={i} variant="caption" className="text-amber-200 text-xs">
-                      • {g.space}: falta definir {g.missing.join(', ')}
+                      • {g.space}: missing {g.missing.join(', ')}
                     </T>
                   ))}
                   <T variant="caption" className="text-amber-400/80 text-[11px] mt-1">
-                    A engenharia da QLS incluirá os perfis/drivers compatíveis na proposta formal.
+                    QLS engineering will include compatible profiles/drivers in the formal proposal.
                   </T>
                 </View>
               )}
@@ -188,12 +188,12 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
                 {/* Full Name */}
                 <View>
                   <T variant="caption" className="text-zinc-400 mb-1 font-medium">
-                    NOME COMPLETO *
+                    FULL NAME *
                   </T>
                   <TextInput
                     value={contact.fullName}
                     onChangeText={(t) => setContact({ ...contact, fullName: t })}
-                    placeholder="Seu nome"
+                    placeholder="Your name"
                     placeholderTextColor="#71717a"
                     className="bg-[#181818] border border-white/10 rounded-[14px] px-4 py-3 text-white text-sm"
                   />
@@ -214,7 +214,7 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
                     onChangeText={(t) => setContact({ ...contact, email: t })}
                     keyboardType="email-address"
                     autoCapitalize="none"
-                    placeholder="seu.email@exemplo.com"
+                    placeholder="your.email@example.com"
                     placeholderTextColor="#71717a"
                     className="bg-[#181818] border border-white/10 rounded-[14px] px-4 py-3 text-white text-sm"
                   />
@@ -248,12 +248,12 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
                 {/* Company */}
                 <View>
                   <T variant="caption" className="text-zinc-400 mb-1 font-medium">
-                    EMPRESA / ESCRITÓRIO (OPCIONAL)
+                    COMPANY / FIRM (OPTIONAL)
                   </T>
                   <TextInput
                     value={contact.companyName}
                     onChangeText={(t) => setContact({ ...contact, companyName: t })}
-                    placeholder="Studio de Arquitetura"
+                    placeholder="Architecture Studio"
                     placeholderTextColor="#71717a"
                     className="bg-[#181818] border border-white/10 rounded-[14px] px-4 py-3 text-white text-sm"
                   />
@@ -262,7 +262,7 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
                 {/* Buyer Type */}
                 <View>
                   <T variant="caption" className="text-zinc-400 mb-1.5 font-medium">
-                    SEU PERFIL
+                    YOUR PROFILE
                   </T>
                   <View className="flex-row flex-wrap gap-2">
                     {BUYER_TYPES.map((b) => {
@@ -293,7 +293,7 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
                 {/* Preferred Channel */}
                 <View>
                   <T variant="caption" className="text-zinc-400 mb-1.5 font-medium">
-                    CANAL PREFERIDO DE RESPOSTA
+                    PREFERRED RESPONSE CHANNEL
                   </T>
                   <View className="flex-row gap-3">
                     <Pressable
@@ -341,12 +341,12 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
                 {/* Notes */}
                 <View>
                   <T variant="caption" className="text-zinc-400 mb-1 font-medium">
-                    OBSERVAÇÕES DO PROJETO (OPCIONAL)
+                    PROJECT NOTES (OPTIONAL)
                   </T>
                   <TextInput
                     value={contact.notes}
                     onChangeText={(t) => setContact({ ...contact, notes: t })}
-                    placeholder="Prazos da obra, endereço de entrega ou dúvidas técnicas..."
+                    placeholder="Construction timeline, delivery address or technical questions..."
                     placeholderTextColor="#71717a"
                     multiline
                     numberOfLines={3}
@@ -357,7 +357,7 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
                 {/* Disclaimer */}
                 <View className="bg-white/[0.04] p-3.5 rounded-[14px] mt-2 border border-white/5">
                   <T variant="caption" className="text-zinc-400 text-[11px] leading-relaxed">
-                    <strong>Aviso importante:</strong> {RFQ_DISCLAIMER}
+                    <strong>Important notice:</strong> {RFQ_DISCLAIMER}
                   </T>
                 </View>
 
@@ -369,7 +369,7 @@ export function RfqSheet({ visible, onClose, project }: RfqSheetProps) {
                     </View>
                   ) : (
                     <LuxuryButton
-                      title="Enviar Pedido de Cotação à QLS"
+                      title="Send Quote Request to QLS"
                       icon={<Send size={18} color="#0e0e0e" />}
                       onPress={handleSubmit}
                     />

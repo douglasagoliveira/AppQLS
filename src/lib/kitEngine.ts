@@ -1,29 +1,29 @@
 import { KitCategory, KitSelection, Product } from '../types';
 import { isContinuousSource, PRODUCT_CATALOG } from './catalog';
 
-/** Margem de capacidade do driver sobre a carga total (PLANO §2.4: W = m × W/m × 1,20). */
+/** Driver capacity headroom over the total load (PLANO §2.4: W = m × W/m × 1.20). */
 export const DRIVER_HEADROOM = 1.2;
 
-/** Comprimento máximo recomendado por alimentação contínua em 24 V (queda de tensão). */
+/** Maximum recommended run length per continuous 24 V supply (voltage drop). */
 export const MAX_RUN_METRES_24V = 5;
 
 export interface KitPlan {
-  /** Linhas sugeridas (já com produto escolhido). */
+  /** Suggested lines (product already chosen). */
   lines: KitSelection[];
-  /** Componentes obrigatórios para os quais não há produto compatível no catálogo. */
+  /** Required components with no compatible product in the catalogue. */
   missing: string[];
-  /** Avisos técnicos para o usuário. */
+  /** Technical warnings for the user. */
   warnings: string[];
-  /** true quando todos os componentes obrigatórios foram resolvidos. */
+  /** true when every required component has been resolved. */
   complete: boolean;
   totalLoadWatts: number;
   requiredDriverWatts: number;
 }
 
 export interface KitOptions {
-  /** Protocolo de dimerização desejado para o driver. */
+  /** Desired dimming protocol for the driver. */
   dimming?: 'triac' | 'dali' | 'none';
-  /** Tipo de montagem desejado do perfil. */
+  /** Desired profile mounting type. */
   mounting?: 'recessed' | 'surface';
   catalog?: Product[];
 }
@@ -45,8 +45,8 @@ const line = (
 });
 
 /**
- * Monta o kit necessário para fontes contínuas (fita / neon / wall washer).
- * Luminárias de ponto (downlights etc.) têm driver integrado → kit vazio e completo.
+ * Assembles the kit needed for continuous sources (strip / neon / wall washer).
+ * Point luminaires (downlights etc.) have an integrated driver → empty, complete kit.
  */
 export function buildKit(source: Product, metres: number, options: KitOptions = {}): KitPlan {
   const catalog = options.catalog ?? PRODUCT_CATALOG;
@@ -103,7 +103,7 @@ export function buildKit(source: Product, metres: number, options: KitOptions = 
     }
   }
 
-  // ── Perfil de alumínio (somente fitas; neon/wall washer já têm canal próprio) ──
+  // ── Aluminium profile (strips only; neon/wall washer have their own channel) ──
   if (source.category === 'strip') {
     const stripWidth = source.widthMm ?? 10;
     const profiles = catalog.filter(
@@ -122,7 +122,7 @@ export function buildKit(source: Product, metres: number, options: KitOptions = 
     warnings.push('Neon / wall-washer: mounting clips and end caps are specified by QLS at quotation.');
   }
 
-  // ── Controle ──────────────────────────────────────────────────────────
+  // ── Control ───────────────────────────────────────────────────────────
   const needsCct = !!source.cctRange;
   const controls = catalog.filter((p) => p.category === 'control');
   const control = needsCct
@@ -158,7 +158,7 @@ export function buildKit(source: Product, metres: number, options: KitOptions = 
   };
 }
 
-/** Soma monetária do kit. */
+/** Kit monetary sum. */
 export function kitSubtotal(kit: KitSelection[] | undefined): number {
   return Math.round((kit ?? []).reduce((acc, k) => acc + k.subtotal, 0) * 100) / 100;
 }

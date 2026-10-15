@@ -46,9 +46,9 @@ export default function ProductDetailScreen() {
     return (
       <SafeAreaView className="flex-1 bg-[#0e0e0e] justify-center items-center px-6">
         <T variant="h2" className="text-white text-center">
-          Produto Não Encontrado
+          Product Not Found
         </T>
-        <LuxuryButton title="Voltar ao Catálogo" onPress={() => router.back()} />
+        <LuxuryButton title="Back to Catalogue" onPress={() => router.back()} />
       </SafeAreaView>
     );
   }
@@ -92,12 +92,12 @@ export default function ProductDetailScreen() {
       router.push(`/project/${proj.id}?rfq=1`);
     } else {
       Alert.alert(
-        'Item Adicionado!',
-        `"${product.name}" (${quantity} ${product.unit === 'm' ? 'm' : 'un'}) foi adicionado ao projeto "${proj.projectName}".`,
+        'Item Added!',
+        `"${product.name}" (${quantity} ${product.unit === 'm' ? 'm' : 'ea'}) has been added to project "${proj.projectName}".`,
         [
-          { text: 'Continuar no Catálogo', style: 'cancel' },
+          { text: 'Continue Browsing', style: 'cancel' },
           {
-            text: 'Ver Projeto',
+            text: 'View Project',
             onPress: () => router.push(`/project/${proj.id}`),
           },
         ]
@@ -106,7 +106,7 @@ export default function ProductDetailScreen() {
   };
 
   const handleOpenSourceUrl = () => {
-    const url = product.sourceUrl || product.datasheetUrl || 'https://www.ledyilighting.com/pt/';
+    const url = product.sourceUrl || product.datasheetUrl || 'https://www.ledyilighting.com/';
     Linking.openURL(url);
   };
 
@@ -128,7 +128,7 @@ export default function ProductDetailScreen() {
             {product.name}
           </T>
         </View>
-        <StandardsBadge label={product.unit === 'm' ? 'Linear' : 'Luminária'} highlight />
+        <StandardsBadge label={product.unit === 'm' ? 'Linear' : 'Luminaire'} highlight />
       </View>
 
       <ScrollView className="flex-1 px-5 pt-3" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 120 }}>
@@ -165,7 +165,7 @@ export default function ProductDetailScreen() {
         <View className="bg-[#181818] border border-white/10 rounded-[18px] p-4 mb-5">
           <View className="flex-row items-center justify-between mb-2">
             <T variant="eyebrow" className="text-[#d9b277]">
-              SIMULADOR DE FACHO & CCT
+              BEAM & CCT SIMULATOR
             </T>
             <T variant="caption" className="text-zinc-400">
               {activeCct}K
@@ -216,10 +216,10 @@ export default function ProductDetailScreen() {
         <View className="bg-[#181818] border border-white/10 rounded-[18px] p-4 mb-5 flex-row items-center justify-between">
           <View>
             <T variant="bodyMd" className="text-white font-medium">
-              {isContinuous ? 'Comprimento Linear' : 'Quantidade'}
+              {isContinuous ? 'Linear Length' : 'Quantity'}
             </T>
             <T variant="caption" className="text-zinc-400 text-xs">
-              {isContinuous ? 'Metros de fita contínua' : 'Unidades para cotação'}
+              {isContinuous ? 'Metres of continuous strip' : 'Units for quotation'}
             </T>
           </View>
 
@@ -234,7 +234,7 @@ export default function ProductDetailScreen() {
               <Minus size={16} color="#ffffff" />
             </Pressable>
             <T variant="h3" className="text-white min-w-[32px] text-center">
-              {quantity} {product.unit === 'm' ? 'm' : 'un'}
+              {quantity} {product.unit === 'm' ? 'm' : 'ea'}
             </T>
             <Pressable
               onPress={() => {
@@ -255,7 +255,7 @@ export default function ProductDetailScreen() {
               <View className="flex-row items-center gap-2">
                 <Box size={16} color="#d9b277" />
                 <T variant="eyebrow" className="text-[#d9b277]">
-                  KIT COMPATÍVEL RECOMENDADO
+                  RECOMMENDED COMPATIBLE KIT
                 </T>
               </View>
               <T variant="caption" className="text-zinc-400">
@@ -277,7 +277,7 @@ export default function ProductDetailScreen() {
                     )}
                   </View>
                   <T variant="caption" className="text-zinc-300 font-medium">
-                    {k.quantity} un · ${k.subtotal.toFixed(2)}
+                    {k.quantity} ea · ${k.subtotal.toFixed(2)}
                   </T>
                 </View>
               ))}
@@ -288,21 +288,21 @@ export default function ProductDetailScreen() {
         {/* Technical Specifications Table */}
         <View className="mb-5">
           <T variant="eyebrow" className="text-[#d9b277] mb-2.5">
-            ESPECIFICAÇÕES TÉCNICAS
+            TECHNICAL SPECIFICATIONS
           </T>
 
           <View className="bg-[#181818] border border-white/10 rounded-[18px] p-4 gap-2.5">
             {[
-              { label: 'Marca / Origem', val: `${product.brand || 'LEDYi'} (Distribuição Oficial QLS)` },
-              { label: 'Tensão de Alimentação', val: product.voltage ? `${product.voltage}V DC` : '220–240V AC' },
-              { label: 'Potência Elétrica', val: `${product.powerWatts} ${isContinuous ? 'W/m' : 'W'}` },
-              { label: 'Fluxo Luminoso', val: `${product.lumens} lm ${isContinuous ? '/m' : 'por peça'}` },
-              { label: 'Índice de Reprodução (CRI)', val: product.cri ? `Ra ${product.cri}+` : 'N/A' },
-              { label: 'Ângulo de Facho', val: product.beamAngle ? `${product.beamAngle}°` : 'Difuso' },
-              { label: 'Grau de Proteção', val: product.ipRating || 'IP20' },
-              { label: 'Tipo de Dimerização', val: (product.dimmingType || 'none').toUpperCase() },
-              ...(product.widthMm ? [{ label: 'Largura do PCB / Perfil', val: `${product.widthMm} mm` }] : []),
-              ...(product.ugr ? [{ label: 'Índice de Ofuscamento (UGR)', val: `≤ ${product.ugr}` }] : []),
+              { label: 'Brand / Origin', val: `${product.brand || 'LEDYi'} (QLS Authorised Distribution)` },
+              { label: 'Supply Voltage', val: product.voltage ? `${product.voltage}V DC` : '220–240V AC' },
+              { label: 'Power Consumption', val: `${product.powerWatts} ${isContinuous ? 'W/m' : 'W'}` },
+              { label: 'Luminous Flux', val: `${product.lumens} lm ${isContinuous ? '/m' : 'each'}` },
+              { label: 'Colour Rendering (CRI)', val: product.cri ? `Ra ${product.cri}+` : 'N/A' },
+              { label: 'Beam Angle', val: product.beamAngle ? `${product.beamAngle}°` : 'Diffused' },
+              { label: 'Ingress Protection', val: product.ipRating || 'IP20' },
+              { label: 'Dimming Type', val: (product.dimmingType || 'none').toUpperCase() },
+              ...(product.widthMm ? [{ label: 'PCB / Profile Width', val: `${product.widthMm} mm` }] : []),
+              ...(product.ugr ? [{ label: 'Glare Rating (UGR)', val: `≤ ${product.ugr}` }] : []),
             ].map((row, idx) => (
               <View key={idx} className="flex-row items-center justify-between py-1 border-b border-white/[0.04]">
                 <T variant="caption" className="text-zinc-400">
@@ -324,11 +324,11 @@ export default function ProductDetailScreen() {
           <View className="flex-row items-center gap-2.5">
             <ExternalLink size={16} color="#d9b277" />
             <T variant="bodyMd" className="text-white text-xs font-medium">
-              Ver especificações completas em ledyilighting.com
+              View full specifications on ledyilighting.com
             </T>
           </View>
           <T variant="caption" className="text-[#d9b277]">
-            Abrir
+            Open
           </T>
         </Pressable>
       </ScrollView>
@@ -341,14 +341,14 @@ export default function ProductDetailScreen() {
             className="py-3.5 px-4 rounded-[14px] bg-white/[0.08] items-center justify-center border border-white/10 active:bg-white/[0.15]"
           >
             <T variant="bodyMd" className="text-white font-semibold text-center text-xs">
-              + Adicionar ao Projeto (${totalCost.toFixed(2)})
+              + Add to Project (${totalCost.toFixed(2)})
             </T>
           </Pressable>
         </View>
 
         <View className="flex-1">
           <LuxuryButton
-            title="Solicitar Orçamento"
+            title="Request Quote"
             icon={<Send size={16} color="#0e0e0e" />}
             onPress={() => handleAddToProject(true)}
           />

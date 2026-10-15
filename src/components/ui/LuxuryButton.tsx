@@ -17,9 +17,9 @@ interface LuxuryButtonProps extends Omit<PressableProps, 'children'> {
 }
 
 /**
- * Botão-pílula (raio 999, DESIGN_SPEC §1.3) com os estilos do site:
- * primary = btn-light (papel), glow = destaque dourado, outline = btn padrão.
- * Cores de alto contraste garantem legibilidade AAA em qualquer plataforma.
+ * Pill button (radius 999, DESIGN_SPEC §1.3) with the site's styles:
+ * primary = btn-light (paper), glow = gold accent, outline = default btn.
+ * High-contrast colours guarantee AAA legibility on any platform.
  */
 const STYLES: Record<
   ButtonVariant,

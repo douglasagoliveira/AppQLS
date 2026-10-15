@@ -4,16 +4,16 @@ import { glowShadow } from '../../theme/tokens';
 
 interface GlowCardProps extends ViewProps {
   children: React.ReactNode;
-  /** Borda e sombra douradas (card recomendado / selecionado). */
+  /** Gold border and shadow (recommended / selected card). */
   active?: boolean;
-  /** 'paper' replica as seções claras do site (steps / formulário). */
+  /** 'paper' replicates the site's light sections (steps / form). */
   tone?: 'dark' | 'paper';
   className?: string;
 }
 
 /**
- * Card do site: raio 24, fundo ink-2, borda translúcida.
- * Ativo: borda 1.5px #c9a84c com glow difuso (DESIGN_SPEC §1.3).
+ * Site card: radius 24, ink-2 background, translucent border.
+ * Active: 1.5px #c9a84c border with diffuse glow (DESIGN_SPEC §1.3).
  */
 export function GlowCard({
   children,

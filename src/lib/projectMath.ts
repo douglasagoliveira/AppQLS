@@ -16,7 +16,7 @@ export interface BomLine {
 }
 
 export interface ProjectTotals {
-  /** Peças de luminárias (exclui itens vendidos por metro). */
+  /** Luminaire pieces (excludes items sold by the metre). */
   pieces: number;
   /** Metros lineares (fitas, neon, wall washer). */
   linearMetres: number;
@@ -26,12 +26,12 @@ export interface ProjectTotals {
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
-/** Custo total de um item: luminária/fonte + componentes do kit. */
+/** Total cost of an item: luminaire/light source + kit components. */
 export function itemTotalCost(item: SelectedRoomItem): number {
   return round2(item.subtotal + kitSubtotal(item.kit));
 }
 
-/** Linhas de BOM de um item (fonte de luz + kit). */
+/** BOM lines for an item (light source + kit). */
 export function itemBomLines(space: string, item: SelectedRoomItem): BomLine[] {
   const lines: BomLine[] = [
     {
@@ -65,7 +65,7 @@ export function itemBomLines(space: string, item: SelectedRoomItem): BomLine[] {
 
 export const ADDITIONAL_SPACE_LABEL = 'Additional items';
 
-/** BOM consolidada do projeto: ambientes + itens avulsos do catálogo. */
+/** Consolidated project BOM: spaces + loose items from the catalogue. */
 export function buildBom(project: Pick<Project, 'rooms' | 'additionalItems'>): BomLine[] {
   const lines: BomLine[] = [];
   project.rooms.forEach((r) => {
@@ -75,7 +75,7 @@ export function buildBom(project: Pick<Project, 'rooms' | 'additionalItems'>): B
   return lines;
 }
 
-/** Totais do projeto. Fonte única usada pela store, PDF e telas. */
+/** Project totals. Single source used by the store, PDF and screens. */
 export function computeTotals(rooms: Room[], additionalItems: SelectedRoomItem[] = []): ProjectTotals {
   const items: SelectedRoomItem[] = [
     ...rooms.flatMap((r) => (r.selectedItem ? [r.selectedItem] : [])),
@@ -102,7 +102,7 @@ export function computeTotals(rooms: Room[], additionalItems: SelectedRoomItem[]
   };
 }
 
-/** Itens obrigatórios do kit que ainda não foram definidos (alerta antes do RFQ). */
+/** Required kit items that are still undefined (alert before the RFQ). */
 export function collectKitGaps(project: Pick<Project, 'rooms' | 'additionalItems'>): { space: string; missing: string[] }[] {
   const gaps: { space: string; missing: string[] }[] = [];
   project.rooms.forEach((r) => {
@@ -114,7 +114,7 @@ export function collectKitGaps(project: Pick<Project, 'rooms' | 'additionalItems
   return gaps;
 }
 
-/** Quantidade de itens exibida no contador da aba Projetos ("My list"). */
+/** Number of items shown in the Projects tab counter ("My list"). */
 export function countListItems(project: Pick<Project, 'rooms' | 'additionalItems'> | null | undefined): number {
   if (!project) return 0;
   return project.rooms.filter((r) => !!r.selectedItem).length + (project.additionalItems?.length ?? 0);

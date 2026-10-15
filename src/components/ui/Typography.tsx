@@ -20,8 +20,8 @@ interface TProps extends TextProps {
 }
 
 /**
- * Escala tipográfica do DESIGN_SPEC §1.1 com a aparência do site QLS
- * (títulos em peso 500, lead elegante, eyebrow em caixa alta com tracking largo e cor glow).
+ * Type scale from DESIGN_SPEC §1.1 with the look of the QLS site
+ * (headings at weight 500, elegant lead, uppercase eyebrow with wide tracking and glow colour).
  */
 const VARIANTS: Record<TVariant, { cls: string; style?: TextStyle }> = {
   display: {

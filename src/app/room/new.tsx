@@ -35,7 +35,7 @@ export default function NewRoomScreen() {
         </View>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Fechar"
+          accessibilityLabel="Close"
           onPress={() => router.back()}
           className="w-9 h-9 rounded-full bg-white/[0.06] items-center justify-center active:bg-white/[0.12]"
         >

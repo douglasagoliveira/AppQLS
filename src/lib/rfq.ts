@@ -25,7 +25,7 @@ export type ContactErrors = Partial<Record<'fullName' | 'email' | 'phone', strin
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/** Validação no cliente. O servidor deve revalidar (constraints/RLS na migração). */
+/** Client-side validation. The server must revalidate (constraints/RLS in the migration). */
 export function validateContact(c: RfqContact): ContactErrors {
   const errors: ContactErrors = {};
   if (c.fullName.trim().length < 2) errors.fullName = 'Please enter your full name.';
@@ -47,7 +47,7 @@ export function contactFromProfile(profile: UserProfile | null | undefined): Rfq
   };
 }
 
-/** `RFQ-AB12CD` na primeira vez; `RFQ-AB12CD-R2`, `-R3`… em reenvios revisados. */
+/** `RFQ-AB12CD` on first send; `RFQ-AB12CD-R2`, `-R3`… on revised resends. */
 export function baseRfqCode(projectId: string): string {
   return `RFQ-${projectId.replace(/[^A-Za-z0-9]/g, '').slice(-6).toUpperCase()}`;
 }
@@ -63,7 +63,7 @@ export function nextRfqCode(project: Pick<Project, 'id' | 'rfqCode'>): string {
 export const RFQ_DISCLAIMER =
   'Preliminary estimate (Lumen Method, AS/NZS 1680). Prices are indicative. Final price, stock, lead time and compatibility are confirmed in the formal proposal issued by QLS.';
 
-/** Snapshot estruturado enviado à equipe comercial da QLS. */
+/** Structured snapshot sent to the QLS sales team. */
 export interface RfqPayload {
   code: string;
   generatedAt: string;
@@ -111,7 +111,7 @@ export function buildRfqPayload(project: Project, contact: RfqContact, code: str
   };
 }
 
-/** Resumo em texto — usado como fallback legível em `notes` e no corpo de e-mail/WhatsApp. */
+/** Plain-text summary — used as a readable fallback in `notes` and in email/WhatsApp bodies. */
 export function summarizeRfq(p: RfqPayload): string {
   const lines = [
     `${p.code} — ${p.project.name}`,

@@ -67,7 +67,7 @@ export default function RecommendationScreen() {
     }
   }, [params.preferences]);
 
-  // Cálculo luminotécnico com preferências (Modo Guiado ou Profissional)
+  // Lighting calculation with preferences (Guided or Professional mode)
   const calcResult = useMemo(() => {
     return recommendRoomLighting({
       roomName: params.roomName || 'Custom Room',
@@ -79,7 +79,7 @@ export default function RecommendationScreen() {
     });
   }, [params.roomName, params.roomType, lengthNum, widthNum, heightNum, preferences]);
 
-  // Nível selecionado (padrão: recommended)
+  // Selected tier (default: recommended)
   const [selectedTier, setSelectedTier] = useState<ProductTier>('recommended');
   const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
 
@@ -95,7 +95,7 @@ export default function RecommendationScreen() {
   const activeProduct = currentTierData.product;
   const isContinuous = isContinuousSource(activeProduct) || activeProduct.unit === 'm';
 
-  // Kit compatível para fontes contínuas (fitas, neon, wall washer)
+  // Compatible kit for continuous sources (strips, neon, wall washer)
   const kitResult = useMemo(() => {
     if (!isContinuous) return null;
     const dimming = activeProduct.dimmingType === 'dali' ? 'dali' : activeProduct.dimmingType === 'triac' ? 'triac' : 'none';
@@ -111,7 +111,7 @@ export default function RecommendationScreen() {
     setActiveCct(tierData.product.cctKelvin || 3000);
   };
 
-  // Cálculo de lux alcançado usando os coeficientes reais (μ e d) calculados pelo motor
+  // Lux calculation using real coefficients (μ and d) calculated by the engine
   const currentLux = calculateLuxAchieved(
     customQty * activeProduct.lumens,
     calcResult.areaM2,
@@ -187,23 +187,23 @@ export default function RecommendationScreen() {
           {/* Header */}
           <View className="mb-4">
             <T variant="eyebrow" className="text-[#d9b277]">
-              ESPECIFICAÇÃO PRELIMINAR
+              PRELIMINARY SPECIFICATION
             </T>
             <T variant="h1" className="text-white mt-1">
               {calcResult.roomName}
             </T>
             <T variant="muted" className="text-xs mt-0.5">
-              {calcResult.areaM2} m² ({lengthNum}m × {widthNum}m) · Pé-direito {heightNum}m
+              {calcResult.areaM2} m² ({lengthNum}m × {widthNum}m) · Ceiling height {heightNum}m
             </T>
           </View>
 
-          {/* Banner de Estimativa Preliminar & Avisos */}
+          {/* Preliminary Estimate Banner & Warnings */}
           <View className="p-3.5 rounded-[16px] bg-[#141414] border border-white/10 mb-5">
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center gap-2">
                 <Info size={16} color="#d9b277" />
                 <T variant="caption" className="text-zinc-200 font-semibold">
-                  Método dos Lúmens (AS/NZS 1680)
+                  Lumen Method (AS/NZS 1680)
                 </T>
               </View>
               <Pressable
@@ -211,7 +211,7 @@ export default function RecommendationScreen() {
                 className="flex-row items-center gap-1"
               >
                 <T variant="caption" className="text-[#d9b277]">
-                  {showTechnicalDetails ? 'Ocultar premissas' : 'Ver premissas'}
+                  {showTechnicalDetails ? 'Hide assumptions' : 'View assumptions'}
                 </T>
                 {showTechnicalDetails ? (
                   <ChevronUp size={14} color="#d9b277" />
@@ -224,7 +224,7 @@ export default function RecommendationScreen() {
             {showTechnicalDetails && (
               <View className="mt-3 pt-3 border-t border-white/[0.08] gap-1.5">
                 <T variant="caption" className="text-zinc-400 font-medium">
-                  Premissas de cálculo:
+                  Calculation assumptions:
                 </T>
                 {calcResult.assumptions.map((a, idx) => (
                   <T key={idx} variant="caption" className="text-zinc-400 text-[11px]">
@@ -235,7 +235,7 @@ export default function RecommendationScreen() {
                 {calcResult.warnings.length > 0 && (
                   <View className="mt-2 p-2 rounded bg-amber-950/40 border border-amber-500/30">
                     <T variant="caption" className="text-amber-300 font-semibold mb-1">
-                      Avisos:
+                      Warnings:
                     </T>
                     {calcResult.warnings.map((w, idx) => (
                       <T key={idx} variant="caption" className="text-amber-200 text-[11px]">
@@ -252,7 +252,7 @@ export default function RecommendationScreen() {
           <View className="p-4 rounded-[18px] bg-[#181818] border border-white/10 flex-row items-center justify-between mb-5">
             <View>
               <T variant="caption" className="text-zinc-400 font-medium">
-                META NORMATIVA
+                STANDARD TARGET
               </T>
               <T variant="h3" className="mt-0.5 text-white">
                 {calcResult.targetLux} Lux
@@ -260,7 +260,7 @@ export default function RecommendationScreen() {
             </View>
             <View className="items-end">
               <T variant="caption" className="text-zinc-400 font-medium">
-                FLUXO REQUERIDO
+                REQUIRED FLUX
               </T>
               <T variant="h3" className="mt-0.5 text-[#d9b277]">
                 {calcResult.totalLumensRequired} lm
@@ -270,7 +270,7 @@ export default function RecommendationScreen() {
 
           {/* Triple Choice Tier Cards */}
           <T variant="eyebrow" className="mb-2.5">
-            PROPOSTAS DE ILUMINAÇÃO (TRIPLA ESCOLHA)
+            LIGHTING OPTIONS (TRIPLE CHOICE)
           </T>
           <View className="flex-row gap-2 mb-4">
             {/* Recommended */}
@@ -285,7 +285,7 @@ export default function RecommendationScreen() {
               <View className="flex-row items-center gap-1 mb-1">
                 <Sparkles size={13} color="#d9b277" />
                 <T variant="caption" className="font-bold text-[#d9b277] text-[10px] uppercase">
-                  Recomendado
+                  Recommended
                 </T>
               </View>
               <T variant="bodyMd" numberOfLines={1} className="font-semibold text-white text-xs">
@@ -333,7 +333,7 @@ export default function RecommendationScreen() {
               <View className="flex-row items-center gap-1 mb-1">
                 <Tag size={13} color="#d9b277" />
                 <T variant="caption" className="font-bold text-[#d9b277] text-[10px] uppercase">
-                  Econômico
+                  Budget
                 </T>
               </View>
               <T variant="bodyMd" numberOfLines={1} className="font-semibold text-white text-xs">
@@ -346,11 +346,11 @@ export default function RecommendationScreen() {
             </Pressable>
           </View>
 
-          {/* Justificativa do Tier */}
+          {/* Tier Justification */}
           {calcResult.justifications[selectedTier]?.length > 0 && (
             <View className="bg-[#181818] border border-white/10 rounded-[14px] p-3 mb-5">
               <T variant="caption" className="text-[#d9b277] font-semibold mb-1">
-                Por que esta opção foi selecionada:
+                Why this option was selected:
               </T>
               {calcResult.justifications[selectedTier].map((j, idx) => (
                 <T key={idx} variant="caption" className="text-zinc-300 text-xs">
@@ -407,10 +407,10 @@ export default function RecommendationScreen() {
             <View className="flex-row items-center justify-between pt-2">
               <View>
                 <T variant="bodyMd" className="text-white font-medium">
-                  {isContinuous ? 'Comprimento Linear' : 'Quantidade de Luminárias'}
+                  {isContinuous ? 'Linear Length' : 'Quantity of Luminaires'}
                 </T>
                 <T variant="caption" className="text-zinc-400">
-                  {isContinuous ? 'Metros lineares de fita' : 'Peças calculadas'}
+                  {isContinuous ? 'Linear metres of strip' : 'Calculated pieces'}
                 </T>
               </View>
 
@@ -425,7 +425,7 @@ export default function RecommendationScreen() {
                   <Minus size={16} color="#ffffff" />
                 </Pressable>
                 <T variant="h3" className="text-white min-w-[32px] text-center">
-                  {customQty} {isContinuous ? 'm' : 'un'}
+                  {customQty} {isContinuous ? 'm' : 'ea'}
                 </T>
                 <Pressable
                   onPress={() => {
@@ -448,23 +448,23 @@ export default function RecommendationScreen() {
                   <AlertTriangle size={18} color="#eab308" />
                 )}
                 <T variant="caption" className={isCompliant ? 'text-green-400 font-semibold' : 'text-amber-400 font-semibold'}>
-                  {currentLux} Lux Alcançado
+                  {currentLux} Lux Achieved
                 </T>
               </View>
               <T variant="caption" className="text-zinc-500">
-                Meta: {calcResult.targetLux} Lux
+                Target: {calcResult.targetLux} Lux
               </T>
             </View>
           </GlowCard>
 
-          {/* Kit Compatível para Fitas LED */}
+          {/* Compatible Kit for LED Strips */}
           {kitResult && (
             <View className="mb-5 bg-[#181818] border border-[#d9b277]/30 rounded-[18px] p-4">
               <View className="flex-row items-center justify-between mb-2">
                 <View className="flex-row items-center gap-2">
                   <Box size={16} color="#d9b277" />
                   <T variant="eyebrow" className="text-[#d9b277]">
-                    KIT COMPATÍVEL AUTOMÁTICO
+                    AUTOMATIC COMPATIBLE KIT
                   </T>
                 </View>
                 <T variant="caption" className="text-zinc-400">
@@ -473,7 +473,7 @@ export default function RecommendationScreen() {
               </View>
 
               <T variant="caption" className="text-zinc-400 mb-3 text-xs">
-                Componentes dimensionados para alimentar e acomodar {customQty} metros de fita:
+                Components sized to power and accommodate {customQty} metres of strip:
               </T>
 
               <View className="gap-2">
@@ -490,7 +490,7 @@ export default function RecommendationScreen() {
                       )}
                     </View>
                     <T variant="caption" className="text-zinc-300 font-medium">
-                      {k.quantity} un · ${k.subtotal.toFixed(2)}
+                      {k.quantity} ea · ${k.subtotal.toFixed(2)}
                     </T>
                   </View>
                 ))}
@@ -510,7 +510,7 @@ export default function RecommendationScreen() {
 
           {/* CCT Selector */}
           <T variant="eyebrow" className="mb-2">
-            TEMPERATURA DE COR (CCT)
+            COLOUR TEMPERATURE (CCT)
           </T>
           <View className="flex-row gap-2 mb-6">
             {CCT_OPTIONS.map((cct) => {
@@ -553,14 +553,14 @@ export default function RecommendationScreen() {
               className="py-3.5 px-4 rounded-full bg-white/[0.08] items-center justify-center border border-white/10 active:bg-white/[0.15]"
             >
               <T variant="bodyMd" className="text-white font-semibold text-center">
-                Salvar no Projeto
+                Save to Project
               </T>
             </Pressable>
           </View>
 
           <View className="flex-1">
             <LuxuryButton
-              title="Solicitar Cotação"
+              title="Request Quote"
               variant="glow"
               icon={<Send size={16} color="#0e0e0e" />}
               onPress={() => handleConfirm(true)}

@@ -1,6 +1,6 @@
 /**
- * Escapa texto digitado pelo usuário antes de interpolá-lo em HTML (PDF via expo-print).
- * Evita quebra de layout e injeção de tags/atributos.
+ * Escapes user-entered text before interpolating it into HTML (PDF via expo-print).
+ * Prevents layout breakage and tag/attribute injection.
  */
 export function escapeHtml(value: unknown): string {
   if (value === null || value === undefined) return '';
@@ -12,7 +12,7 @@ export function escapeHtml(value: unknown): string {
     .replace(/'/g, '&#39;');
 }
 
-/** Permite apenas URLs http(s) em atributos src/href. */
+/** Allows only http(s) URLs in src/href attributes. */
 export function safeUrl(value: unknown): string {
   const url = String(value ?? '').trim();
   return /^https?:\/\//i.test(url) ? escapeHtml(url) : '';

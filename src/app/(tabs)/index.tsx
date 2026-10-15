@@ -76,7 +76,7 @@ export default function HomeScreen() {
           >
             <Building2 size={14} color="#d9b277" />
             <T variant="caption" className="text-white font-medium text-xs">
-              Minha Conta
+              My Account
             </T>
           </Pressable>
         </View>
@@ -100,7 +100,7 @@ export default function HomeScreen() {
             <View className="p-5 pt-8">
               <View className="flex-row items-center gap-2 mb-1">
                 <T variant="eyebrow" className="text-[#d9b277]">
-                  SYDNEY · REVENDA OFICIAL LEDYI
+                  SYDNEY · LEDYI AUTHORISED DEALER
                 </T>
               </View>
 
@@ -109,7 +109,7 @@ export default function HomeScreen() {
               </T>
 
               <T variant="lead" className="mt-2 text-zinc-300 text-xs leading-relaxed">
-                Iluminação arquitetural de alto padrão e fitas LED profissionais calculadas segundo as normas australianas (AS/NZS 1680).
+                Premium architectural lighting and professional LED strips calculated to Australian standards (AS/NZS 1680).
               </T>
 
               {/* Technical chips */}
@@ -119,11 +119,11 @@ export default function HomeScreen() {
                   <T variant="caption" className="font-bold text-[#d9b277] text-xs">2700–6500K</T>
                 </View>
                 <View className="bg-[#141414]/90 border border-white/15 rounded-[12px] px-3 py-1.5 flex-row items-baseline gap-1.5">
-                  <T variant="caption" className="text-zinc-400 text-[10px]">Fidelidade</T>
+                  <T variant="caption" className="text-zinc-400 text-[10px]">Colour Accuracy</T>
                   <T variant="caption" className="font-bold text-[#d9b277] text-xs">CRI 95+</T>
                 </View>
                 <View className="bg-[#141414]/90 border border-white/15 rounded-[12px] px-3 py-1.5 flex-row items-baseline gap-1.5">
-                  <T variant="caption" className="text-zinc-400 text-[10px]">Controle</T>
+                  <T variant="caption" className="text-zinc-400 text-[10px]">Control</T>
                   <T variant="caption" className="font-bold text-[#d9b277] text-xs">DALI-2 / Triac</T>
                 </View>
               </View>
@@ -131,12 +131,12 @@ export default function HomeScreen() {
           </ImageBackground>
         </View>
 
-        {/* SITUATION 2: USUÁRIO RECORRENTE (Projeto Ativo) */}
+        {/* SITUATION 2: RECURRING USER (Active Project) */}
         {currentProject && currentItemCount > 0 && activeTotals && (
           <View className="p-5 bg-[#181818]/60 border-b border-white/[0.08]">
             <View className="flex-row items-center justify-between mb-3">
               <T variant="eyebrow" className="text-[#d9b277]">
-                CONTINUE DE ONDE PAROU
+                CONTINUE WHERE YOU LEFT OFF
               </T>
               <View className="flex-row items-center gap-1.5">
                 <View
@@ -150,10 +150,10 @@ export default function HomeScreen() {
                 />
                 <T variant="caption" className="text-zinc-400 text-[10px] uppercase font-bold">
                   {currentProject.status === 'submitted'
-                    ? 'RFQ Enviado'
+                    ? 'RFQ Sent'
                     : currentProject.status === 'pending_send'
-                    ? 'Aguardando Sincronização'
-                    : 'Rascunho'}
+                    ? 'Awaiting Sync'
+                    : 'Draft'}
                 </T>
               </View>
             </View>
@@ -170,13 +170,13 @@ export default function HomeScreen() {
                     </T>
                   ) : null}
                   <T variant="caption" className="text-zinc-500 text-[11px] mt-1">
-                    {currentProject.rooms.length} espaços · {activeTotals.pieces} luminárias · {activeTotals.linearMetres}m fitas
+                    {currentProject.rooms.length} spaces · {activeTotals.pieces} luminaires · {activeTotals.linearMetres}m strips
                   </T>
                 </View>
 
                 <View className="items-end">
                   <T variant="caption" className="text-zinc-400 text-[10px]">
-                    ESTIMATIVA PRELIMINAR
+                    PRELIMINARY ESTIMATE
                   </T>
                   <T variant="h3" className="text-[#d9b277] mt-0.5">
                     ${activeTotals.cost.toFixed(0)} AUD
@@ -193,7 +193,7 @@ export default function HomeScreen() {
                   className="flex-1 py-2.5 px-3 rounded-[12px] bg-[#d9b277] items-center justify-center flex-row gap-1.5"
                 >
                   <T variant="caption" className="text-black font-bold">
-                    Ver Projeto & BOM
+                    View Project & BOM
                   </T>
                   <ArrowRight size={14} color="#000" />
                 </Pressable>
@@ -206,7 +206,7 @@ export default function HomeScreen() {
                   className="py-2.5 px-3 rounded-[12px] bg-white/[0.08] border border-white/10 items-center justify-center"
                 >
                   <T variant="caption" className="text-white font-medium">
-                    + Espaço
+                    + Space
                   </T>
                 </Pressable>
               </View>
@@ -214,10 +214,10 @@ export default function HomeScreen() {
           </View>
         )}
 
-        {/* SITUATION 1 & 3: AÇÕES RÁPIDAS (Novo Projeto / Consultor IA / Catálogo) */}
+        {/* SITUATION 1 & 3: QUICK ACTIONS (New Project / AI Consultant / Catalogue) */}
         <View className="p-5">
           <T variant="eyebrow" className="text-zinc-400 mb-3">
-            O QUE DESEJA FAZER HOJE?
+            WHAT WOULD YOU LIKE TO DO TODAY?
           </T>
 
           <View className="gap-3">
@@ -235,10 +235,10 @@ export default function HomeScreen() {
                   </View>
                   <View className="flex-1">
                     <T variant="bodyMd" className="text-white font-semibold">
-                      Iniciar Novo Projeto
+                      Start New Project
                     </T>
                     <T variant="caption" className="text-zinc-400 mt-0.5">
-                      Crie um dossiê técnico de iluminação para residência ou obra comercial.
+                      Create a technical lighting dossier for residential or commercial projects.
                     </T>
                   </View>
                 </View>
@@ -246,7 +246,7 @@ export default function HomeScreen() {
               </GlowCard>
             </Pressable>
 
-            {/* Quick Action 2: Consultor IA Guiado */}
+            {/* Quick Action 2: Guided AI Consultant */}
             <Pressable
               onPress={() => {
                 haptic.tick();
@@ -260,10 +260,10 @@ export default function HomeScreen() {
                   </View>
                   <View className="flex-1">
                     <T variant="bodyMd" className="text-white font-semibold">
-                      Consultor IA (Cálculo Rápido)
+                      AI Consultant (Quick Calc)
                     </T>
                     <T variant="caption" className="text-zinc-400 mt-0.5">
-                      Simule lux e produtos ideais sem cadastro para qualquer ambiente.
+                      Simulate lux levels and ideal products for any space — no sign-up required.
                     </T>
                   </View>
                 </View>
@@ -271,7 +271,7 @@ export default function HomeScreen() {
               </GlowCard>
             </Pressable>
 
-            {/* Quick Action 3: Catálogo LEDYi Lighting */}
+            {/* Quick Action 3: LEDYi Lighting Catalogue */}
             <Pressable
               onPress={() => {
                 haptic.tick();
@@ -285,10 +285,10 @@ export default function HomeScreen() {
                   </View>
                   <View className="flex-1">
                     <T variant="bodyMd" className="text-white font-semibold">
-                      Explorar Catálogo LEDYi
+                      Browse LEDYi Catalogue
                     </T>
                     <T variant="caption" className="text-zinc-400 mt-0.5">
-                      Fitas COB, Neon Flex, perfis e drivers com simulador CCT.
+                      COB strips, Neon Flex, profiles and drivers with CCT simulator.
                     </T>
                   </View>
                 </View>
@@ -298,34 +298,34 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* How It Works (Sem checkout, apenas cotação direta) */}
+        {/* How It Works (No checkout, direct quoting only) */}
         <View className="p-5 bg-[#181818]/40 border-t border-white/[0.08]">
           <T variant="eyebrow" className="text-[#d9b277]">
-            PROCESSO DE ESPECIFICAÇÃO
+            SPECIFICATION PROCESS
           </T>
           <T variant="h2" className="mt-1 text-white text-lg">
-            Da simulação à proposta formal
+            From simulation to formal proposal
           </T>
           <T variant="muted" className="mt-1 text-xs leading-relaxed">
-            Sem carrinho genérico. A QLS atua como distribuidora oficial da LEDYi, oferecendo suporte de engenharia luminotécnica em cada cotação.
+            No generic shopping cart. QLS is LEDYi's official distributor, providing lighting engineering support with every quote.
           </T>
 
           <View className="mt-4 gap-2.5">
             {[
               {
                 step: '1',
-                title: 'Defina o espaço e atmosfera',
-                desc: 'Selecione o cômodo ou use o modo guiado para escolher o efeito luminoso.',
+                title: 'Define the space and atmosphere',
+                desc: 'Select the room or use guided mode to choose the lighting effect.',
               },
               {
                 step: '2',
-                title: 'Cálculo de iluminância & kit',
-                desc: 'O motor fotométrico dimensiona a quantidade, perfis e drivers com reserva de carga.',
+                title: 'Illuminance calculation & kit',
+                desc: 'The photometric engine sizes the quantity, profiles and drivers with load margin.',
               },
               {
                 step: '3',
-                title: 'Cotação direta com 1 clique',
-                desc: 'Envie o dossiê técnico diretamente à equipe comercial da QLS para proposta formal.',
+                title: 'Direct quote in 1 click',
+                desc: 'Send the technical dossier directly to the QLS commercial team for a formal proposal.',
               },
             ].map((item) => (
               <View
@@ -351,26 +351,26 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
 
-      {/* Modal Novo Projeto */}
+      {/* New Project Modal */}
       <Modal visible={isModalOpen} animationType="slide" transparent>
         <View className="flex-1 bg-black/80 justify-end">
           <View className="bg-[#141414] rounded-t-[28px] border-t border-white/10 p-6">
             <T variant="eyebrow" className="text-[#d9b277]">
-              NOVO PROJETO
+              NEW PROJECT
             </T>
             <T variant="h2" className="text-white mt-1 mb-4">
-              Identificação da Obra
+              Project Details
             </T>
 
             <View className="gap-3.5 mb-6">
               <View>
                 <T variant="caption" className="text-zinc-400 mb-1 font-medium">
-                  NOME DO PROJETO *
+                  PROJECT NAME *
                 </T>
                 <TextInput
                   value={projectName}
                   onChangeText={setProjectName}
-                  placeholder="Ex: Residência Vaucluse · Living & Cozinha"
+                  placeholder="e.g. Vaucluse Residence · Living & Kitchen"
                   placeholderTextColor="#71717a"
                   className="bg-[#181818] border border-white/10 rounded-[14px] px-4 py-3 text-white text-sm"
                 />
@@ -378,12 +378,12 @@ export default function HomeScreen() {
 
               <View>
                 <T variant="caption" className="text-zinc-400 mb-1 font-medium">
-                  CLIENTE / ESCRITÓRIO (OPCIONAL)
+                  CLIENT / FIRM (OPTIONAL)
                 </T>
                 <TextInput
                   value={clientName}
                   onChangeText={setClientName}
-                  placeholder="Ex: Studio Marina Arquitetura"
+                  placeholder="e.g. Marina Architecture Studio"
                   placeholderTextColor="#71717a"
                   className="bg-[#181818] border border-white/10 rounded-[14px] px-4 py-3 text-white text-sm"
                 />
@@ -391,7 +391,7 @@ export default function HomeScreen() {
 
               <View>
                 <T variant="caption" className="text-zinc-400 mb-1 font-medium">
-                  ENDEREÇO / CIDADE (OPCIONAL)
+                  ADDRESS / CITY (OPTIONAL)
                 </T>
                 <TextInput
                   value={projectAddress}
@@ -406,7 +406,7 @@ export default function HomeScreen() {
             <View className="flex-row gap-3">
               <View className="flex-1">
                 <LuxuryButton
-                  title="Cancelar"
+                  title="Cancel"
                   variant="dark"
                   onPress={() => setIsModalOpen(false)}
                 />
@@ -414,7 +414,7 @@ export default function HomeScreen() {
 
               <View className="flex-1">
                 <LuxuryButton
-                  title="Criar Dossiê"
+                  title="Create Dossier"
                   variant="primary"
                   disabled={!projectName.trim()}
                   onPress={handleCreateProject}

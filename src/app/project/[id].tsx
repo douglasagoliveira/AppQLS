@@ -48,12 +48,12 @@ export default function ProjectDetailScreen() {
     return (
       <SafeAreaView className="flex-1 bg-[#0e0e0e] justify-center items-center px-6">
         <T variant="h2" className="text-white text-center">
-          Projeto Não Encontrado
+          Project Not Found
         </T>
         <T variant="muted" className="text-xs text-center mt-2 mb-6">
-          O projeto solicitado pode ter sido removido ou ainda não foi sincronizado.
+          The requested project may have been removed or not yet synchronised.
         </T>
-        <LuxuryButton title="Voltar ao Início" onPress={() => router.replace('/')} />
+        <LuxuryButton title="Back to Home" onPress={() => router.replace('/')} />
       </SafeAreaView>
     );
   }
@@ -72,7 +72,7 @@ export default function ProjectDetailScreen() {
       setIsGeneratingPdf(true);
       await generateProjectPdf(project);
     } catch (err: any) {
-      Alert.alert('Erro no PDF', err?.message || 'Não foi possível gerar a especificação em PDF.');
+      Alert.alert('PDF Error', err?.message || 'Could not generate the PDF specification.');
     } finally {
       setIsGeneratingPdf(false);
     }
@@ -96,7 +96,7 @@ export default function ProjectDetailScreen() {
         </Pressable>
         <View className="flex-1">
           <T variant="caption" className="text-zinc-400">
-            PROJETO DE ILUMINAÇÃO
+            LIGHTING PROJECT
           </T>
           <T variant="bodyMd" numberOfLines={1} className="text-white font-bold">
             {project.projectName}
@@ -131,10 +131,10 @@ export default function ProjectDetailScreen() {
                 }`}
               >
                 {isSubmitted
-                  ? `RFQ ENVIADO À QLS · ${project.rfqCode || ''}`
+                  ? `RFQ SENT TO QLS · ${project.rfqCode || ''}`
                   : isPendingSend
-                  ? `FILA DE ENVIO · ${project.rfqCode || ''}`
-                  : `RASCUNHO · ${project.id.slice(-6).toUpperCase()}`}
+                  ? `SEND QUEUE · ${project.rfqCode || ''}`
+                  : `DRAFT · ${project.id.slice(-6).toUpperCase()}`}
               </T>
             </View>
 
@@ -151,13 +151,13 @@ export default function ProjectDetailScreen() {
 
           {project.clientName ? (
             <T variant="bodyMd" className="text-zinc-300 mt-1">
-              Cliente / Escritório: {project.clientName}
+              Client / Firm: {project.clientName}
             </T>
           ) : null}
 
           {project.projectAddress ? (
             <T variant="caption" className="text-zinc-400 mt-0.5">
-              Endereço: {project.projectAddress}
+              Address: {project.projectAddress}
             </T>
           ) : null}
 
@@ -165,10 +165,10 @@ export default function ProjectDetailScreen() {
           <View className="flex-row items-center justify-between mt-5 pt-4 border-t border-white/10">
             <View>
               <T variant="caption" className="text-zinc-400 text-[10px]">
-                PONTOS
+                POINTS
               </T>
               <T variant="h3" className="text-white mt-0.5">
-                {totals.pieces} un
+                {totals.pieces} ea
               </T>
             </View>
             <View>
@@ -181,7 +181,7 @@ export default function ProjectDetailScreen() {
             </View>
             <View>
               <T variant="caption" className="text-zinc-400 text-[10px]">
-                CARGA
+                LOAD
               </T>
               <T variant="h3" className="text-[#d9b277] mt-0.5">
                 {totals.watts} W
@@ -189,7 +189,7 @@ export default function ProjectDetailScreen() {
             </View>
             <View>
               <T variant="caption" className="text-zinc-400 text-[10px]">
-                EFICIÊNCIA
+                EFFICIENCY
               </T>
               <T variant="h3" className="text-emerald-400 mt-0.5">
                 {powerDensity} W/m²
@@ -209,7 +209,7 @@ export default function ProjectDetailScreen() {
         {/* Disclaimer Notice */}
         <View className="bg-[#141414] border border-white/5 rounded-[14px] p-3 mb-5">
           <T variant="caption" className="text-zinc-400 text-[11px] leading-relaxed">
-            <strong>Estimativa Preliminar:</strong> Cálculo fotométrico via Método dos Lúmens (AS/NZS 1680). Valores sujeitos à validação de estoque, lote e emissão de proposta comercial formal pela QLS Lighting.
+            <strong>Preliminary Estimate:</strong> Photometric calculation via Lumen Method (AS/NZS 1680). Values subject to stock validation, batch availability and issue of a formal commercial proposal by QLS Lighting.
           </T>
         </View>
 
@@ -218,7 +218,7 @@ export default function ProjectDetailScreen() {
           <View className="flex-row gap-3">
             <View className="flex-1">
               <LuxuryButton
-                title="Adicionar Espaço"
+                title="Add Space"
                 variant="primary"
                 icon={<Plus size={16} color="#0e0e0e" />}
                 onPress={() => {
@@ -230,7 +230,7 @@ export default function ProjectDetailScreen() {
 
             <View className="flex-1">
               <LuxuryButton
-                title="Exportar PDF"
+                title="Export PDF"
                 variant="outline"
                 loading={isGeneratingPdf}
                 disabled={!hasItems}
@@ -244,8 +244,8 @@ export default function ProjectDetailScreen() {
             <LuxuryButton
               title={
                 isSubmitted
-                  ? 'Reenviar / Atualizar RFQ para a QLS'
-                  : 'Solicitar Cotação Oficial (RFQ) à QLS'
+                  ? 'Resend / Update RFQ to QLS'
+                  : 'Request Official Quote (RFQ) from QLS'
               }
               variant={isSubmitted ? 'outline' : 'glow'}
               icon={<Send size={16} color={isSubmitted ? '#d9b277' : '#0e0e0e'} />}
@@ -261,7 +261,7 @@ export default function ProjectDetailScreen() {
         <View className="mb-6">
           <View className="flex-row items-center justify-between mb-3">
             <T variant="eyebrow" className="text-[#d9b277]">
-              ESPAÇOS ARQUITETURAIS ({project.rooms.length})
+              ARCHITECTURAL SPACES ({project.rooms.length})
             </T>
           </View>
 
@@ -269,10 +269,10 @@ export default function ProjectDetailScreen() {
             <GlowCard tone="dark" className="p-6 items-center justify-center">
               <Layers size={28} color="#71717a" />
               <T variant="h3" className="mt-2 text-center text-white text-sm">
-                Nenhum espaço adicionado
+                No spaces added
               </T>
               <T variant="muted" className="text-xs text-center mt-1 px-4 leading-relaxed">
-                Adicione cômodos para calcular a iluminância e gerar a lista de materiais.
+                Add rooms to calculate illuminance and generate the bill of materials.
               </T>
             </GlowCard>
           ) : (
@@ -301,10 +301,10 @@ export default function ProjectDetailScreen() {
                       <Pressable
                         onPress={() => {
                           haptic.light();
-                          Alert.alert('Remover Espaço', `Deseja remover "${room.name}" do projeto?`, [
-                            { text: 'Cancelar', style: 'cancel' },
+                          Alert.alert('Remove Space', `Remove "${room.name}" from the project?`, [
+                            { text: 'Cancel', style: 'cancel' },
                             {
-                              text: 'Remover',
+                              text: 'Remove',
                               style: 'destructive',
                               onPress: () => {
                                 haptic.tick();
@@ -320,7 +320,7 @@ export default function ProjectDetailScreen() {
                     </View>
 
                     <T variant="muted" className="text-xs mb-3">
-                      {room.length}m × {room.width}m ({(room.length * room.width).toFixed(1)} m²) · Alvo: {room.targetLux} Lux
+                      {room.length}m × {room.width}m ({(room.length * room.width).toFixed(1)} m²) · Target: {room.targetLux} Lux
                     </T>
 
                     {item ? (
@@ -335,7 +335,7 @@ export default function ProjectDetailScreen() {
                               {item.product.name}
                             </T>
                             <T variant="caption" className="text-[#d9b277] mt-0.5">
-                              {item.quantity} {isContinuous ? 'metros lineares' : 'peças'} · {item.selectedFinish}
+                              {item.quantity} {isContinuous ? 'linear metres' : 'pieces'} · {item.selectedFinish}
                             </T>
                             <T variant="caption" className="text-zinc-400 mt-0.5">
                               {item.luxAchieved} Lux · ${totalItemPrice.toFixed(2)} AUD
@@ -352,7 +352,7 @@ export default function ProjectDetailScreen() {
                                   + {k.role.toUpperCase()}: {k.product.name}
                                 </T>
                                 <T variant="caption" className="text-zinc-300 text-[11px] font-medium">
-                                  {k.quantity} un · ${k.subtotal.toFixed(2)}
+                                  {k.quantity} ea · ${k.subtotal.toFixed(2)}
                                 </T>
                               </View>
                             ))}
@@ -361,7 +361,7 @@ export default function ProjectDetailScreen() {
                       </View>
                     ) : (
                       <T variant="caption" className="text-amber-400">
-                        Aguardando configuração de luminária
+                        Awaiting luminaire configuration
                       </T>
                     )}
                   </View>
@@ -371,11 +371,11 @@ export default function ProjectDetailScreen() {
           )}
         </View>
 
-        {/* Additional Items (Avulsos do Catálogo) */}
+        {/* Additional Items (Catalogue Add-ons) */}
         {(project.additionalItems?.length ?? 0) > 0 && (
           <View className="mb-6">
             <T variant="eyebrow" className="text-[#d9b277] mb-3">
-              ITENS ADICIONAIS DO CATÁLOGO ({project.additionalItems?.length})
+              ADDITIONAL CATALOGUE ITEMS ({project.additionalItems?.length})
             </T>
             <View className="gap-2.5">
               {project.additionalItems?.map((item) => (
@@ -388,7 +388,7 @@ export default function ProjectDetailScreen() {
                       {item.product.name}
                     </T>
                     <T variant="caption" className="text-zinc-400 mt-0.5">
-                      {item.quantity} {item.product.unit === 'm' ? 'm' : 'un'} · SKU: {item.product.sku}
+                      {item.quantity} {item.product.unit === 'm' ? 'm' : 'ea'} · SKU: {item.product.sku}
                     </T>
                     <T variant="caption" className="text-[#d9b277] font-medium mt-0.5">
                       ${itemTotalCost(item).toFixed(2)} AUD

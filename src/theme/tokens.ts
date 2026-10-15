@@ -1,9 +1,9 @@
 import { Platform } from 'react-native';
 
 /**
- * Tokens de design para uso em props que não aceitam className
- * (cores de ícones, gradientes, sombras). Espelham tailwind.config.js.
- * Fontes: DESIGN_SPEC.md §1 e CSS de qls-website-rust.vercel.app.
+ * Design tokens for use in props that do not accept className
+ * (icon colours, gradients, shadows). Mirror tailwind.config.js.
+ * Sources: DESIGN_SPEC.md §1 and the CSS of qls-website-rust.vercel.app.
  */
 export const colors = {
   ink: '#0e0e0e',

@@ -5,7 +5,7 @@ export const DEFAULT_MAINTENANCE_FACTOR = 0.8; // d (PROJECT_SPEC §4.2)
 export const DEFAULT_WORKING_PLANE = 0.8; // m
 export const DEFAULT_CEILING_HEIGHT = 2.7; // m
 
-/** Limites aceitos pelo wizard (m). Evita entradas absurdas e divisões por zero. */
+/** Dimensions accepted by the wizard (m). Prevents absurd entries and division by zero. */
 export const DIMENSION_LIMITS = {
   length: { min: 1, max: 50 },
   width: { min: 1, max: 50 },
@@ -19,7 +19,7 @@ export interface CalculationInput {
   height?: number; // in meters (default 2.7m)
   workingPlaneHeight?: number; // default 0.8m for tables/desks
   lightLossFactor?: number; // d — default 0.80 maintenance factor
-  /** μ — se omitido, é estimado a partir do índice do recinto K (faixa 0,60–0,75). */
+  /** μ — if omitted, it is estimated from the room index K (range 0.60–0.75). */
   utilizationFactor?: number;
 }
 
@@ -38,7 +38,7 @@ export interface DimensionValidation {
   errors: string[];
 }
 
-/** Valida C × L × H contra os limites do app. */
+/** Validates L × W × H against the app limits. */
 export function validateDimensions(length: number, width: number, height: number): DimensionValidation {
   const errors: string[] = [];
   const check = (label: string, v: number, lim: { min: number; max: number }) => {
@@ -52,9 +52,9 @@ export function validateDimensions(length: number, width: number, height: number
 }
 
 /**
- * Estima o fator de utilização μ a partir do índice do recinto K.
- * Recintos "achatados" (K alto) aproveitam melhor o fluxo. Mantido dentro da faixa
- * 0,60–0,75 definida em PROJECT_SPEC §4.2. É uma estimativa — refletâncias não são modeladas.
+ * Estimates the utilisation factor μ from the room index K.
+ * "Squashed" rooms (high K) make better use of the flux. Kept within the
+ * 0.60–0.75 range set in PROJECT_SPEC §4.2. It is an estimate — reflectances are not modelled.
  */
 export function estimateUtilizationFactor(roomIndexK: number): number {
   if (roomIndexK < 1) return 0.6;
@@ -103,7 +103,7 @@ export function calculateRoomLighting(input: CalculationInput): CalculationOutpu
   };
 }
 
-/** Iluminância média resultante: E = (Φ × μ × d) / A. */
+/** Resulting average illuminance: E = (Φ × μ × d) / A. */
 export function calculateLuxAchieved(
   totalLumens: number,
   areaM2: number,
@@ -136,7 +136,7 @@ export function calculateFixtureCount(
   return { quantity, totalLumens, luxAchieved };
 }
 
-/** Densidade de potência instalada (W/m²). */
+/** Installed power density (W/m²). */
 export function calculatePowerDensity(totalWatts: number, areaM2: number): number {
   if (areaM2 <= 0) return 0;
   return Math.round((totalWatts / areaM2) * 10) / 10;
